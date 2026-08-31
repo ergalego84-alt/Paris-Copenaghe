@@ -60,7 +60,7 @@ main{max-width:1050px;margin:-28px auto 0;position:relative;z-index:2;padding:0 
 
 .quick-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 .tile{
-  min-height:210px;height:100%;border:0;border-radius:22px;overflow:hidden;position:relative;
+  height:175px;border:0;border-radius:22px;overflow:hidden;position:relative;
   color:#fff;text-align:left;padding:18px;display:flex;flex-direction:column;
   justify-content:space-between;box-shadow:var(--shadow);transition:.18s;isolation:isolate;
   width:100%;
@@ -77,9 +77,9 @@ main{max-width:1050px;margin:-28px auto 0;position:relative;z-index:2;padding:0 
 .tile.proposal{background:linear-gradient(135deg,#fff7ea,#fff);color:var(--navy)}
 .tile.proposal:before{display:none}
 .tile.proposal:after{background:linear-gradient(0deg,rgba(255,247,234,.96),rgba(255,247,234,.4) 75%)}
-.tile .big{font-size:36px;margin-bottom:0}
-.tile b{font-size:18px;line-height:1.2;display:block}
-.tile small{font-size:12px;opacity:.9;margin-top:3px;display:block}
+.tile .big{font-size:30px;line-height:1;margin-bottom:0}
+.tile b{font-size:16px;line-height:1.2;display:block}
+.tile small{font-size:11px;opacity:.9;margin-top:2px;display:block}
 
 .back-btn{
   display:inline-flex;align-items:center;gap:6px;background:var(--sky);color:var(--blue);
@@ -103,7 +103,6 @@ main{max-width:1050px;margin:-28px auto 0;position:relative;z-index:2;padding:0 
 .page-hero:after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(2,17,30,.88),transparent 75%);z-index:-1}
 .paris-hero:before{background-image:url("https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=1400&auto=format&fit=crop&q=85")}
 .cph-hero:before{background-image:url("https://images.unsplash.com/photo-1513622470522-26c3c8a854bc?w=1400&auto=format&fit=crop&q=85")}
-.page-hero .flag{font-size:48px;margin-right:10px}.page-hero h2{font-size:36px;margin:0}.page-hero p{margin:4px 0 0}
 
 .day{background:#fff;border-radius:20px;margin:16px 0;padding:20px;box-shadow:var(--shadow)}
 .day-head{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
@@ -117,8 +116,6 @@ main{max-width:1050px;margin:-28px auto 0;position:relative;z-index:2;padding:0 
 .maps{display:inline-flex;margin-top:7px;color:var(--blue);text-decoration:none;font-size:12px;font-weight:850}
 .route{display:block;background:var(--blue);color:#fff;text-decoration:none;text-align:center;
   border-radius:12px;padding:12px;font-weight:900;margin-top:13px}
-.added{background:#fff3df;border-left:4px solid var(--orange);border-radius:10px;padding:10px;margin-top:8px}
-.added strong{color:#995900}
 
 .filters{display:flex;gap:8px;overflow:auto;margin-bottom:10px}.filter{border:1px solid var(--line);
   background:#fff;border-radius:999px;padding:9px 13px;white-space:nowrap;color:var(--navy);font-weight:750}
@@ -158,10 +155,6 @@ main{max-width:1050px;margin:-28px auto 0;position:relative;z-index:2;padding:0 
   main{padding-left:24px;padding-right:24px}.quick-grid{grid-template-columns:repeat(3,1fr)}
   .bottom-nav{position:sticky;top:0;max-width:1050px;margin:auto;border:0;box-shadow:none}
   .weather-grid{grid-template-columns:repeat(2,1fr)}
-}
-@media(max-width:420px){
-  .quick-grid{gap:10px}.tile{min-height:210px;padding:14px}.tile b{font-size:16px}
-  .tile small{font-size:11px}.timeline article{grid-template-columns:72px 1fr}.page-hero{height:190px}
 }
 </style>
 </head>
@@ -227,14 +220,6 @@ main{max-width:1050px;margin:-28px auto 0;position:relative;z-index:2;padding:0 
   <button type="button" class="back-btn" data-go="home">← Volver al inicio</button>
   <div class="page-hero paris-hero"><span class="flag">🇫🇷</span><div><h2>París</h2><p>3–5 diciembre · Adrián + Elia</p></div></div>
 
-  <div class="card weather">
-    <div class="card-title"><span class="card-icon">🌦️</span><div><h3>Tiempo en París</h3><div class="muted">Actualización automática · previsión diaria y por horas</div></div></div>
-    <div id="parisWeather" class="weather-city" style="margin-top:15px">
-      <strong>Previsión del día seleccionado</strong><div class="bigtemp">— °C</div><div class="muted">Cuando falten pocos días, aquí veremos lluvia, nieve, viento, sensación térmica y temperatura hora a hora.</div>
-      <div class="hourly"><div class="hour"><b>08:00</b><span>☁️</span><small>—° · lluvia —</small></div><div class="hour"><b>10:00</b><span>🌥️</span><small>—° · lluvia —</small></div><div class="hour"><b>12:00</b><span>🌦️</span><small>—° · lluvia —</small></div><div class="hour"><b>14:00</b><span>🌧️</span><small>—° · lluvia —</small></div><div class="hour"><b>16:00</b><span>🌥️</span><small>—° · lluvia —</small></div><div class="hour"><b>18:00</b><span>🌙</span><small>—° · lluvia —</small></div></div>
-    </div>
-  </div>
-
   <div class="day"><div class="day-head"><h3>Jueves 3 · Centro histórico & Montmartre</h3><span class="day-badge">Adrián + Elia</span></div><div class="timeline">
     <article><time>08:00</time><div><div class="event-title">Levantarse</div><p>Prepararse y salir con calma.</p></div></article>
     <article><time>08:15–09:00</time><div><div class="event-title">🥐 Desayuno</div><p>Desayuno antes de comenzar el viaje.</p></div></article>
@@ -272,14 +257,6 @@ main{max-width:1050px;margin:-28px auto 0;position:relative;z-index:2;padding:0 
 <section id="cph" class="page">
   <button type="button" class="back-btn" data-go="home">← Volver al inicio</button>
   <div class="page-hero cph-hero"><span class="flag">🇩🇰</span><div><h2>Copenhague</h2><p>5–8 diciembre · sábado noche en adelante, los 5 juntos</p></div></div>
-
-  <div class="card weather">
-    <div class="card-title"><span class="card-icon">🌦️</span><div><h3>Tiempo en Copenhague</h3><div class="muted">Actualización automática · previsión diaria y por horas</div></div></div>
-    <div class="weather-city" style="margin-top:15px">
-      <strong>Previsión del día seleccionado</strong><div class="bigtemp">— °C</div><div class="muted">Cuando falten pocos días veremos temperatura, lluvia/nieve, viento y sensación térmica hora a hora.</div>
-      <div class="hourly"><div class="hour"><b>08:00</b><span>☁️</span><small>—° · lluvia —</small></div><div class="hour"><b>10:00</b><span>🌥️</span><small>—° · lluvia —</small></div><div class="hour"><b>12:00</b><span>🌦️</span><small>—° · lluvia —</small></div><div class="hour"><b>14:00</b><span>🌧️</span><small>—° · lluvia —</small></div><div class="hour"><b>16:00</b><span>🌥️</span><small>—° · lluvia —</small></div><div class="hour"><b>18:00</b><span>🌙</span><small>—° · lluvia —</small></div></div>
-    </div>
-  </div>
 
   <div class="day"><div class="day-head"><h3>Sábado 5 · Llegada & encuentro</h3><span class="day-badge">Adrián + Elia → 5</span></div><div class="timeline">
     <article><time>15:20</time><div><div class="event-title">🛬 Llegada a CPH</div><p>📍 Copenhagen Airport</p><a class="maps" target="_blank" href="https://maps.google.com/?q=Copenhagen+Airport">📍 Maps</a></div></article>
@@ -489,7 +466,6 @@ function renderPending(){
   c.innerHTML=pending.map((p,i)=>`<div class="proposal-card"><b>⭐ ${p.title}</b><p>📍 ${p.loc}<br>🗓️ ${p.suggest}<br><small>Propuesto por otro viajero</small></p><button type="button" class="approve" data-approve="${i}">✅ Aceptar</button><button type="button" class="reject" data-reject="${i}">❌ Rechazar</button></div>`).join("");
 }
 
-// Escuchar clics globales para asegurar respuesta inmediata al tacto
 document.addEventListener("click",e=>{
   const nav=e.target.closest("[data-page],[data-go]");
   if(nav){
