@@ -1,0 +1,554 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0b3157">
+<meta name="description" content="Viaje colaborativo París y Copenhague">
+<title>✈️ París & Copenhague · Viaje colaborativo</title>
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-192.png">
+
+<style>
+:root{
+  --navy:#082b4c;--blue:#1769aa;--sky:#eaf4fb;--orange:#f28c28;
+  --green:#198754;--red:#c94b4b;--ink:#182635;--muted:#687789;
+  --bg:#f4f7fa;--card:#fff;--line:#e5ebf1;
+  --shadow:0 10px 28px rgba(8,43,76,.10);--radius:20px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+  padding-bottom:86px}
+button,a{font:inherit}
+button{cursor:pointer}
+.hero{
+  min-height:310px;position:relative;overflow:hidden;color:#fff;
+  background:#092d4f;
+}
+.hero:before{
+  content:"";position:absolute;inset:0;
+  background:
+    linear-gradient(90deg,rgba(3,23,42,.90),rgba(3,23,42,.48)),
+    url("https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=1600&auto=format&fit=crop&q=85")
+    center/cover;
+}
+.hero:after{content:"";position:absolute;left:0;right:0;bottom:0;height:90px;
+  background:linear-gradient(transparent,var(--bg))}
+.hero-content{position:relative;z-index:1;max-width:1050px;margin:auto;padding:30px 20px 70px}
+.eyebrow{font-size:12px;font-weight:900;letter-spacing:.14em;text-transform:uppercase;opacity:.88}
+.hero h1{font-size:clamp(38px,8vw,68px);line-height:.98;margin:18px 0 12px;letter-spacing:-.045em}
+.hero p{font-size:18px;margin:0;opacity:.92}
+.status-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:24px}
+.pill{display:inline-flex;align-items:center;gap:5px;padding:8px 12px;border-radius:999px;
+  background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.24);
+  backdrop-filter:blur(8px);font-size:13px;font-weight:750}
+.pill.pending{background:#fff3dc;color:#7a4800;border-color:#ffd28b}
+.hidden{display:none!important}
+
+main{max-width:1050px;margin:-28px auto 0;position:relative;z-index:2;padding:0 16px}
+.page{display:none}.page.active{display:block}
+.section-label{font-size:12px;font-weight:900;letter-spacing:.13em;color:var(--blue);text-transform:uppercase}
+.section-title{font-size:30px;letter-spacing:-.03em;margin:5px 0 18px;color:var(--navy)}
+.card{background:var(--card);border:1px solid rgba(8,43,76,.06);border-radius:var(--radius);
+  padding:20px;margin:16px 0;box-shadow:var(--shadow)}
+.card h3{margin:0;color:var(--navy)}
+.card p{line-height:1.55}
+.card-title{display:flex;gap:12px;align-items:flex-start}.card-icon{font-size:28px;line-height:1}
+.muted{color:var(--muted)}
+
+.quick-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.tile{
+  min-height:210px;height:100%;border:0;border-radius:22px;overflow:hidden;position:relative;
+  color:#fff;text-align:left;padding:18px;display:flex;flex-direction:column;
+  justify-content:flex-end;box-shadow:var(--shadow);transition:.18s;isolation:isolate;
+  width:100%;
+}
+.tile:hover{transform:translateY(-2px)}
+.tile:before{content:"";position:absolute;inset:0;z-index:-2;background-size:cover;background-position:center}
+.tile:after{content:"";position:absolute;inset:0;z-index:-1;
+  background:linear-gradient(0deg,rgba(2,17,30,.86),rgba(2,17,30,.08) 75%)}
+.tile.paris:before{background-image:url("https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=900&auto=format&fit=crop&q=85")}
+.tile.cph:before{background-image:url("https://images.unsplash.com/photo-1513622470522-26c3c8a854bc?w=900&auto=format&fit=crop&q=85")}
+.tile.check:before{background-image:url("https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=900&auto=format&fit=crop&q=80")}
+.tile.rec:before{background-image:url("https://images.unsplash.com/photo-1499856871958-5b9627545d1a?w=900&auto=format&fit=crop&q=80")}
+.tile.flight:before{background-image:url("https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=900&auto=format&fit=crop&q=80")}
+.tile.proposal{background:linear-gradient(135deg,#fff7ea,#fff);color:var(--navy)}
+.tile.proposal:before{display:none}
+.tile.proposal:after{background:linear-gradient(0deg,rgba(255,247,234,.96),rgba(255,247,234,.4) 75%)}
+.tile .big{font-size:36px;margin-bottom:auto}
+.tile b{font-size:16px;line-height:1.2;display:block;word-break:break-word}
+.tile small{font-size:11px;opacity:.9;margin-top:3px;display:block}
+
+.back-btn{
+  display:inline-flex;align-items:center;gap:6px;background:var(--sky);color:var(--blue);
+  border:1px solid #d2e4f3;border-radius:12px;padding:9px 14px;font-weight:850;
+  font-size:13px;margin-bottom:14px;box-shadow:0 2px 8px rgba(8,43,76,.05)
+}
+
+.weather{overflow:hidden}
+.weather-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+.weather-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
+.weather-city{background:linear-gradient(135deg,#eef7fd,#f8fbfd);border:1px solid #dcecf6;border-radius:16px;padding:15px}
+.weather-city strong{display:block;font-size:17px;color:var(--navy)}
+.weather-city .bigtemp{font-size:28px;font-weight:900;margin:7px 0}
+.hourly{display:flex;gap:8px;overflow:auto;margin-top:14px;padding-bottom:3px}
+.hour{min-width:68px;background:#fff;border:1px solid var(--line);border-radius:12px;padding:9px 6px;text-align:center}
+.hour b{display:block;font-size:12px}.hour span{display:block;font-size:19px;margin:5px 0}.hour small{font-size:11px;color:var(--muted)}
+
+.page-hero{height:220px;border-radius:24px;overflow:hidden;position:relative;color:#fff;
+  padding:22px;display:flex;align-items:flex-end;box-shadow:var(--shadow)}
+.page-hero:before{content:"";position:absolute;inset:0;background-size:cover;background-position:center;z-index:-2}
+.page-hero:after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(2,17,30,.88),transparent 75%);z-index:-1}
+.paris-hero:before{background-image:url("https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=1400&auto=format&fit=crop&q=85")}
+.cph-hero:before{background-image:url("https://images.unsplash.com/photo-1513622470522-26c3c8a854bc?w=1400&auto=format&fit=crop&q=85")}
+.page-hero .flag{font-size:48px;margin-right:10px}.page-hero h2{font-size:36px;margin:0}.page-hero p{margin:4px 0 0}
+
+.day{background:#fff;border-radius:20px;margin:16px 0;padding:20px;box-shadow:var(--shadow)}
+.day-head{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
+.day h3{margin:0;color:var(--navy);font-size:20px}.day-badge{background:var(--sky);color:var(--blue);
+  border-radius:999px;padding:6px 9px;font-size:11px;font-weight:850;white-space:nowrap}
+.timeline{margin-top:12px}
+.timeline article{display:grid;grid-template-columns:82px 1fr;gap:13px;padding:14px 0;border-bottom:1px solid var(--line)}
+.timeline article:last-child{border-bottom:0}
+.timeline time{font-size:12px;font-weight:900;color:var(--blue);padding-top:2px}
+.timeline .event-title{font-weight:850;color:#1c2d3d}.timeline p{margin:5px 0 0;color:var(--muted);font-size:13px;line-height:1.45}
+.maps{display:inline-flex;margin-top:7px;color:var(--blue);text-decoration:none;font-size:12px;font-weight:850}
+.route{display:block;background:var(--blue);color:#fff;text-decoration:none;text-align:center;
+  border-radius:12px;padding:12px;font-weight:900;margin-top:13px}
+.added{background:#fff3df;border-left:4px solid var(--orange);border-radius:10px;padding:10px;margin-top:8px}
+.added strong{color:#995900}
+
+.filters{display:flex;gap:8px;overflow:auto;margin-bottom:10px}.filter{border:1px solid var(--line);
+  background:#fff;border-radius:999px;padding:9px 13px;white-space:nowrap;color:var(--navy);font-weight:750}
+.filter.active{background:var(--navy);color:#fff}
+.rec{background:#fff;border-radius:18px;padding:17px;margin:12px 0;box-shadow:var(--shadow);border:1px solid var(--line)}
+.rec h3{margin:0 0 6px;color:var(--navy)}.meta{font-size:13px;color:var(--muted);line-height:1.55}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:13px}
+.actions button,.actions a{border:0;border-radius:10px;padding:10px 12px;text-decoration:none;font-weight:850;font-size:13px}
+.add{background:var(--green);color:#fff}.map{background:#edf4fb;color:var(--blue)}
+.check-grid{display:grid;gap:10px}
+.check-item{display:flex;gap:12px;align-items:center;background:#fff;border:1px solid var(--line);
+  border-radius:14px;padding:13px}
+.check-item input{width:20px;height:20px;accent-color:var(--green)}
+.check-item.done span{text-decoration:line-through;color:#8a96a2}
+.check-item span{font-weight:750}.check-item small{display:block;color:var(--muted);font-weight:500;margin-top:2px}
+.proposal-card{background:#fff8ed;border:1px solid #ffd99f;border-left:5px solid var(--orange);
+  border-radius:16px;padding:16px;margin:12px 0}.proposal-card button{border:0;border-radius:9px;padding:10px 12px;font-weight:850;margin:6px 7px 0 0}
+.approve{background:var(--green);color:#fff}.reject{background:#e9edf2;color:#334}
+
+.drive{display:flex;align-items:center;gap:15px;padding:16px;background:linear-gradient(135deg,#eef6ff,#fff);
+  border:1px solid #d9e8f5;border-radius:16px;text-decoration:none;color:var(--navy);margin:12px 0}
+.drive .drive-icon{font-size:32px}.drive b{display:block}.drive small{color:var(--muted)}
+.notice{border-left:4px solid var(--orange);background:#fff8ed;padding:14px;border-radius:10px}
+
+.bottom-nav{position:fixed;z-index:50;left:0;right:0;bottom:0;background:rgba(255,255,255,.96);
+  backdrop-filter:blur(16px);border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(5,1fr);
+  padding:7px 5px env(safe-area-inset-bottom);box-shadow:0 -5px 20px rgba(8,43,76,.08)}
+.nav-btn{border:0;background:transparent;color:#6a7887;padding:7px 3px;border-radius:12px;font-size:20px}
+.nav-btn span{display:block;font-size:10px;font-weight:850;margin-top:2px}.nav-btn.active{color:var(--navy);background:#eef4f8}
+
+.toast{position:fixed;left:50%;bottom:100px;transform:translate(-50%,20px);background:#172536;color:#fff;
+  padding:12px 16px;border-radius:12px;opacity:0;pointer-events:none;transition:.25s;z-index:100;font-size:13px;box-shadow:var(--shadow)}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+
+@media(min-width:700px){
+  body{padding-bottom:0}.hero-content{padding-left:28px;padding-right:28px}
+  main{padding-left:24px;padding-right:24px}.quick-grid{grid-template-columns:repeat(3,1fr)}
+  .bottom-nav{position:sticky;top:0;max-width:1050px;margin:auto;border:0;box-shadow:none}
+  .weather-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:420px){
+  .quick-grid{gap:10px}.tile{min-height:210px;padding:14px}.tile b{font-size:16px}
+  .tile small{font-size:11px}.timeline article{grid-template-columns:72px 1fr}.page-hero{height:190px}
+}
+</style>
+</head>
+
+<body>
+<header class="hero">
+  <div class="hero-content">
+    <div class="eyebrow">✈️ Viaje colaborativo · 5 viajeros</div>
+    <h1>París 🇫🇷<br>& Copenhague 🇩🇰</h1>
+    <p>3–8 de diciembre de 2026</p>
+    <div class="status-row">
+      <span class="pill">☁️ Sincronización preparada</span>
+      <span id="pendingBadge" class="pill pending hidden">🔔 0 pendientes</span>
+    </div>
+  </div>
+</header>
+
+<nav class="bottom-nav">
+  <button type="button" class="nav-btn active" data-page="home">🏠<span>Inicio</span></button>
+  <button type="button" class="nav-btn" data-page="paris">🇫🇷<span>París</span></button>
+  <button type="button" class="nav-btn" data-page="cph">🇩🇰<span>Copenhague</span></button>
+  <button type="button" class="nav-btn" data-page="checklist">✅<span>Checklist</span></button>
+  <button type="button" class="nav-btn" data-page="more">☰<span>Más</span></button>
+</nav>
+
+<main>
+<section id="home" class="page active">
+  <div class="card" style="margin-top:0">
+    <div class="section-label">Tu viaje</div>
+    <h2 class="section-title">Todo en un solo sitio</h2>
+    <div class="quick-grid">
+      <button type="button" class="tile paris" data-go="paris"><span class="big">🇫🇷</span><b>París</b><small>Itinerario · tiempo · rutas</small></button>
+      <button type="button" class="tile cph" data-go="cph"><span class="big">🇩🇰</span><b>Copenhague</b><small>Itinerario · tiempo · rutas</small></button>
+      <button type="button" class="tile check" data-go="checklist"><span class="big">✅</span><b>Checklist</b><small>Lugares · planes · ubicaciones</small></button>
+      <button type="button" class="tile rec" data-go="recommendations"><span class="big">⭐</span><b>Recomendaciones</b><small>Comida · fotos · parques</small></button>
+      <button type="button" class="tile proposal" data-go="proposals"><span class="big">🔔</span><b>Cambios pendientes</b><small>Aprobar antes de modificar</small></button>
+      <button type="button" class="tile flight" data-go="flights"><span class="big">✈️</span><b>Vuelos</b><small>Estado · documentación</small></button>
+    </div>
+  </div>
+
+  <div class="card weather">
+    <div class="weather-head">
+      <div class="card-title"><span class="card-icon">🌦️</span><div><h3>Próximo tiempo</h3><div class="muted">Se actualizará con previsión real y por horas</div></div></div>
+    </div>
+    <div class="weather-grid">
+      <div class="weather-city"><strong>🇫🇷 París</strong><div class="bigtemp">— °C</div><div class="muted">Previsión pendiente de conexión</div><div class="hourly">
+        <div class="hour"><b>08:00</b><span>☁️</span><small>—°</small></div><div class="hour"><b>10:00</b><span>🌦️</span><small>—°</small></div><div class="hour"><b>12:00</b><span>🌥️</span><small>—°</small></div><div class="hour"><b>16:00</b><span>🌧️</span><small>—°</small></div>
+      </div></div>
+      <div class="weather-city"><strong>🇩🇰 Copenhague</strong><div class="bigtemp">— °C</div><div class="muted">Previsión pendiente de conexión</div><div class="hourly">
+        <div class="hour"><b>08:00</b><span>☁️</span><small>—°</small></div><div class="hour"><b>10:00</b><span>🌦️</span><small>—°</small></div><div class="hour"><b>12:00</b><span>🌥️</span><small>—°</small></div><div class="hour"><b>16:00</b><span>🌧️</span><small>—°</small></div>
+      </div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="card-icon">👥</span><div><h3>Viaje colaborativo</h3><div class="muted">Cada móvil tendrá su propia sesión</div></div></div>
+    <p>Los viajeros podrán proponer cambios, pero <strong>no modificarán el itinerario directamente</strong>. Las propuestas quedarán pendientes hasta que el administrador las acepte o rechace.</p>
+    <div class="notice">💡 Así, si alguien encuentra un sitio interesante para el viernes a las 16:30, podrá proponerlo y tú decidirás si entra en el itinerario.</div>
+  </div>
+</section>
+
+<section id="paris" class="page">
+  <button type="button" class="back-btn" data-go="home">← Volver al inicio</button>
+  <div class="page-hero paris-hero"><span class="flag">🇫🇷</span><div><h2>París</h2><p>3–5 diciembre · Adrián + Elia</p></div></div>
+
+  <div class="card weather">
+    <div class="card-title"><span class="card-icon">🌦️</span><div><h3>Tiempo en París</h3><div class="muted">Actualización automática · previsión diaria y por horas</div></div></div>
+    <div id="parisWeather" class="weather-city" style="margin-top:15px">
+      <strong>Previsión del día seleccionado</strong><div class="bigtemp">— °C</div><div class="muted">Cuando falten pocos días, aquí veremos lluvia, nieve, viento, sensación térmica y temperatura hora a hora.</div>
+      <div class="hourly"><div class="hour"><b>08:00</b><span>☁️</span><small>—° · lluvia —</small></div><div class="hour"><b>10:00</b><span>🌥️</span><small>—° · lluvia —</small></div><div class="hour"><b>12:00</b><span>🌦️</span><small>—° · lluvia —</small></div><div class="hour"><b>14:00</b><span>🌧️</span><small>—° · lluvia —</small></div><div class="hour"><b>16:00</b><span>🌥️</span><small>—° · lluvia —</small></div><div class="hour"><b>18:00</b><span>🌙</span><small>—° · lluvia —</small></div></div>
+    </div>
+  </div>
+
+  <div class="day"><div class="day-head"><h3>Jueves 3 · Centro histórico & Montmartre</h3><span class="day-badge">Adrián + Elia</span></div><div class="timeline">
+    <article><time>08:00</time><div><div class="event-title">Levantarse</div><p>Prepararse y salir con calma.</p></div></article>
+    <article><time>08:15–09:00</time><div><div class="event-title">🥐 Desayuno</div><p>Desayuno antes de comenzar el viaje.</p></div></article>
+    <article><time>09:10</time><div><div class="event-title">🚗 Parking · Aeropuerto de Sevilla</div><p>📍 Aeropuerto de Sevilla (SVQ)</p><a class="maps" target="_blank" href="https://maps.google.com/?q=Aeropuerto+de+Sevilla+SVQ">📍 Abrir en Maps</a></div></article>
+    <article><time>10:25–13:00</time><div><div class="event-title">✈️ VY8073 · Sevilla → París Orly</div><p>Adrián + Elia · duración estimada 2 h 35 min</p></div></article>
+    <article><time>15:00–15:45</time><div><div class="event-title">Île de la Cité</div><p>📍 Île de la Cité, Paris · ⏱️ 45 min</p><a class="maps" target="_blank" href="https://maps.google.com/?q=Ile+de+la+Cite+Paris">📍 Maps</a></div></article>
+    <article><time>15:45–16:15</time><div><div class="event-title">Notre-Dame</div><p>📍 Parvis Notre-Dame, Paris · ⏱️ 30 min</p><a class="maps" target="_blank" href="https://maps.google.com/?q=Notre+Dame+Paris">📍 Maps</a></div></article>
+    <article><time>16:15–17:00</time><div><div class="event-title">Barrio Latino</div><p>📍 Quartier Latin, Paris · ⏱️ 45 min</p><a class="maps" target="_blank" href="https://maps.google.com/?q=Barrio+Latino+Paris">📍 Maps</a></div></article>
+    <article><time>17:00–17:45</time><div><div class="event-title">Pirámide del Louvre</div><p>📍 Cour Napoléon, Louvre, Paris · ⏱️ 45 min</p><a class="maps" target="_blank" href="https://maps.google.com/?q=Pyramide+du+Louvre+Paris">📍 Maps</a></div></article>
+    <article><time>18:00–19:15</time><div><div class="event-title">Sagrado Corazón</div><p>📍 Parvis du Sacré-Cœur, Paris · ⏱️ 1 h 15 min</p><a class="maps" target="_blank" href="https://maps.google.com/?q=Sacre+Coeur+Paris">📍 Maps</a></div></article>
+    <article><time>19:15–21:00</time><div><div class="event-title">Montmartre</div><p>📍 Montmartre, Paris · ⏱️ 1 h 45 min</p><a class="maps" target="_blank" href="https://maps.google.com/?q=Montmartre+Paris">📍 Maps</a></div></article>
+  </div><a class="route" target="_blank" href="https://www.google.com/maps/dir/Île+de+la+Cité,+Paris/Notre-Dame,+Paris/Quartier+Latin,+Paris/Pyramide+du+Louvre,+Paris/Sacré-Cœur,+Paris/Montmartre,+Paris">🗺️ Ver ruta completa del jueves</a></div>
+
+  <div class="day"><div class="day-head"><h3>Viernes 4 · Eje oeste & Torre Eiffel</h3><span class="day-badge">Adrián + Elia</span></div><div class="timeline">
+    <article><time>08:00</time><div><div class="event-title">Levantarse</div></div></article>
+    <article><time>08:15–09:00</time><div><div class="event-title">🥐 Desayuno</div></div></article>
+    <article><time>09:00–10:15</time><div><div class="event-title">Galeries Lafayette</div><p>📍 40 Boulevard Haussmann, Paris · ⏱️ 1 h 15 min</p><a class="maps" target="_blank" href="https://maps.google.com/?q=Galeries+Lafayette+Haussmann+Paris">📍 Maps</a></div></article>
+    <article><time>10:15–11:15</time><div><div class="event-title">Campos Elíseos</div><p>📍 Avenue des Champs-Élysées, Paris · ⏱️ 1 h</p><a class="maps" target="_blank" href="https://maps.google.com/?q=Avenue+des+Champs+Elysees+Paris">📍 Maps</a></div></article>
+    <article><time>11:15–12:00</time><div><div class="event-title">Arco del Triunfo</div><p>📍 Place Charles de Gaulle, Paris · ⏱️ 45 min</p><a class="maps" target="_blank" href="https://maps.google.com/?q=Arc+de+Triomphe+Paris">📍 Maps</a></div></article>
+    <article><time>12:00–14:00</time><div><div class="event-title">🍴 Comida + descanso</div><p>Tiempo libre para comer y recuperar fuerzas.</p></div></article>
+    <article><time>14:00–15:30</time><div><div class="event-title">Torre Eiffel / Trocadéro</div><p>📍 Trocadéro · Champ de Mars · ⏱️ 1 h 30 min</p><a class="maps" target="_blank" href="https://maps.google.com/?q=Torre+Eiffel+Paris">📍 Maps</a></div></article>
+    <article><time>15:30–17:00</time><div><div class="event-title">Campo de Marte</div><p>📍 Champ de Mars, Paris · ⏱️ 1 h 30 min</p><a class="maps" target="_blank" href="https://maps.google.com/?q=Champ+de+Mars+Paris">📍 Maps</a></div></article>
+    <article><time>18:00–19:00</time><div><div class="event-title">Crucero por el Sena</div><p>📍 Embarcadero del Sena · ⏱️ 1 h</p><a class="maps" target="_blank" href="https://maps.google.com/?q=Seine+River+Paris">📍 Maps</a></div></article>
+  </div><a class="route" target="_blank" href="https://www.google.com/maps/dir/Galeries+Lafayette,+Paris/Arc+de+Triomphe,+Paris/Avenue+des+Champs-Élysées,+Paris/Trocadéro,+Paris/Torre+Eiffel,+Paris/Champ+de+Mars,+Paris">🗺️ Ver ruta completa del viernes</a></div>
+
+  <div class="day"><div class="day-head"><h3>Sábado 5 · Última mañana & Beauvais</h3><span class="day-badge">Adrián + Elia</span></div><div class="timeline">
+    <article><time>08:00</time><div><div class="event-title">Levantarse</div></div></article>
+    <article><time>08:15–09:00</time><div><div class="event-title">🥐 Desayuno</div></div></article>
+    <article><time>09:30–11:00</time><div><div class="event-title">Panteón</div><p>📍 Place du Panthéon, Paris · ⏱️ 1 h 30 min</p><a class="maps" target="_blank" href="https://maps.google.com/?q=Pantheon+Paris">📍 Maps</a></div></article>
+    <article><time>11:00–13:30</time><div><div class="event-title">🚐 Traslado a Beauvais</div><p>📍 Aéroport Paris-Beauvais (BVA) · ⏱️ 2 h 30 min</p><a class="maps" target="_blank" href="https://maps.google.com/?q=Aeropuerto+de+Paris+Beauvais">📍 Maps</a></div></article>
+    <article><time>13:30–15:20</time><div><div class="event-title">✈️ FR7981 · Beauvais → Copenhague</div><p>Adrián + Elia · duración estimada 1 h 50 min.</p></div></article>
+  </div><a class="route" target="_blank" href="https://www.google.com/maps/dir/Panthéon,+Paris/Aéroport+Paris-Beauvais">🗺️ Ver ruta completa del sábado</a></div>
+</section>
+
+<section id="cph" class="page">
+  <button type="button" class="back-btn" data-go="home">← Volver al inicio</button>
+  <div class="page-hero cph-hero"><span class="flag">🇩🇰</span><div><h2>Copenhague</h2><p>5–8 diciembre · sábado noche en adelante, los 5 juntos</p></div></div>
+
+  <div class="card weather">
+    <div class="card-title"><span class="card-icon">🌦️</span><div><h3>Tiempo en Copenhague</h3><div class="muted">Actualización automática · previsión diaria y por horas</div></div></div>
+    <div class="weather-city" style="margin-top:15px">
+      <strong>Previsión del día seleccionado</strong><div class="bigtemp">— °C</div><div class="muted">Cuando falten pocos días veremos temperatura, lluvia/nieve, viento y sensación térmica hora a hora.</div>
+      <div class="hourly"><div class="hour"><b>08:00</b><span>☁️</span><small>—° · lluvia —</small></div><div class="hour"><b>10:00</b><span>🌥️</span><small>—° · lluvia —</small></div><div class="hour"><b>12:00</b><span>🌦️</span><small>—° · lluvia —</small></div><div class="hour"><b>14:00</b><span>🌧️</span><small>—° · lluvia —</small></div><div class="hour"><b>16:00</b><span>🌥️</span><small>—° · lluvia —</small></div><div class="hour"><b>18:00</b><span>🌙</span><small>—° · lluvia —</small></div></div>
+    </div>
+  </div>
+
+  <div class="day"><div class="day-head"><h3>Sábado 5 · Llegada & encuentro</h3><span class="day-badge">Adrián + Elia → 5</span></div><div class="timeline">
+    <article><time>15:20</time><div><div class="event-title">🛬 Llegada a CPH</div><p>📍 Copenhagen Airport</p><a class="maps" target="_blank" href="https://maps.google.com/?q=Copenhagen+Airport">📍 Maps</a></div></article>
+    <article><time>21:50</time><div><div class="event-title">🤝 Encuentro del grupo</div><p>📍 Copenhagen Central Station</p><a class="maps" target="_blank" href="https://maps.google.com/?q=Copenhagen+Central+Station">📍 Maps</a></div></article>
+  </div><a class="route" target="_blank" href="https://www.google.com/maps/dir/Copenhagen+Airport/Copenhagen+Central+Station">🗺️ Ver ruta del sábado</a></div>
+
+  <div class="day"><div class="day-head"><h3>Domingo 6 · Cultura & realeza</h3><span class="day-badge">Los 5 juntos</span></div><div class="timeline">
+    <article><time>08:00</time><div><div class="event-title">Levantarse</div></div></article>
+    <article><time>08:15–09:00</time><div><div class="event-title">🥐 Desayuno</div></div></article>
+    <article><time>10:00–11:00</time><div><div class="event-title">Kastellet</div><p>📍 Kastellet, 2100 København · ⏱️ 1 h</p><a class="maps" target="_blank" href="https://maps.google.com/?q=Kastellet+Copenhagen">📍 Maps</a></div></article>
+    <article><time>11:00–11:30</time><div><div class="event-title">🧜 La Sirenita</div><p>📍 Langelinie, Copenhagen · ⏱️ 30 min</p><a class="maps" target="_blank" href="https://maps.google.com/?q=The+Little+Mermaid+Copenhagen">📍 Maps</a></div></article>
+    <article><time>11:45–13:00</time><div><div class="event-title">Palacio de Amalienborg</div><p>📍 Amalienborg Slotsplads, Copenhagen · ⏱️ 1 h 15 min</p><a class="maps" target="_blank" href="https://maps.google.com/?q=Amalienborg+Palace+Copenhagen">📍 Maps</a></div></article>
+    <article><time>13:00–15:00</time><div><div class="event-title">🍴 Almuerzo + Nyhavn</div><p>📍 Nyhavn, Copenhagen · ⏱️ 2 h</p><a class="maps" target="_blank" href="https://maps.google.com/?q=Nyhavn+Copenhagen">📍 Maps</a></div></article>
+  </div><a class="route" target="_blank" href="https://www.google.com/maps/dir/Kastellet,+Copenhague,+Dinamarca/La+Sirenita,+Copenhague,+Dinamarca/Palacio+de+Amalienborg,+Copenhague,+Dinamarca/Nyhavn,+Copenhague,+Dinamarca">🗺️ Ver ruta completa del domingo</a></div>
+
+  <div class="day"><div class="day-head"><h3>Lunes 7 · Hygge, mercados & barrios</h3><span class="day-badge">Los 5 juntos</span></div><div class="timeline">
+    <article><time>08:00</time><div><div class="event-title">Levantarse</div></div></article>
+    <article><time>08:15–09:00</time><div><div class="event-title">🥐 Desayuno</div></div></article>
+    <article><time>10:00–11:30</time><div><div class="event-title">Castillo de Rosenborg</div><p>📍 Øster Voldgade 4A, Copenhagen · ⏱️ 1 h 30 min</p><a class="maps" target="_blank" href="https://maps.google.com/?q=Rosenborg+Castle+Copenhagen">📍 Maps</a></div></article>
+    <article><time>11:45–13:15</time><div><div class="event-title">Torvehallerne</div><p>📍 Frederiksborggade 21, Copenhagen · ⏱️ 1 h 30 min</p><a class="maps" target="_blank" href="https://maps.google.com/?q=Torvehallerne+Copenhagen">📍 Maps</a></div></article>
+    <article><time>13:30–15:00</time><div><div class="event-title">Værnedamsvej</div><p>📍 Værnedamsvej, Copenhagen · ⏱️ 1 h 30 min</p><a class="maps" target="_blank" href="https://maps.google.com/?q=Vaernedamsvej+Frederiksberg">📍 Maps</a></div></article>
+    <article><time>15:30–17:00</time><div><div class="event-title">Christianshavn</div><p>📍 Christianshavn, Copenhagen · ⏱️ 1 h 30 min</p><a class="maps" target="_blank" href="https://maps.google.com/?q=Christianshavn+Copenhagen">📍 Maps</a></div></article>
+  </div><a class="route" target="_blank" href="https://www.google.com/maps/dir/Rosenborg+Castle,+Copenhagen/Torvehallerne,+Copenhagen/Værnedamsvej,+Copenhagen/Christianshavn,+Copenhagen">🗺️ Ver ruta completa del lunes</a></div>
+
+  <div class="day"><div class="day-head"><h3>Martes 8 · Despedida</h3><span class="day-badge">Los 5 juntos</span></div><div class="timeline">
+    <article><time>08:00</time><div><div class="event-title">Levantarse</div></div></article>
+    <article><time>08:15–09:00</time><div><div class="event-title">🥐 Desayuno</div></div></article>
+    <article><time>09:30–11:30</time><div><div class="event-title">Lagos Søerne</div><p>📍 Søerne, Copenhagen · ⏱️ 2 h</p><a class="maps" target="_blank" href="https://maps.google.com/?q=Soerne+Copenhagen">📍 Maps</a></div></article>
+    <article><time>13:45–17:25</time><div><div class="event-title">✈️ SAS SK2521 · Copenhague → Sevilla</div><p>Los 5 juntos · llegada prevista a Sevilla 17:25.</p></div></article>
+  </div><a class="route" target="_blank" href="https://www.google.com/maps/dir/Soerne,+Copenhagen/Copenhagen+Airport">🗺️ Ver ruta del martes</a></div>
+</section>
+
+<section id="checklist" class="page">
+  <button type="button" class="back-btn" data-go="home">← Volver al inicio</button>
+  <div class="card" style="margin-top:0"><div class="section-label">Plan de viaje</div><h2 class="section-title">✅ Checklist</h2>
+    <p class="muted">Aquí no se trata de quién ha estado: vais juntos. Es una lista compartida de sitios que queréis visitar o que habéis añadido al viaje.</p>
+  </div>
+  <div id="checklistItems" class="check-grid"></div>
+</section>
+
+<section id="recommendations" class="page">
+  <button type="button" class="back-btn" data-go="home">← Volver al inicio</button>
+  <div class="card" style="margin-top:0"><div class="section-label">Ideas para completar el viaje</div><h2 class="section-title">⭐ Recomendaciones</h2>
+    <p class="muted">Lugares que todavía no están en el itinerario. Al proponer uno para el Checklist, la app podrá sugerir el mejor día y horario según la ruta.</p>
+  </div>
+  <div class="filters">
+    <button type="button" class="filter active" data-filter="all">Todas</button><button type="button" class="filter" data-filter="paris">🇫🇷 París</button><button type="button" class="filter" data-filter="cph">🇩🇰 Copenhague</button><button type="button" class="filter" data-filter="food">🍴 Comer</button><button type="button" class="filter" data-filter="photo">📸 Fotos</button><button type="button" class="filter" data-filter="green">🌳 Verde</button>
+  </div>
+  <div id="recommendationItems"></div>
+</section>
+
+<section id="proposals" class="page">
+  <button type="button" class="back-btn" data-go="home">← Volver al inicio</button>
+  <div class="card" style="margin-top:0"><div class="section-label">Control de cambios</div><h2 class="section-title">🔔 Cambios pendientes</h2>
+    <div class="notice">Solo las propuestas aceptadas podrán incorporarse al itinerario común. En la versión Firebase, los otros cuatro móviles recibirán una notificación cuando haya una propuesta nueva.</div>
+  </div>
+  <div id="proposalList"></div>
+</section>
+
+<section id="flights" class="page">
+  <button type="button" class="back-btn" data-go="home">← Volver al inicio</button>
+  <div class="card" style="margin-top:0"><div class="section-label">Viajes y documentación</div><h2 class="section-title">✈️ Vuelos</h2>
+    <div class="notice">Adrián + Elia realizan los 3 vuelos. Los otros 3 acompañantes realizan Sevilla → Copenhague y Copenhague → Sevilla.</div>
+    <div class="card" style="box-shadow:none;border:1px solid var(--line)">
+      <h3>Vuelo 1 · Sevilla → París Orly</h3><p>Jueves 3 diciembre · Vueling VY8073 · 10:25–13:00 · Adrián + Elia</p>
+    </div>
+    <div class="card" style="box-shadow:none;border:1px solid var(--line)">
+      <h3>Vuelo 2 · París Beauvais → Copenhague</h3><p>Sábado 5 diciembre · Ryanair FR7981 · 13:30–15:20 · Adrián + Elia</p>
+    </div>
+    <div class="card" style="box-shadow:none;border:1px solid var(--line)">
+      <h3>Vuelo 3 · Copenhague → Sevilla</h3><p>Martes 8 diciembre · SAS SK2521 · 13:45–17:25 · Los 5 juntos</p>
+    </div>
+    <a class="drive" target="_blank" href="https://drive.google.com/drive/folders/1jndItgl6xKmN5lNCmrHJjvqL7ODoAbhK"><span class="drive-icon">📁</span><span><b>Documentación de vuelos en Drive</b><small>Billetes, check-in, asientos y documentación</small></span></a>
+    <a class="drive" target="_blank" href="https://drive.google.com/drive/folders/13M3lATcBNvRxqvdg0Q4YJj7QwcJ7PeOT"><span class="drive-icon">🪪</span><span><b>DNIs en Drive</b><small>La aplicación no muestra ni almacena aquí los datos de los documentos</small></span></a>
+  </div>
+</section>
+
+<section id="more" class="page">
+  <button type="button" class="back-btn" data-go="home">← Volver al inicio</button>
+  <div class="card" style="margin-top:0"><div class="section-label">Más</div><h2 class="section-title">☰ Apartados</h2>
+    <div class="quick-list" style="display:flex;flex-direction:column;gap:10px;margin-top:14px">
+      <button type="button" class="back-btn" style="width:100%;justify-content:flex-start;margin:0" data-go="recommendations">⭐ Recomendaciones</button>
+      <button type="button" class="back-btn" style="width:100%;justify-content:flex-start;margin:0" data-go="proposals">🔔 Cambios pendientes</button>
+      <button type="button" class="back-btn" style="width:100%;justify-content:flex-start;margin:0" data-go="flights">✈️ Vuelos y documentación</button>
+    </div>
+  </div>
+  <div class="card"><h3>🔐 Privacidad</h3><p class="muted">Los DNIs se mantienen fuera de la aplicación y se accede a ellos mediante vuestra carpeta de Drive. La futura versión colaborativa utilizará cuentas independientes por móvil y permisos para que las modificaciones importantes requieran aprobación.</p></div>
+</section>
+</main>
+
+<div id="toast" class="toast"></div>
+
+<script>
+const checklist=[
+  ["Île de la Cité","París","https://maps.google.com/?q=Ile+de+la+Cite+Paris"],
+  ["Notre-Dame","París","https://maps.google.com/?q=Notre+Dame+Paris"],
+  ["Barrio Latino","París","https://maps.google.com/?q=Barrio+Latino+Paris"],
+  ["Pirámide del Louvre","París","https://maps.google.com/?q=Pyramide+du+Louvre+Paris"],
+  ["Sagrado Corazón","París","https://maps.google.com/?q=Sacre+Coeur+Paris"],
+  ["Montmartre","París","https://maps.google.com/?q=Montmartre+Paris"],
+  ["Galeries Lafayette","París","https://maps.google.com/?q=Galeries+Lafayette+Haussmann+Paris"],
+  ["Campos Elíseos","París","https://maps.google.com/?q=Avenue+des+Champs+Elysees+Paris"],
+  ["Arco del Triunfo","París","https://maps.google.com/?q=Arc+de+Triomphe+Paris"],
+  ["Torre Eiffel","París","https://maps.google.com/?q=Torre+Eiffel+Paris"],
+  ["Campo de Marte","París","https://maps.google.com/?q=Champ+de+Mars+Paris"],
+  ["Crucero por el Sena","París","https://maps.google.com/?q=Seine+River+Paris"],
+  ["Panteón","París","https://maps.google.com/?q=Pantheon+Paris"],
+  ["Kastellet","Copenhague","https://maps.google.com/?q=Kastellet+Copenhagen"],
+  ["La Sirenita","Copenhague","https://maps.google.com/?q=The+Little+Mermaid+Copenhagen"],
+  ["Amalienborg","Copenhague","https://maps.google.com/?q=Amalienborg+Palace+Copenhagen"],
+  ["Nyhavn","Copenhague","https://maps.google.com/?q=Nyhavn+Copenhagen"],
+  ["Rosenborg","Copenhague","https://maps.google.com/?q=Rosenborg+Castle+Copenhagen"],
+  ["Torvehallerne","Copenhague","https://maps.google.com/?q=Torvehallerne+Copenhagen"],
+  ["Værnedamsvej","Copenhague","https://maps.google.com/?q=Vaernedamsvej+Frederiksberg"],
+  ["Christianshavn","Copenhague","https://maps.google.com/?q=Christianshavn+Copenhagen"],
+  ["Lagos Søerne","Copenhague","https://maps.google.com/?q=Soerne+Copenhagen"]
+];
+const recs=[
+ {id:"r1",city:"paris",type:"photo",title:"Trocadéro",loc:"Place du Trocadéro, Paris",price:"Gratis",time:"20–30 min",why:"Punto fotográfico clásico de la Torre Eiffel; encaja muy bien con el viernes.",map:"https://maps.google.com/?q=Trocadero+Paris",suggest:"Viernes · 14:00–15:30, junto a Torre Eiffel"},
+ {id:"r2",city:"paris",type:"green",title:"Jardin des Tuileries",loc:"Place de la Concorde / Louvre, Paris",price:"Gratis",time:"45–60 min",why:"Ideal para descansar entre Louvre, Concorde y el eje oeste.",map:"https://maps.google.com/?q=Jardin+des+Tuileries+Paris",suggest:"Viernes · 12:00–13:00, antes de comer"},
+ {id:"r3",city:"paris",type:"food",title:"Marché des Enfants Rouges",loc:"39 Rue de Bretagne, Paris",price:"€–€€",time:"60–90 min",why:"Mercado cubierto con opciones variadas para comer.",map:"https://maps.google.com/?q=Marche+des+Enfants+Rouges+Paris",suggest:"Viernes · comida/descanso, si interesa cambiar la zona de comida"},
+ {id:"r4",city:"paris",type:"photo",title:"Rue Crémieux",loc:"Rue Crémieux, 75012 Paris",price:"Gratis",time:"15–20 min",why:"Calle residencial muy colorida y fotogénica.",map:"https://maps.google.com/?q=Rue+Cremieux+Paris",suggest:"Mejor reservarla para una ruta futura; está alejada del planning actual"},
+ {id:"r5",city:"cph",type:"photo",title:"Magstræde",loc:"Magstræde, Copenhagen",price:"Gratis",time:"15–25 min",why:"Una de las calles históricas más fotogénicas del centro.",map:"https://maps.google.com/?q=Magstraede+Copenhagen",suggest:"Lunes · 17:00 aprox., después de Christianshavn"},
+ {id:"r6",city:"cph",type:"green",title:"Frederiksberg Have",loc:"Frederiksberg Runddel, Copenhagen",price:"Gratis",time:"45–75 min",why:"Parque amplio para bajar el ritmo y descansar.",map:"https://maps.google.com/?q=Frederiksberg+Have",suggest:"Lunes · 13:30–15:00, aunque implicaría ajustar Værnedamsvej"},
+ {id:"r7",city:"cph",type:"food",title:"Smørrebrød",loc:"Centro de Copenhague",price:"€€",time:"60 min",why:"Para probar uno de los clásicos gastronómicos daneses.",map:"https://maps.google.com/?q=smorrebrod+Copenhagen",suggest:"Domingo · 13:00–14:00, aprovechando Nyhavn"},
+ {id:"r8",city:"cph",type:"bar",title:"Nørrebro",loc:"Nørrebro, Copenhagen",price:"€–€€",time:"60–90 min",why:"Barrio con cafés, bares y ambiente local.",map:"https://maps.google.com/?q=Norrebro+Copenhagen",suggest:"Solo recomendable si queréis ampliar la ruta; queda fuera del recorrido actual"}
+];
+
+let checked=JSON.parse(localStorage.getItem("travel_checklist")||"{}");
+let pending=JSON.parse(localStorage.getItem("travel_pending")||"[]");
+let filter="all";
+
+function showPage(id, pushState = true){
+  document.querySelectorAll(".page").forEach(x=>x.classList.remove("active"));
+  const p=document.getElementById(id); 
+  if(p) p.classList.add("active");
+  document.querySelectorAll(".nav-btn").forEach(x=>x.classList.toggle("active",x.dataset.page===id));
+  window.scrollTo({top:0,behavior:"smooth"});
+  
+  if(pushState){
+    if(id === 'home'){
+      history.pushState({page: 'home'}, '', './');
+    } else {
+      history.pushState({page: id}, '', '#'+id);
+    }
+  }
+}
+
+window.addEventListener('popstate', (e) => {
+  if(e.state && e.state.page){
+    showPage(e.state.page, false);
+  } else {
+    showPage('home', false);
+  }
+});
+
+if(!history.state){
+  history.replaceState({page: 'home'}, '', './');
+}
+
+function toast(msg){
+  const t=document.getElementById("toast");
+  if(!t)return;
+  t.textContent=msg;t.classList.add("show");
+  setTimeout(()=>t.classList.remove("show"),2300);
+}
+
+function renderChecklist(){
+  const c=document.getElementById("checklistItems");
+  if(!c)return;
+  c.innerHTML="";
+  checklist.forEach((x,i)=>{
+    const on=!!checked["c"+i];
+    c.insertAdjacentHTML("beforeend",`<label class="check-item ${on?"done":""}">
+      <input type="checkbox" data-check="${i}" ${on?"checked":""}>
+      <span>${x[0]}<small>📍 ${x[1]} · <a href="${x[2]}" target="_blank">Ver ubicación en Maps</a></small></span>
+    </label>`);
+  });
+}
+
+function renderRecs(){
+  const c=document.getElementById("recommendationItems");
+  if(!c)return;
+  c.innerHTML="";
+  recs.filter(r=>filter==="all"||r.city===filter||r.type===filter).forEach(r=>{
+    c.insertAdjacentHTML("beforeend",`<article class="rec">
+      <h3>${r.title}</h3>
+      <div class="meta">📍 ${r.loc}<br>💶 ${r.price} · ⏱️ ${r.time}<br>💡 ${r.why}<br>🗓️ <strong>Momento sugerido:</strong> ${r.suggest}</div>
+      <div class="actions"><button type="button" class="add" data-rec="${r.id}">☑️ Añadir al Checklist</button><a class="map" href="${r.map}" target="_blank">🗺️ Maps</a></div>
+    </article>`);
+  });
+}
+
+function renderPending(){
+  const c=document.getElementById("proposalList");
+  if(!c)return;
+  const badge=document.getElementById("pendingBadge");
+  if(!pending.length){
+    c.innerHTML='<div class="card"><p>🟢 No hay cambios pendientes.</p></div>';
+    if(badge) badge.classList.add("hidden");
+    return;
+  }
+  if(badge){
+    badge.classList.remove("hidden");
+    badge.textContent=`🔔 ${pending.length} pendiente${pending.length>1?"s":""}`;
+  }
+  c.innerHTML=pending.map((p,i)=>`<div class="proposal-card"><b>⭐ ${p.title}</b><p>📍 ${p.loc}<br>🗓️ ${p.suggest}<br><small>Propuesto por otro viajero</small></p><button type="button" class="approve" data-approve="${i}">✅ Aceptar</button><button type="button" class="reject" data-reject="${i}">❌ Rechazar</button></div>`).join("");
+}
+
+// Escuchar clics directos y globales para evitar bloqueos en Android webviews
+document.addEventListener("click",e=>{
+  const nav=e.target.closest("[data-page],[data-go]");
+  if(nav){
+    e.preventDefault();
+    e.stopPropagation();
+    showPage(nav.dataset.page||nav.dataset.go);
+    return;
+  }
+  const ck=e.target.closest("[data-check]");
+  if(ck){
+    const i=ck.dataset.check;
+    checked["c"+i]=ck.checked;
+    localStorage.setItem("travel_checklist",JSON.stringify(checked));
+    renderChecklist();
+    return;
+  }
+  const rf=e.target.closest("[data-filter]");
+  if(rf){
+    filter=rf.dataset.filter;
+    document.querySelectorAll(".filter").forEach(x=>x.classList.toggle("active",x===rf));
+    renderRecs();
+    return;
+  }
+  const rec=e.target.closest("[data-rec]");
+  if(rec){
+    const r=recs.find(x=>x.id===rec.dataset.rec);
+    pending.push(r);
+    localStorage.setItem("travel_pending",JSON.stringify(pending));
+    renderPending();
+    toast("Propuesta enviada para aprobación");
+    return;
+  }
+  const ap=e.target.closest("[data-approve]");
+  if(ap){
+    pending.splice(+ap.dataset.approve,1);
+    localStorage.setItem("travel_pending",JSON.stringify(pending));
+    renderPending();
+    toast("Cambio aceptado (demo)");
+    return;
+  }
+  const re=e.target.closest("[data-reject]");
+  if(re){
+    pending.splice(+re.dataset.reject,1);
+    localStorage.setItem("travel_pending",JSON.stringify(pending));
+    renderPending();
+    toast("Propuesta rechazada");
+    return;
+  }
+}, true); // Usar capturing phase para máxima prioridad en Android
+
+renderChecklist();
+renderRecs();
+renderPending();
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js').catch(() => {});
+  });
+}
+</script>
+</body>
+</html>

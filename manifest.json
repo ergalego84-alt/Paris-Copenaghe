@@ -1,0 +1,13 @@
+{
+  "name": "París & Copenhague 2026",
+  "short_name": "Viaje Paris-CPH",
+  "description": "Viaje colaborativo París y Copenhague del 3 al 8 de diciembre de 2026",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#092d4f",
+  "theme_color": "#0b3157",
+  "icons": [
+    {"src": "icon-192.png", "sizes": "192x192", "type": "image/png"},
+    {"src": "icon-512.png", "sizes": "512x512", "type": "image/png"}
+  ]
+}
