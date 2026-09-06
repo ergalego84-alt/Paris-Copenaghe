@@ -514,20 +514,15 @@ const firebaseConfig = {
   messagingSenderId: "000000000000",
   appId: "TU_APP_ID"
 };
-const FIREBASE_CONFIGURED = firebaseConfig.apiKey !== "TU_API_KEY";
-</script>
-<script type="module">
-if (FIREBASE_CONFIGURED) {
-  import("https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js").then(async ({initializeApp})=>{
-    const fs = await import("https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js");
-    const app = initializeApp(firebaseConfig);
-    window.__db = fs.getFirestore(app);
-    window.__fs = fs;
-    window.dispatchEvent(new Event("firebase-ready"));
-  }).catch(err=>{
-    console.error("Firebase no se pudo cargar:", err);
-    window.dispatchEvent(new Event("firebase-failed"));
-  });
+const firebaseConfig = {
+  apiKey: "AIzaSyAZ59UucO09oBIP3pJEHDj94jWKGCH-Pso",
+  authDomain: "viaje-paris-copenhague.firebaseapp.com",
+  projectId: "viaje-paris-copenhague",
+  storageBucket: "viaje-paris-copenhague.firebasestorage.app",
+  messagingSenderId: "294192926375",
+  appId: "1:294192926375:web:2db8c77110f1a4659d1582",
+  measurementId: "G-8WVDMQ3DGG"
+};
 }
 </script>
 
