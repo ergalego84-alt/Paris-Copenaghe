@@ -506,7 +506,6 @@ table.balances th{color:var(--muted);font-weight:800;font-size:11px;text-transfo
   Mientras no lo configuréis, la app funciona en modo local (cada móvil ve solo lo suyo).
 ======================================================================= -->
 <script>
-
 const firebaseConfig = {
   apiKey: "AIzaSyAZ59UucO09oBIP3pJEHDj94jWKGCH-Pso",
   authDomain: "viaje-paris-copenhague.firebaseapp.com",
@@ -516,8 +515,9 @@ const firebaseConfig = {
   appId: "1:294192926375:web:2db8c77110f1a4659d1582",
   measurementId: "G-8WVDMQ3DGG"
 };
-  
+const FIREBASE_CONFIGURED = firebaseConfig.apiKey !== "TU_API_KEY";
 </script>
+};
 
 <script>
 /* ============ DATOS BASE ============ */
