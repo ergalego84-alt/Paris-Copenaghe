@@ -506,6 +506,29 @@ table.balances th{color:var(--muted);font-weight:800;font-size:11px;text-transfo
   Mientras no lo configuréis, la app funciona en modo local (cada móvil ve solo lo suyo).
 ======================================================================= -->
 <script>
+<script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-analytics.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
+
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  const firebaseConfig = {
+    apiKey: "AIzaSyAZ59UucO09oBIP3pJEHDj94jWKGCH-Pso",
+    authDomain: "viaje-paris-copenhague.firebaseapp.com",
+    projectId: "viaje-paris-copenhague",
+    storageBucket: "viaje-paris-copenhague.firebasestorage.app",
+    messagingSenderId: "294192926375",
+    appId: "1:294192926375:web:2db8c77110f1a4659d1582",
+    measurementId: "G-8WVDMQ3DGG"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+</script>
 <!-- SDK de Firebase (versión compat para integrarlo fácilmente con código clásico) -->
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
