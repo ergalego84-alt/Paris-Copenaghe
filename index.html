@@ -93,8 +93,7 @@ main{max-width:1050px;margin:-28px auto 0;position:relative;z-index:2;padding:0 
 .tile.proposal:after{background:linear-gradient(0deg,rgba(255,247,234,.96),rgba(255,247,234,.4) 75%)}
 .tile .big{font-size:28px;line-height:1;height:32px;display:flex;align-items:center;margin-bottom:0}
 .tile b{font-size:15px;line-height:1.25;display:block;min-height:19px}
-.tile small{min-height:28px}
-.tile small{font-size:11px;opacity:.9;margin-top:2px;display:block}
+.tile small{font-size:11px;opacity:.9;margin-top:2px;display:block;min-height:28px}
 
 .back-btn{
   display:inline-flex;align-items:center;gap:6px;background:var(--sky);color:var(--blue);
@@ -506,28 +505,15 @@ table.balances th{color:var(--muted);font-weight:800;font-size:11px;text-transfo
 ======================================================================= -->
 <script>
 const firebaseConfig = {
-  apiKey: "TU_API_KEY",
-  authDomain: "TU_PROYECTO.firebaseapp.com",
-  projectId: "TU_PROYECTO",
-  storageBucket: "TU_PROYECTO.appspot.com",
-  messagingSenderId: "000000000000",
-  appId: "TU_APP_ID"
+  apiKey: "AIzaSyAZ59UucO09oBIP3pJEHDj94jWKGCH-Pso",
+  authDomain: "viaje-paris-copenhague.firebaseapp.com",
+  projectId: "viaje-paris-copenhague",
+  storageBucket: "viaje-paris-copenhague.firebasestorage.app",
+  messagingSenderId: "294192926375",
+  appId: "1:294192926375:web:2db8c77110f1a4659d1582",
+  measurementId: "G-8WVDMQ3DGG"
 };
 const FIREBASE_CONFIGURED = firebaseConfig.apiKey !== "TU_API_KEY";
-</script>
-<script type="module">
-if (FIREBASE_CONFIGURED) {
-  import("https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js").then(async ({initializeApp})=>{
-    const fs = await import("https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js");
-    const app = initializeApp(firebaseConfig);
-    window.__db = fs.getFirestore(app);
-    window.__fs = fs;
-    window.dispatchEvent(new Event("firebase-ready"));
-  }).catch(err=>{
-    console.error("Firebase no se pudo cargar:", err);
-    window.dispatchEvent(new Event("firebase-failed"));
-  });
-}
 </script>
 
 <script>
