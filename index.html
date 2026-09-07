@@ -108,6 +108,11 @@ main{max-width:1050px;margin:-28px auto 0;position:relative;z-index:2;padding:0 
 .weather-city strong{display:block;font-size:17px;color:var(--navy)}
 .weather-city .bigtemp{font-size:28px;font-weight:900;margin:7px 0}
 .hourly{display:flex;gap:8px;overflow:auto;margin-top:14px;padding-bottom:3px}
+.fdays{display:grid;gap:8px;margin-top:12px}
+.fday{display:flex;justify-content:space-between;align-items:center;gap:8px;background:#fff;border:1px solid var(--line);border-radius:12px;padding:9px 11px;font-size:12px}
+.fday b{text-transform:capitalize;color:var(--navy);font-weight:800;min-width:62px}
+.fday .temps{font-weight:800;color:var(--navy);white-space:nowrap}
+.fday .rain{color:var(--blue);font-weight:700;white-space:nowrap}
 .hour{min-width:68px;background:#fff;border:1px solid var(--line);border-radius:12px;padding:9px 6px;text-align:center}
 .hour b{display:block;font-size:12px}.hour span{display:block;font-size:19px;margin:5px 0}.hour small{font-size:11px;color:var(--muted)}
 
@@ -256,12 +261,8 @@ table.balances th{color:var(--muted);font-weight:800;font-size:11px;text-transfo
       <div class="card-title"><span class="card-icon">🌦️</span><div><h3>Próximo tiempo</h3><div class="muted">Se actualizará con previsión real y por horas</div></div></div>
     </div>
     <div class="weather-grid">
-      <div class="weather-city"><strong>🇫🇷 París</strong><div class="bigtemp">— °C</div><div class="muted">Previsión pendiente de conexión</div><div class="hourly">
-        <div class="hour"><b>08:00</b><span>☁️</span><small>—°</small></div><div class="hour"><b>10:00</b><span>🌦️</span><small>—°</small></div><div class="hour"><b>12:00</b><span>🌥️</span><small>—°</small></div><div class="hour"><b>16:00</b><span>🌧️</span><small>—°</small></div>
-      </div></div>
-      <div class="weather-city"><strong>🇩🇰 Copenhague</strong><div class="bigtemp">— °C</div><div class="muted">Previsión pendiente de conexión</div><div class="hourly">
-        <div class="hour"><b>08:00</b><span>☁️</span><small>—°</small></div><div class="hour"><b>10:00</b><span>🌦️</span><small>—°</small></div><div class="hour"><b>12:00</b><span>🌥️</span><small>—°</small></div><div class="hour"><b>16:00</b><span>🌧️</span><small>—°</small></div>
-      </div></div>
+      <div class="weather-city"><strong>🇫🇷 París</strong><div class="bigtemp" id="paris-temp">— °C</div><div class="muted" id="paris-desc">Cargando previsión…</div><div id="paris-forecast"></div></div>
+      <div class="weather-city"><strong>🇩🇰 Copenhague</strong><div class="bigtemp" id="cph-temp">— °C</div><div class="muted" id="cph-desc">Cargando previsión…</div><div id="cph-forecast"></div></div>
     </div>
   </div>
 
@@ -514,6 +515,20 @@ const firebaseConfig = {
   measurementId: "G-8WVDMQ3DGG"
 };
 const FIREBASE_CONFIGURED = firebaseConfig.apiKey !== "TU_API_KEY";
+</script>
+<script type="module">
+if (FIREBASE_CONFIGURED) {
+  import("https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js").then(async ({initializeApp})=>{
+    const fs = await import("https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js");
+    const app = initializeApp(firebaseConfig);
+    window.__db = fs.getFirestore(app);
+    window.__fs = fs;
+    window.dispatchEvent(new Event("firebase-ready"));
+  }).catch(err=>{
+    console.error("Firebase no se pudo cargar:", err);
+    window.dispatchEvent(new Event("firebase-failed"));
+  });
+}
 </script>
 
 <script>
@@ -1006,6 +1021,89 @@ function listenCollab(){
 window.addEventListener("firebase-ready",listenCollab);
 window.addEventListener("firebase-failed",updateSyncPill);
 
+/* ============ TIEMPO PARÍS + COPENHAGUE ============ */
+const TRIP_DATES=['2026-12-03','2026-12-04','2026-12-05','2026-12-06','2026-12-07','2026-12-08'];
+
+async function loadWeather(city,lat,lon,tempId,descId,forecastId){
+  try{
+    const today=new Date();
+    const tripStart=new Date('2026-12-03T00:00:00');
+    const daysUntilTrip=Math.ceil((tripStart-today)/86400000);
+
+    if(daysUntilTrip>14){
+      document.getElementById(tempId).textContent = city==='Paris' ? '≈ 4–8°C' : '≈ 1–6°C';
+      document.getElementById(descId).textContent = 'Estimación habitual en diciembre';
+      document.getElementById(forecastId).innerHTML =
+        '<div class="fday"><span>🌡️ Previsión aproximada para estas fechas</span></div>'+
+        '<div class="fday"><span>🧥 Frío de invierno · ☔ posible lluvia · ❄️ posible nieve puntual</span></div>';
+      return;
+    }
+
+    const url=`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}`+
+      `&current=temperature_2m,weather_code&hourly=temperature_2m,precipitation_probability,weather_code`+
+      `&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max,snowfall_sum`+
+      `&timezone=auto&forecast_days=16`;
+    const response=await fetch(url);
+    const data=await response.json();
+
+    document.getElementById(tempId).textContent = Math.round(data.current.temperature_2m)+'°C';
+    document.getElementById(descId).textContent = weatherDescription(data.current.weather_code);
+
+    let html='<div class="fdays">';
+    TRIP_DATES.forEach(date=>{
+      const i=data.daily.time.indexOf(date);
+      if(i===-1) return;
+      html+=`<div class="fday"><b>${formatDate(date)}</b><span>${weatherIcon(data.daily.weather_code[i])} ${weatherDescription(data.daily.weather_code[i])}</span><span class="temps">${Math.round(data.daily.temperature_2m_min[i])}° / ${Math.round(data.daily.temperature_2m_max[i])}°</span><span class="rain">☔ ${data.daily.precipitation_probability_max[i]}%${data.daily.snowfall_sum[i]>0?' · ❄️ '+data.daily.snowfall_sum[i]+'mm':''}</span></div>`;
+    });
+    html+='</div>';
+
+    if(daysUntilTrip<=3){
+      html+='<div class="hourly">';
+      const now=new Date();
+      data.hourly.time.forEach((time,i)=>{
+        const hourDate=new Date(time);
+        if(hourDate>=now && hourDate<=new Date(now.getTime()+48*3600000)){
+          html+=`<div class="hour"><b>${hourDate.getHours().toString().padStart(2,'0')}:00</b><span>${weatherIcon(data.hourly.weather_code[i])}</span><small>${Math.round(data.hourly.temperature_2m[i])}° · ☔${data.hourly.precipitation_probability[i]}%</small></div>`;
+        }
+      });
+      html+='</div>';
+    }
+    document.getElementById(forecastId).innerHTML=html;
+  }catch(err){
+    document.getElementById(tempId).textContent='--°C';
+    document.getElementById(descId).textContent='No disponible';
+    document.getElementById(forecastId).innerHTML='<div class="fday">⚠️ No se ha podido actualizar el tiempo.</div>';
+  }
+}
+function formatDate(date){
+  const d=new Date(date+'T12:00:00');
+  return d.toLocaleDateString('es-ES',{weekday:'short',day:'numeric',month:'short'});
+}
+function weatherIcon(code){
+  if(code===0) return '☀️';
+  if([1,2,3].includes(code)) return '🌤️';
+  if([45,48].includes(code)) return '🌫️';
+  if([51,53,55,56,57].includes(code)) return '🌦️';
+  if([61,63,65,66,67].includes(code)) return '🌧️';
+  if([71,73,75,77].includes(code)) return '❄️';
+  if([80,81,82].includes(code)) return '🌧️';
+  if([85,86].includes(code)) return '🌨️';
+  if([95,96,99].includes(code)) return '⛈️';
+  return '🌡️';
+}
+function weatherDescription(code){
+  if(code===0) return 'Despejado';
+  if([1,2,3].includes(code)) return 'Nublado';
+  if([45,48].includes(code)) return 'Niebla';
+  if([51,53,55,56,57].includes(code)) return 'Llovizna';
+  if([61,63,65,66,67].includes(code)) return 'Lluvia';
+  if([71,73,75,77].includes(code)) return 'Nieve';
+  if([80,81,82].includes(code)) return 'Chubascos';
+  if([85,86].includes(code)) return 'Nieve';
+  if([95,96,99].includes(code)) return 'Tormenta';
+  return 'Variable';
+}
+
 /* ============ INICIO ============ */
 document.getElementById("addExpenseBtn").addEventListener("click",addExpense);
 document.getElementById("saveNamesBtn").addEventListener("click",saveNames);
@@ -1018,6 +1116,8 @@ renderRecs();
 renderPending();
 renderExpenses();
 updateSyncPill();
+loadWeather('Paris',48.8566,2.3522,'paris-temp','paris-desc','paris-forecast');
+loadWeather('Copenhagen',55.6761,12.5683,'cph-temp','cph-desc','cph-forecast');
 
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
