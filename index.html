@@ -7,7 +7,9 @@
 <meta name="description" content="Viaje colaborativo París y Copenhague">
 <title>✈️ París & Copenhague · Viaje colaborativo</title>
 <link rel="manifest" href="manifest.json">
-<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -71,7 +73,7 @@ main{max-width:1050px;margin:-28px auto 0;position:relative;z-index:2;padding:0 
 .tile{
   height:150px;border:0;border-radius:22px;overflow:hidden;position:relative;
   color:#fff;text-align:left;padding:16px;display:flex;flex-direction:column;
-  justify-content:space-between;box-shadow:var(--shadow);transition:.18s;isolation:isolate;
+  box-shadow:var(--shadow);transition:.18s;isolation:isolate;
   width:100%;
 }
 .tile:active{transform:scale(.97)}
@@ -92,8 +94,8 @@ main{max-width:1050px;margin:-28px auto 0;position:relative;z-index:2;padding:0 
 .tile.proposal:before{display:none}
 .tile.proposal:after{background:linear-gradient(0deg,rgba(255,247,234,.96),rgba(255,247,234,.4) 75%)}
 .tile .big{font-size:28px;line-height:1;height:32px;display:flex;align-items:center;margin-bottom:0}
-.tile b{font-size:15px;line-height:1.25;display:block;min-height:19px}
-.tile small{font-size:11px;opacity:.9;margin-top:2px;display:block;min-height:28px}
+.tile b{font-size:15px;line-height:1.25;display:block;margin-top:auto}
+.tile small{font-size:11px;opacity:.9;margin-top:2px;display:block;height:26px;overflow:hidden}
 
 .back-btn{
   display:inline-flex;align-items:center;gap:6px;background:var(--sky);color:var(--blue);
