@@ -25,7 +25,7 @@
   --d-thu:#2b6cff;--d-fri:#1fae6b;--d-sat:#f28c28;--d-sun:#c94b4b;--d-mon:#8a4bd1;--d-tue:#c9a227;
 }
 *{box-sizing:border-box}
-html{scroll-behavior:smooth}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;text-size-adjust:100%}
 body{margin:0;background:var(--bg);color:var(--ink);
   font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
   padding-bottom:86px}
@@ -109,6 +109,7 @@ main{max-width:1050px;margin:-28px auto 0;position:relative;z-index:2;padding:0 
 .weather-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
 .weather-city{background:linear-gradient(135deg,#eef7fd,#f8fbfd);border:1px solid #dcecf6;border-radius:16px;padding:15px}
 .weather-city strong{display:block;font-size:17px;color:var(--navy)}
+.wflag{display:block;font-size:22px;margin-bottom:3px}
 .weather-city .bigtemp{font-size:28px;font-weight:900;margin:7px 0}
 .hourly{display:flex;gap:8px;overflow:auto;margin-top:14px;padding-bottom:3px}
 .fdays{display:grid;gap:8px;margin-top:12px}
@@ -250,12 +251,12 @@ table.balances th{color:var(--muted);font-weight:800;font-size:11px;text-transfo
       <button type="button" class="tile cph" data-go="cph"><span class="big">🇩🇰</span><div class="tile-text"><b>Copenhague</b><small>Itinerario · tiempo · rutas</small></div></button>
       <button type="button" class="tile map" data-go="mapa"><span class="big">🗺️</span><div class="tile-text"><b>Mapa</b><small>Todos los lugares del viaje</small></div></button>
       <button type="button" class="tile check" data-go="checklist"><span class="big">✅</span><div class="tile-text"><b>Checklist</b><small>Lugares pendientes y añadidos</small></div></button>
-      <button type="button" class="tile money" data-go="gastos"><span class="big">💶</span><div class="tile-text"><b>Gastos</b><small>Quién paga · reparto · liquidación</small></div></button>
+      <button type="button" class="tile money" data-go="gastos"><span class="big">💶</span><div class="tile-text"><b>Gastos</b><small>Pagos y reparto</small></div></button>
       <button type="button" class="tile flight" data-go="flights"><span class="big">✈️</span><div class="tile-text"><b>Vuelos</b><small>Horarios · estado</small></div></button>
-      <button type="button" class="tile food" data-go="recommendations" data-filter-on-open="food"><span class="big">🍴</span><div class="tile-text"><b>Comer</b><small>Restaurantes · comida típica</small></div></button>
-      <button type="button" class="tile rec" data-go="recommendations"><span class="big">⭐</span><div class="tile-text"><b>Ideas</b><small>Comida · fotos · parques</small></div></button>
-      <button type="button" class="tile proposal" data-go="proposals"><span class="big">🔔</span><div class="tile-text"><b>Cambios pendientes</b><small>Aprobar antes de modificar</small></div></button>
-      <button type="button" class="tile docs" data-go="documents"><span class="big">📁</span><div class="tile-text"><b>Documentos</b><small>DNIs y reservas en Drive</small></div></button>
+      <button type="button" class="tile food" data-go="recommendations" data-filter-on-open="food"><span class="big">🍴</span><div class="tile-text"><b>Comer</b><small>Restaurantes</small></div></button>
+      <button type="button" class="tile rec" data-go="recommendations"><span class="big">⭐</span><div class="tile-text"><b>Ideas</b><small>Comida y fotos</small></div></button>
+      <button type="button" class="tile proposal" data-go="proposals"><span class="big">🔔</span><div class="tile-text"><b>Cambios pendientes</b><small>Requiere aprobación</small></div></button>
+      <button type="button" class="tile docs" data-go="documents"><span class="big">📁</span><div class="tile-text"><b>Documentos</b><small>DNIs y reservas</small></div></button>
     </div>
   </div>
 
@@ -264,8 +265,8 @@ table.balances th{color:var(--muted);font-weight:800;font-size:11px;text-transfo
       <div class="card-title"><span class="card-icon">🌦️</span><div><h3>Próximo tiempo</h3><div class="muted">Se actualizará con previsión real y por horas</div></div></div>
     </div>
     <div class="weather-grid">
-      <div class="weather-city"><strong>🇫🇷 París</strong><div class="bigtemp" id="paris-temp">— °C</div><div class="muted" id="paris-desc">Cargando previsión…</div><div id="paris-forecast"></div></div>
-      <div class="weather-city"><strong>🇩🇰 Copenhague</strong><div class="bigtemp" id="cph-temp">— °C</div><div class="muted" id="cph-desc">Cargando previsión…</div><div id="cph-forecast"></div></div>
+      <div class="weather-city"><strong><span class="wflag">🇫🇷</span>París</strong><div class="bigtemp" id="paris-temp">— °C</div><div class="muted" id="paris-desc">Cargando previsión…</div><div id="paris-forecast"></div></div>
+      <div class="weather-city"><strong><span class="wflag">🇩🇰</span>Copenhague</strong><div class="bigtemp" id="cph-temp">— °C</div><div class="muted" id="cph-desc">Cargando previsión…</div><div id="cph-forecast"></div></div>
     </div>
   </div>
 
