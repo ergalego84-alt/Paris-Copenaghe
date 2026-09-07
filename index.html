@@ -506,27 +506,16 @@ table.balances th{color:var(--muted);font-weight:800;font-size:11px;text-transfo
   Mientras no lo configuréis, la app funciona en modo local (cada móvil ve solo lo suyo).
 ======================================================================= -->
 <script>
-<!-- Librerías de Firebase en versión compatible -->
-<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
-
-<script>
-  // Tu configuración real sacada de Firebase
-  const firebaseConfig = {
-    apiKey: "AIzaSyAZ59UucO09oBIP3pJEHDj94jWKGCH-Pso",
-    authDomain: "viaje-paris-copenhague.firebaseapp.com",
-    projectId: "viaje-paris-copenhague",
-    storageBucket: "viaje-paris-copenhague.firebasestorage.app",
-    messagingSenderId: "294192926375",
-    appId: "1:294192926375:web:2db8c77110f1a4659d1582",
-    measurementId: "G-8WVDMQ3DGG"
-  };
-
-  // Inicialización para que funcione la base de datos en tiempo real
-  firebase.initializeApp(firebaseConfig);
-  const db = firebase.firestore();
-
-  const FIREBASE_CONFIGURED = firebaseConfig.apiKey !== "TU_API_KEY";
+const firebaseConfig = {
+  apiKey: "AIzaSyAZ59UucO09oBIP3pJEHDj94jWKGCH-Pso",
+  authDomain: "viaje-paris-copenhague.firebaseapp.com",
+  projectId: "viaje-paris-copenhague",
+  storageBucket: "viaje-paris-copenhague.firebasestorage.app",
+  messagingSenderId: "294192926375",
+  appId: "1:294192926375:web:2db8c77110f1a4659d1582",
+  measurementId: "G-8WVDMQ3DGG"
+};
+const FIREBASE_CONFIGURED = firebaseConfig.apiKey !== "TU_API_KEY";
 </script>
 
 /* ============ DATOS BASE ============ */
