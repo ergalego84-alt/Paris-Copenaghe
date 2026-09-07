@@ -71,15 +71,15 @@ main{max-width:1050px;margin:-28px auto 0;position:relative;z-index:2;padding:0 
 
 .quick-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 .tile{
-  height:150px;border:0;border-radius:22px;overflow:hidden;position:relative;
+  min-height:150px;border:0;border-radius:22px;overflow:hidden;position:relative;
   color:#fff;text-align:left;padding:16px;display:flex;flex-direction:column;
-  box-shadow:var(--shadow);transition:.18s;isolation:isolate;
+  justify-content:space-between;box-shadow:var(--shadow);transition:.18s;isolation:isolate;
   width:100%;
 }
 .tile:active{transform:scale(.97)}
 .tile:before{content:"";position:absolute;inset:0;z-index:-2;background-size:cover;background-position:center}
 .tile:after{content:"";position:absolute;inset:0;z-index:-1;
-  background:linear-gradient(0deg,rgba(2,17,30,.86),rgba(2,17,30,.08) 75%)}
+  background:linear-gradient(0deg,rgba(2,17,30,.86),rgba(2,17,30,.18) 75%,rgba(2,17,30,.22) 100%)}
 .tile.paris:before{background-image:url("https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=900&auto=format&fit=crop&q=85")}
 .tile.cph:before{background-image:url("https://images.unsplash.com/photo-1513622470522-26c3c8a854bc?w=900&auto=format&fit=crop&q=85")}
 .tile.check:before{background-image:url("https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=900&auto=format&fit=crop&q=80")}
@@ -93,9 +93,10 @@ main{max-width:1050px;margin:-28px auto 0;position:relative;z-index:2;padding:0 
 .tile.proposal{background:linear-gradient(135deg,#fff7ea,#fff);color:var(--navy)}
 .tile.proposal:before{display:none}
 .tile.proposal:after{background:linear-gradient(0deg,rgba(255,247,234,.96),rgba(255,247,234,.4) 75%)}
-.tile .big{font-size:28px;line-height:1;height:32px;display:flex;align-items:center;margin-bottom:0}
-.tile b{font-size:15px;line-height:1.25;display:block;margin-top:auto}
-.tile small{font-size:11px;opacity:.9;margin-top:2px;display:block;height:26px;overflow:hidden}
+.tile .big{font-size:28px;line-height:1;display:block;text-shadow:0 2px 8px rgba(0,0,0,.55),0 0 16px rgba(0,0,0,.35)}
+.tile-text{margin-top:10px}
+.tile b{font-size:15px;line-height:1.25;display:block}
+.tile small{font-size:11px;opacity:.9;margin-top:2px;display:block}
 
 .back-btn{
   display:inline-flex;align-items:center;gap:6px;background:var(--sky);color:var(--blue);
@@ -245,16 +246,16 @@ table.balances th{color:var(--muted);font-weight:800;font-size:11px;text-transfo
     <div class="section-label">Tu viaje</div>
     <h2 class="section-title">Todo en un solo sitio</h2>
     <div class="quick-grid">
-      <button type="button" class="tile paris" data-go="paris"><span class="big">🇫🇷</span><b>París</b><small>Itinerario · tiempo · rutas</small></button>
-      <button type="button" class="tile cph" data-go="cph"><span class="big">🇩🇰</span><b>Copenhague</b><small>Itinerario · tiempo · rutas</small></button>
-      <button type="button" class="tile map" data-go="mapa"><span class="big">🗺️</span><b>Mapa</b><small>Todos los lugares del viaje</small></button>
-      <button type="button" class="tile check" data-go="checklist"><span class="big">✅</span><b>Checklist</b><small>Lugares pendientes y añadidos</small></button>
-      <button type="button" class="tile money" data-go="gastos"><span class="big">💶</span><b>Gastos</b><small>Quién paga · reparto · liquidación</small></button>
-      <button type="button" class="tile flight" data-go="flights"><span class="big">✈️</span><b>Vuelos</b><small>Horarios · estado</small></button>
-      <button type="button" class="tile food" data-go="recommendations" data-filter-on-open="food"><span class="big">🍴</span><b>Comer</b><small>Restaurantes · comida típica</small></button>
-      <button type="button" class="tile rec" data-go="recommendations"><span class="big">⭐</span><b>Ideas</b><small>Comida · fotos · parques</small></button>
-      <button type="button" class="tile proposal" data-go="proposals"><span class="big">🔔</span><b>Cambios pendientes</b><small>Aprobar antes de modificar</small></button>
-      <button type="button" class="tile docs" data-go="documents"><span class="big">📁</span><b>Documentos</b><small>DNIs y reservas en Drive</small></button>
+      <button type="button" class="tile paris" data-go="paris"><span class="big">🇫🇷</span><div class="tile-text"><b>París</b><small>Itinerario · tiempo · rutas</small></div></button>
+      <button type="button" class="tile cph" data-go="cph"><span class="big">🇩🇰</span><div class="tile-text"><b>Copenhague</b><small>Itinerario · tiempo · rutas</small></div></button>
+      <button type="button" class="tile map" data-go="mapa"><span class="big">🗺️</span><div class="tile-text"><b>Mapa</b><small>Todos los lugares del viaje</small></div></button>
+      <button type="button" class="tile check" data-go="checklist"><span class="big">✅</span><div class="tile-text"><b>Checklist</b><small>Lugares pendientes y añadidos</small></div></button>
+      <button type="button" class="tile money" data-go="gastos"><span class="big">💶</span><div class="tile-text"><b>Gastos</b><small>Quién paga · reparto · liquidación</small></div></button>
+      <button type="button" class="tile flight" data-go="flights"><span class="big">✈️</span><div class="tile-text"><b>Vuelos</b><small>Horarios · estado</small></div></button>
+      <button type="button" class="tile food" data-go="recommendations" data-filter-on-open="food"><span class="big">🍴</span><div class="tile-text"><b>Comer</b><small>Restaurantes · comida típica</small></div></button>
+      <button type="button" class="tile rec" data-go="recommendations"><span class="big">⭐</span><div class="tile-text"><b>Ideas</b><small>Comida · fotos · parques</small></div></button>
+      <button type="button" class="tile proposal" data-go="proposals"><span class="big">🔔</span><div class="tile-text"><b>Cambios pendientes</b><small>Aprobar antes de modificar</small></div></button>
+      <button type="button" class="tile docs" data-go="documents"><span class="big">📁</span><div class="tile-text"><b>Documentos</b><small>DNIs y reservas en Drive</small></div></button>
     </div>
   </div>
 
