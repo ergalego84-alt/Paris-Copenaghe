@@ -104,6 +104,17 @@ main{max-width:1050px;margin:-28px auto 0;position:relative;z-index:2;padding:0 
   border:1px solid #d2e4f3;border-radius:12px;padding:9px 14px;font-weight:850;
   font-size:13px;margin-bottom:14px;box-shadow:0 2px 8px rgba(8,43,76,.05)
 }
+.city-subnav{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:14px 0}
+.subnav-btn{display:flex;flex-direction:column;align-items:center;gap:7px;background:#fff;
+  border:0;border-radius:16px;padding:14px 4px 12px;color:var(--navy);
+  text-decoration:none;box-shadow:0 3px 10px rgba(8,43,76,.08)}
+.subnav-btn .subnav-icon{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;
+  justify-content:center;font-size:18px;background:#fff;box-shadow:0 2px 6px rgba(8,43,76,.12)}
+.subnav-btn span{font-size:11px;font-weight:800;text-align:center;line-height:1.2}
+.subnav-btn.sn-itinerary{background:linear-gradient(160deg,#e8f1fc,#d7e8fa)}
+.subnav-btn.sn-food{background:linear-gradient(160deg,#fff0e2,#ffe1c7)}
+.subnav-btn.sn-ideas{background:linear-gradient(160deg,#f5edff,#e9d9ff)}
+.subnav-btn.sn-check{background:linear-gradient(160deg,#e6f8ee,#d3f1e0)}
 
 .weather{overflow:hidden}
 .weather-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
@@ -238,7 +249,7 @@ table.balances th{color:var(--muted);font-weight:800;font-size:11px;text-transfo
   <button type="button" class="nav-btn active" data-page="home">🏠<span>Inicio</span></button>
   <button type="button" class="nav-btn" data-page="mapa">🗺️<span>Mapa</span></button>
   <button type="button" class="nav-btn" data-page="gastos">💶<span>Gastos</span></button>
-  <button type="button" class="nav-btn" data-page="checklist">✅<span>Checklist</span></button>
+  <button type="button" class="nav-btn" data-page="fotos">📸<span>Fotos</span></button>
   <button type="button" class="nav-btn" data-page="more">☰<span>Más</span></button>
 </nav>
 
@@ -250,15 +261,7 @@ table.balances th{color:var(--muted);font-weight:800;font-size:11px;text-transfo
     <div class="quick-grid">
       <button type="button" class="tile paris" data-go="paris"><span class="big">🇫🇷</span><div class="tile-text"><b>París</b><small>Itinerario · tiempo · rutas</small></div></button>
       <button type="button" class="tile cph" data-go="cph"><span class="big">🇩🇰</span><div class="tile-text"><b>Copenhague</b><small>Itinerario · tiempo · rutas</small></div></button>
-      <button type="button" class="tile map" data-go="mapa"><span class="big">🗺️</span><div class="tile-text"><b>Mapa</b><small>Todos los lugares del viaje</small></div></button>
-      <button type="button" class="tile check" data-go="checklist"><span class="big">✅</span><div class="tile-text"><b>Checklist</b><small>Lugares pendientes y añadidos</small></div></button>
-      <button type="button" class="tile money" data-go="gastos"><span class="big">💶</span><div class="tile-text"><b>Gastos</b><small>Pagos y reparto</small></div></button>
-      <button type="button" class="tile flight" data-go="flights"><span class="big">✈️</span><div class="tile-text"><b>Vuelos</b><small>Horarios · estado</small></div></button>
-      <button type="button" class="tile food" data-go="recommendations" data-filter-on-open="food"><span class="big">🍴</span><div class="tile-text"><b>Comer</b><small>Restaurantes</small></div></button>
-      <button type="button" class="tile rec" data-go="recommendations"><span class="big">⭐</span><div class="tile-text"><b>Ideas</b><small>Comida y fotos</small></div></button>
-      <button type="button" class="tile proposal" data-go="proposals"><span class="big">🔔</span><div class="tile-text"><b>Cambios pendientes</b><small>Requiere aprobación</small></div></button>
-      <button type="button" class="tile docs" data-go="documents"><span class="big">📁</span><div class="tile-text"><b>Documentos</b><small>DNIs y reservas</small></div></button>
-      <button type="button" class="tile photos" data-go="fotos"><span class="big">📸</span><div class="tile-text"><b>Fotos</b><small>Sube las tuyas a Drive</small></div></button>
+      <button type="button" class="tile docs" data-go="docshub" style="grid-column:1 / -1"><span class="big">🪪</span><div class="tile-text"><b>Documentación</b><small>Vuelos · DNI · reservas</small></div></button>
     </div>
   </div>
 
@@ -287,8 +290,14 @@ table.balances th{color:var(--muted);font-weight:800;font-size:11px;text-transfo
 <section id="paris" class="page">
   <button type="button" class="back-btn" data-go="home">← Volver al inicio</button>
   <div class="page-hero paris-hero"><span class="flag">🇫🇷</span><div><h2>París</h2><p>3–5 diciembre · Adrián + Elia</p></div></div>
+  <div class="city-subnav">
+    <a href="#paris-itinerario" class="subnav-btn sn-itinerary"><span class="subnav-icon">📅</span><span>Itinerario</span></a>
+    <button type="button" class="subnav-btn sn-food" data-go="recommendations" data-filter-on-open="food"><span class="subnav-icon">🍽️</span><span>Comer</span></button>
+    <button type="button" class="subnav-btn sn-ideas" data-go="recommendations" data-filter-on-open="paris"><span class="subnav-icon">💡</span><span>Recomendaciones</span></button>
+    <button type="button" class="subnav-btn sn-check" data-go="checklist" data-checklist-city="París"><span class="subnav-icon">✅</span><span>Checklist</span></button>
+  </div>
 
-  <div class="day"><div class="day-head"><h3>Jueves 3 · Centro histórico & Montmartre</h3><span class="day-badge">Adrián + Elia</span></div><div class="timeline">
+  <div class="day" id="paris-itinerario"><div class="day-head"><h3>Jueves 3 · Centro histórico & Montmartre</h3><span class="day-badge">Adrián + Elia</span></div><div class="timeline">
     <article><time>08:00</time><div><div class="event-title">Levantarse</div><p>Prepararse y salir con calma.</p></div></article>
     <article><time>08:15–09:00</time><div><div class="event-title">🥐 Desayuno</div><p>Desayuno antes de comenzar el viaje.</p></div></article>
     <article><time>09:10</time><div><div class="event-title">🚗 Parking · Aeropuerto de Sevilla</div><p>📍 Aeropuerto de Sevilla (SVQ)</p><a class="maps" target="_blank" rel="noopener" href="https://maps.google.com/?q=Aeropuerto+de+Sevilla+SVQ">📍 Abrir en Maps</a></div></article>
@@ -325,8 +334,14 @@ table.balances th{color:var(--muted);font-weight:800;font-size:11px;text-transfo
 <section id="cph" class="page">
   <button type="button" class="back-btn" data-go="home">← Volver al inicio</button>
   <div class="page-hero cph-hero"><span class="flag">🇩🇰</span><div><h2>Copenhague</h2><p>5–8 diciembre · sábado noche en adelante, los 5 juntos</p></div></div>
+  <div class="city-subnav">
+    <a href="#cph-itinerario" class="subnav-btn sn-itinerary"><span class="subnav-icon">📅</span><span>Itinerario</span></a>
+    <button type="button" class="subnav-btn sn-food" data-go="recommendations" data-filter-on-open="food"><span class="subnav-icon">🍽️</span><span>Comer</span></button>
+    <button type="button" class="subnav-btn sn-ideas" data-go="recommendations" data-filter-on-open="cph"><span class="subnav-icon">💡</span><span>Recomendaciones</span></button>
+    <button type="button" class="subnav-btn sn-check" data-go="checklist" data-checklist-city="Copenhague"><span class="subnav-icon">✅</span><span>Checklist</span></button>
+  </div>
 
-  <div class="day"><div class="day-head"><h3>Sábado 5 · Llegada & encuentro</h3><span class="day-badge">Adrián + Elia → 5</span></div><div class="timeline">
+  <div class="day" id="cph-itinerario"><div class="day-head"><h3>Sábado 5 · Llegada & encuentro</h3><span class="day-badge">Adrián + Elia → 5</span></div><div class="timeline">
     <article><time>15:20</time><div><div class="event-title">🛬 Llegada a CPH</div><p>📍 Copenhagen Airport</p><a class="maps" target="_blank" rel="noopener" href="https://maps.google.com/?q=Copenhagen+Airport">📍 Maps</a></div></article>
     <article><time>21:50</time><div><div class="event-title">🤝 Encuentro del grupo</div><p>📍 Copenhagen Central Station</p><a class="maps" target="_blank" rel="noopener" href="https://maps.google.com/?q=Copenhagen+Central+Station">📍 Maps</a></div></article>
   </div><a class="route" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/Copenhagen+Airport/Copenhagen+Central+Station">🗺️ Ver ruta del sábado</a></div>
@@ -374,6 +389,11 @@ table.balances th{color:var(--muted);font-weight:800;font-size:11px;text-transfo
   <button type="button" class="back-btn" data-go="home">← Volver al inicio</button>
   <div class="card" style="margin-top:0"><div class="section-label">Plan de viaje</div><h2 class="section-title">✅ Checklist</h2>
     <p class="muted">Aquí no se trata de quién ha estado: vais juntos. Es una lista compartida de sitios que queréis visitar o que habéis añadido al viaje.</p>
+  </div>
+  <div class="filters">
+    <button type="button" class="filter active" data-checklist-filter="all">Todos</button>
+    <button type="button" class="filter" data-checklist-filter="París">🇫🇷 París</button>
+    <button type="button" class="filter" data-checklist-filter="Copenhague">🇩🇰 Copenhague</button>
   </div>
   <div id="checklistItems" class="check-grid"></div>
 </section>
@@ -473,8 +493,19 @@ table.balances th{color:var(--muted);font-weight:800;font-size:11px;text-transfo
   <div id="proposalList"></div>
 </section>
 
-<section id="flights" class="page">
+<section id="docshub" class="page">
   <button type="button" class="back-btn" data-go="home">← Volver al inicio</button>
+  <div class="card" style="margin-top:0"><div class="section-label">Accesos generales</div><h2 class="section-title">🪪 Documentación</h2>
+    <p class="muted">Horarios de vuelo y toda la documentación del viaje en un mismo sitio.</p>
+    <div class="quick-list" style="display:flex;flex-direction:column;gap:10px;margin-top:14px">
+      <button type="button" class="back-btn" style="width:100%;justify-content:flex-start;margin:0" data-go="flights">✈️ Vuelos</button>
+      <button type="button" class="back-btn" style="width:100%;justify-content:flex-start;margin:0" data-go="documents">🪪 Documentación / DNI</button>
+    </div>
+  </div>
+</section>
+
+<section id="flights" class="page">
+  <button type="button" class="back-btn" data-go="docshub">← Volver a Documentación</button>
   <div class="card" style="margin-top:0"><div class="section-label">Horarios de vuelo</div><h2 class="section-title">✈️ Vuelos</h2>
     <div class="notice">Adrián + Elia realizan los 3 vuelos. Los otros 3 acompañantes realizan Sevilla → Copenhague y Copenhague → Sevilla.</div>
     <div class="card" style="box-shadow:none;border:1px solid var(--line)">
@@ -491,7 +522,7 @@ table.balances th{color:var(--muted);font-weight:800;font-size:11px;text-transfo
 </section>
 
 <section id="documents" class="page">
-  <button type="button" class="back-btn" data-go="home">← Volver al inicio</button>
+  <button type="button" class="back-btn" data-go="docshub">← Volver a Documentación</button>
   <div class="card" style="margin-top:0"><div class="section-label">Viajes y documentación</div><h2 class="section-title">📁 Documentos</h2>
     <a class="drive" target="_blank" rel="noopener" href="https://drive.google.com/drive/folders/1jndItgl6xKmN5lNCmrHJjvqL7ODoAbhK"><span class="drive-icon">📁</span><span><b>Documentación de vuelos en Drive</b><small>Billetes, check-in, asientos y documentación</small></span></a>
     <a class="drive" target="_blank" rel="noopener" href="https://drive.google.com/drive/folders/13M3lATcBNvRxqvdg0Q4YJj7QwcJ7PeOT"><span class="drive-icon">🪪</span><span><b>DNIs en Drive</b><small>La aplicación no muestra ni almacena aquí los datos de los documentos</small></span></a>
@@ -502,13 +533,13 @@ table.balances th{color:var(--muted);font-weight:800;font-size:11px;text-transfo
 <section id="fotos" class="page">
   <button type="button" class="back-btn" data-go="home">← Volver al inicio</button>
   <div class="card" style="margin-top:0"><div class="section-label">Recuerdos del viaje</div><h2 class="section-title">📸 Fotos</h2>
-    <p class="muted">Cada uno sube sus fotos a su propia carpeta. Al final del viaje se pueden mezclar todas para hacer el resumen.</p>
-    <a class="drive" target="_blank" rel="noopener" href="https://drive.google.com/drive/folders/1BhXOAwgOBkVhJf5X5k92FlmwEBu5ZndE"><span class="drive-icon">📸</span><span><b>Adrián</b><small>Subir mis fotos</small></span></a>
-    <a class="drive" target="_blank" rel="noopener" href="https://drive.google.com/drive/folders/1ewU3jIZdfxsq8HAJfNWr3GGr_zzXNL2W"><span class="drive-icon">📸</span><span><b>Elia</b><small>Subir mis fotos</small></span></a>
-    <a class="drive" target="_blank" rel="noopener" href="https://drive.google.com/drive/folders/1XaiFiCYMkx1ZvdS0ej-xLc57Lwej1AD0"><span class="drive-icon">📸</span><span><b>Marina</b><small>Subir mis fotos</small></span></a>
-    <a class="drive" target="_blank" rel="noopener" href="https://drive.google.com/drive/folders/1s4LKOhIbIIBw_KxoBu8EathnG3LeuoO0"><span class="drive-icon">📸</span><span><b>Irene</b><small>Subir mis fotos</small></span></a>
-    <a class="drive" target="_blank" rel="noopener" href="https://drive.google.com/drive/folders/1uZebcqcj3nnsJmMGiPHyut9KO1xuAty4"><span class="drive-icon">📸</span><span><b>Juan Carlos</b><small>Subir mis fotos</small></span></a>
-    <div class="notice">Al abrir el enlace, usa el botón "+" o "Subir" dentro de la app de Drive para añadir tus fotos directamente desde el móvil.</div>
+    <p class="muted">Cada uno tiene su carpeta, pero al ser todas compartidas, podéis entrar en la de cualquiera para subir vuestras fotos o ver las que ya haya subido esa persona. Al final del viaje se pueden mezclar todas para hacer el resumen.</p>
+    <a class="drive" target="_blank" rel="noopener" href="https://drive.google.com/drive/folders/1BhXOAwgOBkVhJf5X5k92FlmwEBu5ZndE"><span class="drive-icon">📸</span><span><b>Adrián</b><small>Subir y ver fotos</small></span></a>
+    <a class="drive" target="_blank" rel="noopener" href="https://drive.google.com/drive/folders/1ewU3jIZdfxsq8HAJfNWr3GGr_zzXNL2W"><span class="drive-icon">📸</span><span><b>Elia</b><small>Subir y ver fotos</small></span></a>
+    <a class="drive" target="_blank" rel="noopener" href="https://drive.google.com/drive/folders/1XaiFiCYMkx1ZvdS0ej-xLc57Lwej1AD0"><span class="drive-icon">📸</span><span><b>Marina</b><small>Subir y ver fotos</small></span></a>
+    <a class="drive" target="_blank" rel="noopener" href="https://drive.google.com/drive/folders/1s4LKOhIbIIBw_KxoBu8EathnG3LeuoO0"><span class="drive-icon">📸</span><span><b>Irene</b><small>Subir y ver fotos</small></span></a>
+    <a class="drive" target="_blank" rel="noopener" href="https://drive.google.com/drive/folders/1uZebcqcj3nnsJmMGiPHyut9KO1xuAty4"><span class="drive-icon">📸</span><span><b>Juan Carlos</b><small>Subir y ver fotos</small></span></a>
+    <div class="notice">Al abrir el enlace verás las fotos que ya haya ahí. Para añadir las tuyas, usa el botón "+" o "Subir" dentro de la app de Drive.</div>
   </div>
 </section>
 
@@ -516,11 +547,10 @@ table.balances th{color:var(--muted);font-weight:800;font-size:11px;text-transfo
   <button type="button" class="back-btn" data-go="home">← Volver al inicio</button>
   <div class="card" style="margin-top:0"><div class="section-label">Más</div><h2 class="section-title">☰ Apartados</h2>
     <div class="quick-list" style="display:flex;flex-direction:column;gap:10px;margin-top:14px">
+      <button type="button" class="back-btn" style="width:100%;justify-content:flex-start;margin:0" data-go="checklist">✅ Checklist</button>
       <button type="button" class="back-btn" style="width:100%;justify-content:flex-start;margin:0" data-go="recommendations">⭐ Ideas</button>
       <button type="button" class="back-btn" style="width:100%;justify-content:flex-start;margin:0" data-go="proposals">🔔 Cambios pendientes</button>
-      <button type="button" class="back-btn" style="width:100%;justify-content:flex-start;margin:0" data-go="flights">✈️ Vuelos</button>
-      <button type="button" class="back-btn" style="width:100%;justify-content:flex-start;margin:0" data-go="documents">📁 Documentos</button>
-      <button type="button" class="back-btn" style="width:100%;justify-content:flex-start;margin:0" data-go="fotos">📸 Fotos</button>
+      <button type="button" class="back-btn" style="width:100%;justify-content:flex-start;margin:0" data-go="docshub">🪪 Documentación</button>
       <button type="button" class="back-btn" style="width:100%;justify-content:flex-start;margin:0" data-go="ajustes">⚙️ Nombres de los 5 viajeros</button>
     </div>
   </div>
@@ -713,8 +743,15 @@ document.addEventListener("click",e=>{
     if(nav.dataset.filterOnOpen){
       filter=nav.dataset.filterOnOpen;
       setTimeout(()=>{
-        document.querySelectorAll(".filter").forEach(x=>x.classList.toggle("active",x.dataset.filter===filter));
+        document.querySelectorAll(".filter[data-filter]").forEach(x=>x.classList.toggle("active",x.dataset.filter===filter));
         renderRecs();
+      },0);
+    }
+    if(nav.dataset.checklistCity){
+      checklistCityFilter=nav.dataset.checklistCity;
+      setTimeout(()=>{
+        document.querySelectorAll("[data-checklist-filter]").forEach(x=>x.classList.toggle("active",x.dataset.checklistFilter===checklistCityFilter));
+        renderChecklist();
       },0);
     }
     return;
@@ -724,6 +761,13 @@ document.addEventListener("click",e=>{
     const i=ck.dataset.check;
     checked["c"+i]=ck.checked;
     saveChecklist();
+    renderChecklist();
+    return;
+  }
+  const clf=e.target.closest("[data-checklist-filter]");
+  if(clf){
+    checklistCityFilter=clf.dataset.checklistFilter==="all"?null:clf.dataset.checklistFilter;
+    document.querySelectorAll("[data-checklist-filter]").forEach(x=>x.classList.toggle("active",x===clf));
     renderChecklist();
     return;
   }
@@ -778,11 +822,13 @@ document.addEventListener("click",e=>{
 });
 
 /* ============ CHECKLIST ============ */
+let checklistCityFilter=null;
 function renderChecklist(){
   const c=document.getElementById("checklistItems");
   if(!c)return;
   c.innerHTML="";
   checklist.forEach((x,i)=>{
+    if(checklistCityFilter && x[1]!==checklistCityFilter) return;
     const on=!!checked["c"+i];
     c.insertAdjacentHTML("beforeend",`<label class="check-item ${on?"done":""}">
       <input type="checkbox" data-check="${i}" ${on?"checked":""}>
