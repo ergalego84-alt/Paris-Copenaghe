@@ -431,10 +431,36 @@ table.balances th{color:var(--muted);font-weight:800;font-size:11px;text-transfo
   <div class="card" style="margin-top:0"><div class="section-label">Ideas para completar el viaje</div><h2 class="section-title">⭐ Ideas</h2>
     <p class="muted">Lugares que todavía no están en el itinerario. Al proponer uno para el Checklist, la app podrá sugerir el mejor día y horario según la ruta.</p>
   </div>
+  <div class="card" style="margin-top:0">
+    <input type="text" id="recSearch" placeholder="🔎 Buscar por nombre o zona…" style="width:100%;padding:12px;border:1px solid var(--line);border-radius:12px;font-size:15px;background:#fbfdff">
+  </div>
   <div class="filters">
     <button type="button" class="filter active" data-filter="all">Todas</button><button type="button" class="filter" data-filter="paris">🇫🇷 París</button><button type="button" class="filter" data-filter="cph">🇩🇰 Copenhague</button><button type="button" class="filter" data-filter="food">🍴 Comer</button><button type="button" class="filter" data-filter="photo">📸 Fotos</button><button type="button" class="filter" data-filter="green">🌳 Verde</button>
   </div>
   <div id="recommendationItems"></div>
+
+  <div class="card">
+    <h3>➕ ¿No está en la lista?</h3>
+    <p class="muted">Propón cualquier otro sitio que se te ocurra, aunque no esté entre las ideas de arriba. Pasará a Cambios pendientes, igual que las demás.</p>
+    <div class="form-grid">
+      <div>
+        <label>Nombre del lugar</label>
+        <input type="text" id="ownPlaceTitle" placeholder="Ej. Museo Rodin">
+      </div>
+      <div>
+        <label>Ciudad</label>
+        <select id="ownPlaceCity">
+          <option value="París">🇫🇷 París</option>
+          <option value="Copenhague">🇩🇰 Copenhague</option>
+        </select>
+      </div>
+      <div>
+        <label>Nota u horario que propones (opcional)</label>
+        <input type="text" id="ownPlaceNote" placeholder="Ej. Viernes por la mañana, antes de comer">
+      </div>
+      <button type="button" class="btn-primary" id="addOwnPlaceBtn">Proponer este lugar</button>
+    </div>
+  </div>
 </section>
 
 <section id="proposals" class="page">
@@ -754,17 +780,47 @@ function saveChecklist(){
 }
 
 /* ============ RECOMENDACIONES ============ */
+let recSearch="";
 function renderRecs(){
   const c=document.getElementById("recommendationItems");
   if(!c)return;
   c.innerHTML="";
-  recs.filter(r=>filter==="all"||r.city===filter||r.type===filter).forEach(r=>{
+  const q=recSearch.trim().toLowerCase();
+  const filtered=recs.filter(r=>filter==="all"||r.city===filter||r.type===filter)
+    .filter(r=>!q || (r.title+" "+r.loc).toLowerCase().includes(q));
+  if(!filtered.length){
+    c.innerHTML='<div class="card"><p class="muted">No hay ninguna idea que coincida. Prueba a cambiar el filtro o propón el sitio tú mismo aquí abajo. 👇</p></div>';
+    return;
+  }
+  filtered.forEach(r=>{
     c.insertAdjacentHTML("beforeend",`<article class="rec">
       <h3>${r.title}</h3>
       <div class="meta">📍 ${r.loc}<br>💶 ${r.price} · ⏱️ ${r.time}<br>💡 ${r.why}<br>🗓️ <strong>Momento sugerido:</strong> ${r.suggest}</div>
       <div class="actions"><button type="button" class="add" data-rec="${r.id}">☑️ Añadir al Checklist</button><a class="map-link" href="${r.map}" target="_blank" rel="noopener">🗺️ Maps</a></div>
     </article>`);
   });
+}
+document.addEventListener("input",e=>{
+  if(e.target.id==="recSearch"){
+    recSearch=e.target.value;
+    renderRecs();
+  }
+});
+function addOwnPlace(){
+  const title=document.getElementById("ownPlaceTitle").value.trim();
+  const city=document.getElementById("ownPlaceCity").value;
+  const note=document.getElementById("ownPlaceNote").value.trim();
+  if(!title){ toast("Escribe el nombre del lugar"); return; }
+  const place={
+    title,
+    loc:city,
+    suggest: note || "Por decidir",
+    map:"https://maps.google.com/?q="+encodeURIComponent(title+" "+city)
+  };
+  addPending(place);
+  document.getElementById("ownPlaceTitle").value="";
+  document.getElementById("ownPlaceNote").value="";
+  toast("Propuesta enviada para aprobación");
 }
 
 /* ============ PROPUESTAS ============ */
@@ -1111,6 +1167,7 @@ function weatherDescription(code){
 /* ============ INICIO ============ */
 document.getElementById("addExpenseBtn").addEventListener("click",addExpense);
 document.getElementById("saveNamesBtn").addEventListener("click",saveNames);
+document.getElementById("addOwnPlaceBtn").addEventListener("click",addOwnPlace);
 
 fillPayerSelect();
 renderParticipantChips();
