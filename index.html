@@ -190,9 +190,13 @@ table.balances th{color:var(--muted);font-weight:800;font-size:11px;text-transfo
 
 /* MAPA */
 /* Búsqueda real + menú de ciudad + póster de ruta */
-.city-menu{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin:12px 0 4px}
-.city-menu button{border:1px solid var(--line);background:#fff;color:var(--navy);border-radius:13px;padding:11px 8px;font-weight:850;font-size:12px;box-shadow:0 3px 10px rgba(8,43,76,.05)}
-.city-menu button:active{transform:scale(.98)}
+.city-menu{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:12px 0 4px}
+.city-menu button{border:0;color:#fff;border-radius:15px;padding:12px 9px;font-weight:900;font-size:12px;box-shadow:0 5px 14px rgba(8,43,76,.14);min-height:48px;text-shadow:0 1px 2px rgba(0,0,0,.18)}
+.city-menu button:nth-child(1){background:linear-gradient(135deg,#1769aa,#2b6cff)}
+.city-menu button:nth-child(2){background:linear-gradient(135deg,#198754,#35b978)}
+.city-menu button:nth-child(3){background:linear-gradient(135deg,#e67e22,#f3a23b)}
+.city-menu button:nth-child(4){background:linear-gradient(135deg,#8a4bd1,#aa72ea)}
+.city-menu button:active{transform:scale(.98);filter:brightness(.96)}
 .search-status{margin-top:10px;font-size:12px}
 .place-results{display:grid;gap:10px;margin-top:12px}
 .place-result{display:grid;grid-template-columns:78px 1fr;gap:11px;padding:10px;border:1px solid var(--line);border-radius:16px;background:#fff;box-shadow:0 4px 14px rgba(8,43,76,.05)}
@@ -205,8 +209,8 @@ table.balances th{color:var(--muted);font-weight:800;font-size:11px;text-transfo
 .selected-place h4{margin:0 0 5px;color:var(--navy);font-size:17px}.selected-place .meta{font-size:12px;color:var(--muted);line-height:1.45}
 .place-plan{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}.place-plan label{font-size:11px;font-weight:850;color:var(--navy)}.place-plan input,.place-plan select{width:100%;padding:10px;border:1px solid var(--line);border-radius:10px;background:#fff}
 .day-route-poster{margin-top:18px;padding-top:18px;border-top:1px solid var(--line)}
-.added-tag{display:inline-block;margin-left:5px;padding:2px 6px;border-radius:999px;background:#fff0e8;color:#c94b4b;font-size:9px;font-weight:900;vertical-align:middle}.route-poster-wrap{background:#fff;border-radius:18px;overflow:hidden;border:1px solid #dce8f1;box-shadow:0 10px 30px rgba(8,43,76,.10)}
-.route-poster-svg{display:block;width:100%;height:auto;background:#fff}.poster-map-tile{image-rendering:auto}
+.added-tag{display:inline-block;margin-left:5px;padding:2px 6px;border-radius:999px;background:#fff0e8;color:#c94b4b;font-size:9px;font-weight:900;vertical-align:middle}.route-poster-wrap{background:#fff;border-radius:18px;overflow:hidden;border:1px solid #dce8f1;box-shadow:0 10px 30px rgba(8,43,76,.10);max-width:100%;contain:paint}
+.route-poster-svg{display:block;width:100%;max-width:100%;height:auto;background:#fff;overflow:hidden}.poster-map-tile{image-rendering:auto}
 .poster-actions{display:flex;justify-content:flex-end;padding:9px;background:#f7fafc;border-top:1px solid #e1eaf0}.poster-download{border:0;border-radius:10px;background:var(--navy);color:#fff;padding:9px 12px;font-size:12px;font-weight:850}
 @media(max-width:520px){.place-result{grid-template-columns:64px 1fr}.place-result img{width:64px;height:64px}.place-plan{grid-template-columns:1fr}.city-menu button{font-size:11px;padding:10px 6px}}
 
@@ -260,6 +264,7 @@ table.balances th{color:var(--muted);font-weight:800;font-size:11px;text-transfo
   <button type="button" class="nav-btn" data-page="mapa">🗺️<span>Mapas</span></button>
   <button type="button" class="nav-btn" data-page="gastos">💶<span>Gastos</span></button>
   <button type="button" class="nav-btn" data-page="fotos">📸<span>Fotos</span></button>
+  <button type="button" class="nav-btn" data-page="more">☰<span>Más</span></button>
 </nav>
 
 <main>
@@ -1038,14 +1043,15 @@ function posterSvg(dayEl,stops,cityKey,routeCoords){
   let out=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" class="route-poster-svg">\n<defs><linearGradient id="hero${cityKey}${date}" x1="0" x2="1"><stop offset="0" stop-color="#092d4f"/><stop offset="1" stop-color="#1769aa"/></linearGradient><filter id="shadow${cityKey}${date}"><feDropShadow dx="0" dy="5" stdDeviation="7" flood-opacity=".18"/></filter></defs>\n<rect width="1200" height="1700" fill="#f7fafc"/>\n<rect width="1200" height="270" fill="url(#hero${cityKey}${date})"/>\n<image href="${bg}" x="650" y="0" width="550" height="270" preserveAspectRatio="xMidYMid slice" opacity=".75"/>\n<text x="60" y="62" fill="#fff" font-family="Arial" font-size="24" font-weight="800">${cityKey==='cph'?'🇩🇰 COPENHAGUE':'🇫🇷 PARÍS'}</text>\n<text x="60" y="135" fill="#fff" font-family="Arial" font-size="44" font-weight="900">${escapeHtml(title.split('·')[0].trim())}</text>\n<text x="60" y="182" fill="#fff" font-family="Arial" font-size="22">Ruta a pie · ${stops.length} paradas</text>\n<text x="60" y="222" fill="#dff3ff" font-family="Arial" font-size="18">${date?dayLabel(date):''}</text>\n<rect x="60" y="300" width="500" height="1000" rx="26" fill="#fff" filter="url(#shadow${cityKey}${date})"/>\n<text x="90" y="345" fill="#082b4c" font-family="Arial" font-size="25" font-weight="900">Tu día, paso a paso</text>`;
   let y=390;
   stops.slice(0,8).forEach((s,i)=>{const img=s.image||'';out+=`<circle cx="112" cy="${y-6}" r="25" fill="${DAY_HEX[s.day]||'#1769aa'}"/><text x="112" y="${y+2}" text-anchor="middle" fill="#fff" font-family="Arial" font-size="18" font-weight="900">${i+1}</text>${img?`<image href="${img}" x="150" y="${y-35}" width="120" height="80" preserveAspectRatio="xMidYMid slice" clip-path="inset(0 round 12)"/>`:''}<text x="285" y="${y-8}" fill="#082b4c" font-family="Arial" font-size="17" font-weight="900">${escapeHtml(s.title).slice(0,28)}</text><text x="285" y="${y+16}" fill="#5d6b78" font-family="Arial" font-size="13">${escapeHtml(s.time||'Horario pendiente')} · ${durationLabel(s.duration||60)}</text>${s.added?`<text x="285" y="${y+37}" fill="#c94b4b" font-family="Arial" font-size="11" font-weight="900">⭐ AÑADIDO POSTERIORMENTE</text>`:''}`; y+=112;});
-  out+=`<rect x="610" y="300" width="520" height="1000" rx="26" fill="#eaf4fb" stroke="#d3e6f3"/>
-<text x="650" y="345" fill="#082b4c" font-family="Arial" font-size="26" font-weight="900">Tu ruta real por las calles</text>`;
+  out+=`<clipPath id="mapClip${cityKey}${date}"><rect x="610" y="300" width="520" height="1000" rx="26"/></clipPath><rect x="610" y="300" width="520" height="1000" rx="26" fill="#eaf4fb" stroke="#d3e6f3"/>
+<g clip-path="url(#mapClip${cityKey}${date})">`;
   const cols=Math.min(tx1-tx0+1,6),rows=Math.min(ty1-ty0+1,8);
-  for(let tx=tx0;tx<tx0+cols;tx++)for(let ty=ty0;ty<ty0+rows;ty++){const src=tileUrl(tx,ty,z);if(src)out+=`<image href="${src}" x="${ox+tx*256*scale}" y="${oy+ty*256*scale}" width="${256*scale}" height="${256*scale}" preserveAspectRatio="none"/>`;}
+  for(let tx=tx0;tx<tx0+cols;tx++)for(let ty=ty0;ty<ty0+rows;ty++){const src=tileUrl(tx,ty,z);if(src)out+=`<image class="poster-map-tile" href="${src}" x="${ox+tx*256*scale}" y="${oy+ty*256*scale}" width="${256*scale}" height="${256*scale}" preserveAspectRatio="none" opacity=".72"/>`;}
+  out+=`<rect x="610" y="300" width="520" height="1000" fill="#ffffff" opacity=".22"/>`;
   const pts=geo.map(c=>project(c[0],c[1]));
   if(pts.length>1){const line=pts.map(p=>p.join(',')).join(' ');out+=`<polyline points="${line}" fill="none" stroke="#1769aa" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/><polyline points="${line}" fill="none" stroke="#fff" stroke-width="3" stroke-dasharray="2 14" stroke-linecap="round"/>`;}
   stops.forEach((s,i)=>{const [x,y2]=project(s.lng,s.lat);out+=`<circle cx="${x}" cy="${y2}" r="23" fill="${DAY_HEX[s.day]||'#1769aa'}" stroke="#fff" stroke-width="5"/><text x="${x}" y="${y2+7}" text-anchor="middle" fill="#fff" font-family="Arial" font-size="18" font-weight="900">${i+1}</text><text x="${x+32}" y="${y2+5}" fill="#082b4c" font-family="Arial" font-size="14" font-weight="800">${escapeHtml(s.title).slice(0,24)}</text>`;});
-  out+=`<rect x="625" y="1260" width="250" height="24" rx="7" fill="#fff" opacity=".92"/><text x="635" y="1277" fill="#51616f" font-family="Arial" font-size="11">© OpenStreetMap contributors</text>`;
+  out+=`</g><rect x="650" y="320" width="280" height="48" rx="24" fill="#ffffff" opacity=".9"/><text x="680" y="351" fill="#082b4c" font-family="Arial" font-size="22" font-weight="900">Tu ruta en el mapa</text><rect x="625" y="1260" width="250" height="24" rx="7" fill="#fff" opacity=".92"/><text x="635" y="1277" fill="#51616f" font-family="Arial" font-size="11">© OpenStreetMap contributors</text>`;
   const km=routeCoords&&routeCoords.length?routeDistance(routeCoords):stops.slice(1).reduce((sum,s,i)=>sum+haversine(stops[i],s),0); const walkMin=Math.round(km/4.8*60); const visitMin=stops.reduce((sum,s)=>sum+(s.duration||60),0);
   let mealCount=0; dayEl.querySelectorAll('.event-title').forEach(e=>{if(/desayuno|almuerzo|comida|cena/i.test(e.textContent))mealCount++;});
   const meals=mealCount?`Comidas planificadas: ${mealCount} · estimación €7–20/persona según comida`:'Sin comida fijada en el itinerario';
