@@ -206,7 +206,7 @@ table.balances th{color:var(--muted);font-weight:800;font-size:11px;text-transfo
 .place-plan{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}.place-plan label{font-size:11px;font-weight:850;color:var(--navy)}.place-plan input,.place-plan select{width:100%;padding:10px;border:1px solid var(--line);border-radius:10px;background:#fff}
 .day-route-poster{margin-top:18px;padding-top:18px;border-top:1px solid var(--line)}
 .added-tag{display:inline-block;margin-left:5px;padding:2px 6px;border-radius:999px;background:#fff0e8;color:#c94b4b;font-size:9px;font-weight:900;vertical-align:middle}.route-poster-wrap{background:#fff;border-radius:18px;overflow:hidden;border:1px solid #dce8f1;box-shadow:0 10px 30px rgba(8,43,76,.10)}
-.route-poster-svg{display:block;width:100%;height:auto;background:#fff}
+.route-poster-svg{display:block;width:100%;height:auto;background:#fff}.poster-map-tile{image-rendering:auto}
 .poster-actions{display:flex;justify-content:flex-end;padding:9px;background:#f7fafc;border-top:1px solid #e1eaf0}.poster-download{border:0;border-radius:10px;background:var(--navy);color:#fff;padding:9px 12px;font-size:12px;font-weight:850}
 @media(max-width:520px){.place-result{grid-template-columns:64px 1fr}.place-result img{width:64px;height:64px}.place-plan{grid-template-columns:1fr}.city-menu button{font-size:11px;padding:10px 6px}}
 
@@ -783,6 +783,10 @@ document.addEventListener("click",e=>{
     selectSearchPlace(+selectPlace.dataset.selectPlace);
     return;
   }
+  if(e.target.closest("#addOwnPlaceBtn")){
+    proposeSelectedPlace();
+    return;
+  }
   const cityJump=e.target.closest("[data-city-jump]");
   if(cityJump){
     const target=cityJump.dataset.cityJump;
@@ -914,35 +918,27 @@ function featureToPlace(f,cityKey){
   return {id:`search-${cityKey}-${lat}-${lon}-${name}` ,title:name,city:cityKey,cityLabel:city.label,loc:address,lat,lng:lon,type, map:`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(name+' '+address)}`,image:f.image||'',source:'Photon / OpenStreetMap'};
 }
 async function searchRealPlaces(){
-  const q=document.getElementById('ownPlaceTitle').value.trim();
-  const cityKey=document.getElementById('ownPlaceCity').value;
-  const status=document.getElementById('placeSearchStatus');
-  const results=document.getElementById('placeSearchResults');
-  const selected=document.getElementById('selectedPlacePanel');
-  if(!q){toast('Escribe qué quieres buscar');return;}
-  selected.classList.add('hidden'); selected.innerHTML=''; selectedSearchPlace=null;
-  results.innerHTML=''; status.textContent='🔎 Buscando lugares reales…';
+  const raw=document.getElementById('ownPlaceTitle').value.trim(), cityKey=document.getElementById('ownPlaceCity').value;
+  const status=document.getElementById('placeSearchStatus'), results=document.getElementById('placeSearchResults'), selected=document.getElementById('selectedPlacePanel');
+  if(!raw){toast('Escribe qué quieres buscar');return;}
+  selected.classList.add('hidden');selected.innerHTML='';selectedSearchPlace=null;results.innerHTML='';status.textContent='🔎 Buscando lugares reales…';
   const city=SEARCH_CITIES[cityKey];
-  const queries=[`${q}, ${city.label}`,`${normalizeSearch(q)}, ${city.label}`];
+  const christmas=/mercad|christmas\s*market|julemarked|marché\s+de\s+noël|no[eë]l/i.test(raw);
+  const queries=christmas?(cityKey==='cph'?['Christmas market Copenhagen','julemarked København','H.C. Andersen Christmas market Copenhagen','Christmas market Højbro Plads Copenhagen','Christmas market Tivoli Copenhagen']:['Christmas market Paris','marché de Noël Paris','marché de Noël Notre-Dame Paris','marché de Noël Saint-Germain-des-Prés Paris','marché de Noël La Défense Paris','marché de Noël Gare de l’Est Paris']):Array.from(new Set([raw,normalizeSearch(raw)]));
   try{
-    const responses=await Promise.all(queries.map(query=>fetch(`https://photon.komoot.io/api/?q=${encodeURIComponent(query)}&limit=8&lat=${city.lat}&lon=${city.lon}&lang=es`).then(r=>r.json())));
-    const all=[]; const seen=new Set();
-    responses.flatMap(x=>x.features||[]).forEach(f=>{
-      const place=featureToPlace(f,cityKey); if(!place)return;
-      const key=(place.title+'|'+place.lat.toFixed(5)+'|'+place.lng.toFixed(5)).toLowerCase();
-      if(!seen.has(key)){seen.add(key);all.push(place);}
-    });
-    livePlaceResults=all.slice(0,8);
-    if(!livePlaceResults.length){
-      status.textContent='No he encontrado coincidencias claras. Prueba con otra palabra, por ejemplo "Christmas market".';
-      return;
+    const all=[],seen=new Set(),push=p=>{if(!p||!Number.isFinite(+p.lat)||!Number.isFinite(+p.lng))return;const k=(p.title+'|'+(+p.lat).toFixed(5)+'|'+(+p.lng).toFixed(5)).toLowerCase();if(seen.has(k))return;seen.add(k);all.push(p);};
+    const photon=await Promise.allSettled(queries.slice(0,6).map(q=>fetch(`https://photon.komoot.io/api/?q=${encodeURIComponent(q)}&limit=8&lat=${city.lat}&lon=${city.lon}&lang=es`).then(r=>r.json())));
+    photon.forEach(x=>{if(x.status==='fulfilled')(x.value.features||[]).forEach(f=>{const p=featureToPlace(f,cityKey);if(p)push(p);});});
+    if(all.length<4){
+      const nom=await Promise.allSettled(queries.slice(0,3).map(q=>fetch(`https://nominatim.openstreetmap.org/search?format=jsonv2&addressdetails=1&limit=8&q=${encodeURIComponent(q)}`).then(r=>r.json())));
+      nom.forEach(x=>{if(x.status!=='fulfilled')return;(Array.isArray(x.value)?x.value:[]).forEach(v=>push({id:'n-'+v.place_id,title:v.name||(v.display_name||'Lugar').split(',')[0],city:cityKey,cityLabel:city.label,loc:v.display_name||city.label,lat:+v.lat,lng:+v.lon,type:[v.type,v.category].filter(Boolean).join(' · '),map:`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent((v.name||'Lugar')+' '+(v.display_name||city.label))}`,image:'',source:'Nominatim / OpenStreetMap'}));});
     }
+    livePlaceResults=all.slice(0,10);
+    if(!livePlaceResults.length){status.textContent='No he encontrado lugares reales. Prueba con el nombre del sitio o "Christmas market".';return;}
     status.textContent=`${livePlaceResults.length} resultados encontrados en ${city.label}`;
     results.innerHTML=livePlaceResults.map((p,i)=>`<div class="place-result"><img id="place-img-${i}" src="${fallbackPlaceImage(cityKey)}" alt=""><div><h4>${escapeHtml(p.title)}</h4><p>📍 ${escapeHtml(p.loc)}${p.type?`<br>🏷️ ${escapeHtml(p.type)}`:''}</p><button type="button" class="small-btn" data-select-place="${i}">Seleccionar este sitio</button></div></div>`).join('');
-    livePlaceResults.forEach(async(p,i)=>{const img=await searchCommonsImage(p.title,city.label); if(img){p.image=img; const el=document.getElementById(`place-img-${i}`); if(el)el.src=img;}});
-  }catch(err){
-    status.textContent='No se pudo consultar el buscador ahora. Comprueba la conexión e inténtalo de nuevo.';
-  }
+    livePlaceResults.forEach(async(p,i)=>{const img=await searchCommonsImage(p.title,city.label);if(img){p.image=img;const el=document.getElementById(`place-img-${i}`);if(el)el.src=img;}});
+  }catch(err){console.error(err);status.textContent='No se pudo consultar el buscador ahora. Comprueba la conexión e inténtalo de nuevo.';}
 }
 function selectSearchPlace(index){
   const p=livePlaceResults[index]; if(!p)return;
@@ -1010,23 +1006,47 @@ function googleWalkingUrl(stops){
   const waypoints=stops.slice(1,-1).map(q).join('%7C');
   return `https://www.google.com/maps/dir/?api=1&origin=${origin}&destination=${destination}&travelmode=walking${waypoints?`&waypoints=${waypoints}`:''}`;
 }
+const routeGeometryCache=new Map();
+function decodePolyline6(str){let i=0,lat=0,lon=0,out=[];const next=()=>{let r=0,sh=0,b;do{b=str.charCodeAt(i++)-63;r|=(b&31)<<sh;sh+=5;}while(b>=32);return(r&1)?~(r>>1):(r>>1);};while(i<str.length){lat+=next();lon+=next();out.push([lon/1e6,lat/1e6]);}return out;}
+async function getWalkingRoute(stops){
+  if(stops.length<2)return null;const key=stops.map(s=>`${s.lat},${s.lng}`).join('|');if(routeGeometryCache.has(key))return routeGeometryCache.get(key);
+  try{const r=await fetch('https://valhalla1.openstreetmap.de/route',{method:'POST',headers:{'Content-Type':'application/json','X-Client-Id':'viajes-pwa'},body:JSON.stringify({locations:stops.map(s=>({lat:+s.lat,lon:+s.lng})),costing:'pedestrian',units:'kilometers',shape_format:'polyline6'})});if(!r.ok)throw Error(r.status);const d=await r.json();let c=d.trip?.legs?.flatMap(l=>l.shape?decodePolyline6(l.shape):[])||[];routeGeometryCache.set(key,c.length?c:null);return c.length?c:null;}catch(e){console.warn('Ruta peatonal real no disponible',e);routeGeometryCache.set(key,null);return null;}
+}
+function mercatorTileXY(lon,lat,z){const n=2**z,r=lat*Math.PI/180;return{x:(lon+180)/360*n,y:(1-Math.asinh(Math.tan(r))/Math.PI)/2*n};}
+function tileUrl(x,y,z){const n=2**z;if(y<0||y>=n)return '';return `https://tile.openstreetmap.org/${z}/${((x%n)+n)%n}/${y}.png`;}
+function routeDistance(c){let k=0;for(let i=1;i<c.length;i++)k+=haversine({lat:c[i-1][1],lng:c[i-1][0]},{lat:c[i][1],lng:c[i][0]});return k;}
 async function getPosterImage(title,cityKey,fallback){
   const add=tripAdditions.find(a=>a.title===title&&a.city===cityKey&&a.image); if(add)return add.image;
   const img=await searchCommonsImage(title,SEARCH_CITIES[cityKey].label); return img||fallback;
 }
-function posterSvg(dayEl,stops,cityKey){
+function posterSvg(dayEl,stops,cityKey,routeCoords){
   const city=SEARCH_CITIES[cityKey].label; const title=dayEl.querySelector('h3')?.textContent||city; const date=dayEl.dataset.date||'';
   const bg=cityKey==='cph'?'https://images.unsplash.com/photo-1513622470522-26c3c8a854bc?w=1400&auto=format&fit=crop&q=85':'https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=1400&auto=format&fit=crop&q=85';
   const W=1200,H=1700; const leftX=70, cardW=500, mapX=610,mapY=290,mapW=520,mapH=1000;
-  const coords=stops.map(s=>[s.lng,s.lat]); const minX=Math.min(...coords.map(x=>x[0])),maxX=Math.max(...coords.map(x=>x[0])),minY=Math.min(...coords.map(x=>x[1])),maxY=Math.max(...coords.map(x=>x[1]));
-  const px=(lng)=>mapX+50+(lng-minX)/Math.max(maxX-minX,0.0001)*(mapW-100); const py=(lat)=>mapY+60+(maxY-lat)/Math.max(maxY-minY,0.0001)*(mapH-120);
+  routeCoords=routeCoords||null;
+  const geo=(routeCoords&&routeCoords.length?routeCoords:stops.map(s=>[s.lng,s.lat]));
+  const allGeo=geo.concat(stops.map(s=>[s.lng,s.lat]));
+  const minX=Math.min(...allGeo.map(x=>x[0])),maxX=Math.max(...allGeo.map(x=>x[0])),minY=Math.min(...allGeo.map(x=>x[1])),maxY=Math.max(...allGeo.map(x=>x[1]));
+  const padX=Math.max((maxX-minX)*.14,.004),padY=Math.max((maxY-minY)*.14,.004);
+  const minLon=minX-padX,maxLon=maxX+padX,minLat=minY-padY,maxLat=maxY+padY;
+  const z=Math.min(16,Math.max(13,(maxLon-minLon)<.012?15:(maxLon-minLon)<.025?14:13));
+  const a=mercatorTileXY(minLon,maxLat,z),b=mercatorTileXY(maxLon,minLat,z),tx0=Math.floor(a.x),ty0=Math.floor(a.y),tx1=Math.floor(b.x),ty1=Math.floor(b.y);
+  const worldW=(b.x-a.x)*256,worldH=(b.y-a.y)*256,scale=Math.min((mapW-20)/Math.max(worldW,1),(mapH-20)/Math.max(worldH,1));
+  const ox=mapX+(mapW-worldW*scale)/2-a.x*256*scale,oy=mapY+(mapH-worldH*scale)/2-a.y*256*scale;
+  const project=(lng,lat)=>{const q=mercatorTileXY(lng,lat,z);return[ox+q.x*256*scale,oy+q.y*256*scale];};
+  const px=lng=>project(lng,minLat)[0],py=lat=>project(minLon,lat)[1];
   let out=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" class="route-poster-svg">\n<defs><linearGradient id="hero${cityKey}${date}" x1="0" x2="1"><stop offset="0" stop-color="#092d4f"/><stop offset="1" stop-color="#1769aa"/></linearGradient><filter id="shadow${cityKey}${date}"><feDropShadow dx="0" dy="5" stdDeviation="7" flood-opacity=".18"/></filter></defs>\n<rect width="1200" height="1700" fill="#f7fafc"/>\n<rect width="1200" height="270" fill="url(#hero${cityKey}${date})"/>\n<image href="${bg}" x="650" y="0" width="550" height="270" preserveAspectRatio="xMidYMid slice" opacity=".75"/>\n<text x="60" y="62" fill="#fff" font-family="Arial" font-size="24" font-weight="800">${cityKey==='cph'?'🇩🇰 COPENHAGUE':'🇫🇷 PARÍS'}</text>\n<text x="60" y="135" fill="#fff" font-family="Arial" font-size="44" font-weight="900">${escapeHtml(title.split('·')[0].trim())}</text>\n<text x="60" y="182" fill="#fff" font-family="Arial" font-size="22">Ruta a pie · ${stops.length} paradas</text>\n<text x="60" y="222" fill="#dff3ff" font-family="Arial" font-size="18">${date?dayLabel(date):''}</text>\n<rect x="60" y="300" width="500" height="1000" rx="26" fill="#fff" filter="url(#shadow${cityKey}${date})"/>\n<text x="90" y="345" fill="#082b4c" font-family="Arial" font-size="25" font-weight="900">Tu día, paso a paso</text>`;
   let y=390;
   stops.slice(0,8).forEach((s,i)=>{const img=s.image||'';out+=`<circle cx="112" cy="${y-6}" r="25" fill="${DAY_HEX[s.day]||'#1769aa'}"/><text x="112" y="${y+2}" text-anchor="middle" fill="#fff" font-family="Arial" font-size="18" font-weight="900">${i+1}</text>${img?`<image href="${img}" x="150" y="${y-35}" width="120" height="80" preserveAspectRatio="xMidYMid slice" clip-path="inset(0 round 12)"/>`:''}<text x="285" y="${y-8}" fill="#082b4c" font-family="Arial" font-size="17" font-weight="900">${escapeHtml(s.title).slice(0,28)}</text><text x="285" y="${y+16}" fill="#5d6b78" font-family="Arial" font-size="13">${escapeHtml(s.time||'Horario pendiente')} · ${durationLabel(s.duration||60)}</text>${s.added?`<text x="285" y="${y+37}" fill="#c94b4b" font-family="Arial" font-size="11" font-weight="900">⭐ AÑADIDO POSTERIORMENTE</text>`:''}`; y+=112;});
-  out+=`<rect x="610" y="300" width="520" height="1000" rx="26" fill="#eaf4fb" stroke="#d3e6f3"/>\n<text x="650" y="345" fill="#082b4c" font-family="Arial" font-size="26" font-weight="900">Tu ruta en el mapa</text>`;
-  if(stops.length>1){const pts=stops.map(s=>`${px(s.lng)},${py(s.lat)}`).join(' ');out+=`<polyline points="${pts}" fill="none" stroke="#1769aa" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="18 12"/>`;}
-  stops.forEach((s,i)=>{const x=px(s.lng),y2=py(s.lat);out+=`<circle cx="${x}" cy="${y2}" r="23" fill="${DAY_HEX[s.day]||'#1769aa'}" stroke="#fff" stroke-width="5"/><text x="${x}" y="${y2+7}" text-anchor="middle" fill="#fff" font-family="Arial" font-size="18" font-weight="900">${i+1}</text><text x="${x+32}" y="${y2+5}" fill="#082b4c" font-family="Arial" font-size="14" font-weight="800">${escapeHtml(s.title).slice(0,24)}</text>`;});
-  const km=stops.slice(1).reduce((sum,s,i)=>sum+haversine(stops[i],s),0); const walkMin=Math.round(km/4.8*60); const visitMin=stops.reduce((sum,s)=>sum+(s.duration||60),0);
+  out+=`<rect x="610" y="300" width="520" height="1000" rx="26" fill="#eaf4fb" stroke="#d3e6f3"/>
+<text x="650" y="345" fill="#082b4c" font-family="Arial" font-size="26" font-weight="900">Tu ruta real por las calles</text>`;
+  const cols=Math.min(tx1-tx0+1,6),rows=Math.min(ty1-ty0+1,8);
+  for(let tx=tx0;tx<tx0+cols;tx++)for(let ty=ty0;ty<ty0+rows;ty++){const src=tileUrl(tx,ty,z);if(src)out+=`<image href="${src}" x="${ox+tx*256*scale}" y="${oy+ty*256*scale}" width="${256*scale}" height="${256*scale}" preserveAspectRatio="none"/>`;}
+  const pts=geo.map(c=>project(c[0],c[1]));
+  if(pts.length>1){const line=pts.map(p=>p.join(',')).join(' ');out+=`<polyline points="${line}" fill="none" stroke="#1769aa" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/><polyline points="${line}" fill="none" stroke="#fff" stroke-width="3" stroke-dasharray="2 14" stroke-linecap="round"/>`;}
+  stops.forEach((s,i)=>{const [x,y2]=project(s.lng,s.lat);out+=`<circle cx="${x}" cy="${y2}" r="23" fill="${DAY_HEX[s.day]||'#1769aa'}" stroke="#fff" stroke-width="5"/><text x="${x}" y="${y2+7}" text-anchor="middle" fill="#fff" font-family="Arial" font-size="18" font-weight="900">${i+1}</text><text x="${x+32}" y="${y2+5}" fill="#082b4c" font-family="Arial" font-size="14" font-weight="800">${escapeHtml(s.title).slice(0,24)}</text>`;});
+  out+=`<rect x="625" y="1260" width="250" height="24" rx="7" fill="#fff" opacity=".92"/><text x="635" y="1277" fill="#51616f" font-family="Arial" font-size="11">© OpenStreetMap contributors</text>`;
+  const km=routeCoords&&routeCoords.length?routeDistance(routeCoords):stops.slice(1).reduce((sum,s,i)=>sum+haversine(stops[i],s),0); const walkMin=Math.round(km/4.8*60); const visitMin=stops.reduce((sum,s)=>sum+(s.duration||60),0);
   let mealCount=0; dayEl.querySelectorAll('.event-title').forEach(e=>{if(/desayuno|almuerzo|comida|cena/i.test(e.textContent))mealCount++;});
   const meals=mealCount?`Comidas planificadas: ${mealCount} · estimación €7–20/persona según comida`:'Sin comida fijada en el itinerario';
   const priced=stops.filter(s=>s.price>0).reduce((a,s)=>a+s.price,0); const priceText=priced?`Entradas añadidas: ~${priced.toFixed(0)} €/persona`:'Entradas: según lugar/reserva';
@@ -1039,10 +1059,11 @@ async function renderDayPosters(){
   document.querySelectorAll('.day').forEach(async dayEl=>{
     const cityKey=dayEl.dataset.city; const date=dayEl.dataset.date; if(!cityKey||!date)return; const dayKey=dateToDayKey(date); const stops=getDayStops(cityKey,dayKey); if(!stops.length)return;
     let poster=dayEl.querySelector('[data-route-poster]'); if(!poster){ poster=document.createElement('div'); poster.dataset.routePoster=''; dayEl.appendChild(poster); }
-    poster.innerHTML='<div class="muted" style="padding:10px">✨ Preparando tu ruta visual…</div>';
+    poster.innerHTML='<div class="muted" style="padding:10px">✨ Calculando ruta real a pie y preparando el póster HQ…</div>';
     const fallback=fallbackPlaceImage(cityKey);
     for(const stop of stops){ if(!stop.image) stop.image=await getPosterImage(stop.title,cityKey,fallback); }
-    const svg=posterSvg(dayEl,stops,cityKey);
+    const routeCoords=await getWalkingRoute(stops);
+    const svg=posterSvg(dayEl,stops,cityKey,routeCoords);
     const route=googleWalkingUrl(stops);
     poster.innerHTML=`<div class="route-poster-wrap">${svg}<div class="poster-actions"><a class="poster-download" href="${route}" target="_blank" rel="noopener" style="text-decoration:none;margin-right:auto">🚶 Ruta a pie en Google Maps</a><button type="button" class="poster-download" data-download-poster="${cityKey}|${date}">⬇️ Descargar HQ</button></div></div>`;
     poster.dataset.svg=svg;
