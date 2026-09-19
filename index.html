@@ -104,17 +104,6 @@ main{max-width:1050px;margin:-28px auto 0;position:relative;z-index:2;padding:0 
   border:1px solid #d2e4f3;border-radius:12px;padding:9px 14px;font-weight:850;
   font-size:13px;margin-bottom:14px;box-shadow:0 2px 8px rgba(8,43,76,.05)
 }
-.city-subnav{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:14px 0}
-.subnav-btn{display:flex;flex-direction:column;align-items:center;gap:7px;background:#fff;
-  border:0;border-radius:16px;padding:14px 4px 12px;color:var(--navy);
-  text-decoration:none;box-shadow:0 3px 10px rgba(8,43,76,.08)}
-.subnav-btn .subnav-icon{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;
-  justify-content:center;font-size:18px;background:#fff;box-shadow:0 2px 6px rgba(8,43,76,.12)}
-.subnav-btn span{font-size:11px;font-weight:800;text-align:center;line-height:1.2}
-.subnav-btn.sn-itinerary{background:linear-gradient(160deg,#e8f1fc,#d7e8fa)}
-.subnav-btn.sn-food{background:linear-gradient(160deg,#fff0e2,#ffe1c7)}
-.subnav-btn.sn-ideas{background:linear-gradient(160deg,#f5edff,#e9d9ff)}
-.subnav-btn.sn-check{background:linear-gradient(160deg,#e6f8ee,#d3f1e0)}
 
 .weather{overflow:hidden}
 .weather-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
@@ -200,6 +189,27 @@ table.balances th{color:var(--muted);font-weight:800;font-size:11px;text-transfo
 .settle-row{display:flex;align-items:center;gap:8px;background:var(--sky);border-radius:12px;padding:11px 14px;margin:8px 0;font-weight:800;font-size:14px}
 
 /* MAPA */
+/* Búsqueda real + menú de ciudad + póster de ruta */
+.city-menu{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin:12px 0 4px}
+.city-menu button{border:1px solid var(--line);background:#fff;color:var(--navy);border-radius:13px;padding:11px 8px;font-weight:850;font-size:12px;box-shadow:0 3px 10px rgba(8,43,76,.05)}
+.city-menu button:active{transform:scale(.98)}
+.search-status{margin-top:10px;font-size:12px}
+.place-results{display:grid;gap:10px;margin-top:12px}
+.place-result{display:grid;grid-template-columns:78px 1fr;gap:11px;padding:10px;border:1px solid var(--line);border-radius:16px;background:#fff;box-shadow:0 4px 14px rgba(8,43,76,.05)}
+.place-result img{width:78px;height:78px;object-fit:cover;border-radius:12px;background:#eaf4fb}
+.place-result h4{margin:0 0 4px;color:var(--navy);font-size:14px}
+.place-result p{margin:0;color:var(--muted);font-size:11px;line-height:1.4}
+.place-result .small-btn{margin-top:7px;border:0;border-radius:10px;background:var(--blue);color:#fff;padding:8px 10px;font-size:11px;font-weight:850}
+.selected-place{margin-top:14px;padding:14px;border-radius:18px;background:linear-gradient(135deg,#eef7fd,#fff);border:1px solid #d8eaf6}
+.selected-place-head{display:flex;gap:12px;align-items:flex-start}.selected-place-head img{width:86px;height:86px;border-radius:14px;object-fit:cover;background:#dfeef8}
+.selected-place h4{margin:0 0 5px;color:var(--navy);font-size:17px}.selected-place .meta{font-size:12px;color:var(--muted);line-height:1.45}
+.place-plan{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}.place-plan label{font-size:11px;font-weight:850;color:var(--navy)}.place-plan input,.place-plan select{width:100%;padding:10px;border:1px solid var(--line);border-radius:10px;background:#fff}
+.day-route-poster{margin-top:18px;padding-top:18px;border-top:1px solid var(--line)}
+.added-tag{display:inline-block;margin-left:5px;padding:2px 6px;border-radius:999px;background:#fff0e8;color:#c94b4b;font-size:9px;font-weight:900;vertical-align:middle}.route-poster-wrap{background:#fff;border-radius:18px;overflow:hidden;border:1px solid #dce8f1;box-shadow:0 10px 30px rgba(8,43,76,.10)}
+.route-poster-svg{display:block;width:100%;height:auto;background:#fff}
+.poster-actions{display:flex;justify-content:flex-end;padding:9px;background:#f7fafc;border-top:1px solid #e1eaf0}.poster-download{border:0;border-radius:10px;background:var(--navy);color:#fff;padding:9px 12px;font-size:12px;font-weight:850}
+@media(max-width:520px){.place-result{grid-template-columns:64px 1fr}.place-result img{width:64px;height:64px}.place-plan{grid-template-columns:1fr}.city-menu button{font-size:11px;padding:10px 6px}}
+
 #leafletMap{width:100%;height:400px;border-radius:20px;overflow:hidden;box-shadow:var(--shadow)}
 .city-toggle{display:flex;gap:8px;margin-bottom:12px}
 .city-toggle button{flex:1;border:1px solid var(--line);background:#fff;border-radius:12px;padding:11px;font-weight:850;color:var(--navy)}
@@ -247,10 +257,9 @@ table.balances th{color:var(--muted);font-weight:800;font-size:11px;text-transfo
 
 <nav class="bottom-nav">
   <button type="button" class="nav-btn active" data-page="home">🏠<span>Inicio</span></button>
-  <button type="button" class="nav-btn" data-page="mapa">🗺️<span>Mapa</span></button>
+  <button type="button" class="nav-btn" data-page="mapa">🗺️<span>Mapas</span></button>
   <button type="button" class="nav-btn" data-page="gastos">💶<span>Gastos</span></button>
   <button type="button" class="nav-btn" data-page="fotos">📸<span>Fotos</span></button>
-  <button type="button" class="nav-btn" data-page="more">☰<span>Más</span></button>
 </nav>
 
 <main>
@@ -259,9 +268,9 @@ table.balances th{color:var(--muted);font-weight:800;font-size:11px;text-transfo
     <div class="section-label">Tu viaje</div>
     <h2 class="section-title">Todo en un solo sitio</h2>
     <div class="quick-grid">
-      <button type="button" class="tile paris" data-go="paris"><span class="big">🇫🇷</span><div class="tile-text"><b>París</b><small>Itinerario · tiempo · rutas</small></div></button>
-      <button type="button" class="tile cph" data-go="cph"><span class="big">🇩🇰</span><div class="tile-text"><b>Copenhague</b><small>Itinerario · tiempo · rutas</small></div></button>
-      <button type="button" class="tile docs" data-go="docshub" style="grid-column:1 / -1"><span class="big">🪪</span><div class="tile-text"><b>Documentación</b><small>Vuelos · DNI · reservas</small></div></button>
+      <button type="button" class="tile paris" data-go="paris"><span class="big">🇫🇷</span><div class="tile-text"><b>París</b><small>Itinerario · Comer · Ideas · Checklist</small></div></button>
+      <button type="button" class="tile cph" data-go="cph"><span class="big">🇩🇰</span><div class="tile-text"><b>Copenhague</b><small>Itinerario · Comer · Ideas · Checklist</small></div></button>
+      <button type="button" class="tile docs" data-go="documents"><span class="big">📁</span><div class="tile-text"><b>Documentación</b><small>Vuelos · DNIs · Drive</small></div></button>
     </div>
   </div>
 
@@ -290,14 +299,14 @@ table.balances th{color:var(--muted);font-weight:800;font-size:11px;text-transfo
 <section id="paris" class="page">
   <button type="button" class="back-btn" data-go="home">← Volver al inicio</button>
   <div class="page-hero paris-hero"><span class="flag">🇫🇷</span><div><h2>París</h2><p>3–5 diciembre · Adrián + Elia</p></div></div>
-  <div class="city-subnav">
-    <a href="#paris-itinerario" class="subnav-btn sn-itinerary"><span class="subnav-icon">📅</span><span>Itinerario</span></a>
-    <button type="button" class="subnav-btn sn-food" data-go="recommendations" data-filter-on-open="food"><span class="subnav-icon">🍽️</span><span>Comer</span></button>
-    <button type="button" class="subnav-btn sn-ideas" data-go="recommendations" data-filter-on-open="paris"><span class="subnav-icon">💡</span><span>Recomendaciones</span></button>
-    <button type="button" class="subnav-btn sn-check" data-go="checklist" data-checklist-city="París"><span class="subnav-icon">✅</span><span>Checklist</span></button>
+  <div class="city-menu">
+    <button type="button" data-city-jump="paris-itinerary">📅 Itinerario</button>
+    <button type="button" data-city-jump="paris-food">🍴 Comer</button>
+    <button type="button" data-go="recommendations" data-filter-on-open="paris">⭐ Recomendaciones</button>
+    <button type="button" data-go="checklist">✅ Checklist</button>
   </div>
 
-  <div class="day" id="paris-itinerario"><div class="day-head"><h3>Jueves 3 · Centro histórico & Montmartre</h3><span class="day-badge">Adrián + Elia</span></div><div class="timeline">
+  <div class="day"><div class="day-head"><h3>Jueves 3 · Centro histórico & Montmartre</h3><span class="day-badge">Adrián + Elia</span></div><div class="timeline">
     <article><time>08:00</time><div><div class="event-title">Levantarse</div><p>Prepararse y salir con calma.</p></div></article>
     <article><time>08:15–09:00</time><div><div class="event-title">🥐 Desayuno</div><p>Desayuno antes de comenzar el viaje.</p></div></article>
     <article><time>09:10</time><div><div class="event-title">🚗 Parking · Aeropuerto de Sevilla</div><p>📍 Aeropuerto de Sevilla (SVQ)</p><a class="maps" target="_blank" rel="noopener" href="https://maps.google.com/?q=Aeropuerto+de+Sevilla+SVQ">📍 Abrir en Maps</a></div></article>
@@ -334,14 +343,14 @@ table.balances th{color:var(--muted);font-weight:800;font-size:11px;text-transfo
 <section id="cph" class="page">
   <button type="button" class="back-btn" data-go="home">← Volver al inicio</button>
   <div class="page-hero cph-hero"><span class="flag">🇩🇰</span><div><h2>Copenhague</h2><p>5–8 diciembre · sábado noche en adelante, los 5 juntos</p></div></div>
-  <div class="city-subnav">
-    <a href="#cph-itinerario" class="subnav-btn sn-itinerary"><span class="subnav-icon">📅</span><span>Itinerario</span></a>
-    <button type="button" class="subnav-btn sn-food" data-go="recommendations" data-filter-on-open="food"><span class="subnav-icon">🍽️</span><span>Comer</span></button>
-    <button type="button" class="subnav-btn sn-ideas" data-go="recommendations" data-filter-on-open="cph"><span class="subnav-icon">💡</span><span>Recomendaciones</span></button>
-    <button type="button" class="subnav-btn sn-check" data-go="checklist" data-checklist-city="Copenhague"><span class="subnav-icon">✅</span><span>Checklist</span></button>
+  <div class="city-menu">
+    <button type="button" data-city-jump="cph-itinerary">📅 Itinerario</button>
+    <button type="button" data-city-jump="cph-food">🍴 Comer</button>
+    <button type="button" data-go="recommendations" data-filter-on-open="cph">⭐ Recomendaciones</button>
+    <button type="button" data-go="checklist">✅ Checklist</button>
   </div>
 
-  <div class="day" id="cph-itinerario"><div class="day-head"><h3>Sábado 5 · Llegada & encuentro</h3><span class="day-badge">Adrián + Elia → 5</span></div><div class="timeline">
+  <div class="day"><div class="day-head"><h3>Sábado 5 · Llegada & encuentro</h3><span class="day-badge">Adrián + Elia → 5</span></div><div class="timeline">
     <article><time>15:20</time><div><div class="event-title">🛬 Llegada a CPH</div><p>📍 Copenhagen Airport</p><a class="maps" target="_blank" rel="noopener" href="https://maps.google.com/?q=Copenhagen+Airport">📍 Maps</a></div></article>
     <article><time>21:50</time><div><div class="event-title">🤝 Encuentro del grupo</div><p>📍 Copenhagen Central Station</p><a class="maps" target="_blank" rel="noopener" href="https://maps.google.com/?q=Copenhagen+Central+Station">📍 Maps</a></div></article>
   </div><a class="route" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/Copenhagen+Airport/Copenhagen+Central+Station">🗺️ Ver ruta del sábado</a></div>
@@ -389,11 +398,6 @@ table.balances th{color:var(--muted);font-weight:800;font-size:11px;text-transfo
   <button type="button" class="back-btn" data-go="home">← Volver al inicio</button>
   <div class="card" style="margin-top:0"><div class="section-label">Plan de viaje</div><h2 class="section-title">✅ Checklist</h2>
     <p class="muted">Aquí no se trata de quién ha estado: vais juntos. Es una lista compartida de sitios que queréis visitar o que habéis añadido al viaje.</p>
-  </div>
-  <div class="filters">
-    <button type="button" class="filter active" data-checklist-filter="all">Todos</button>
-    <button type="button" class="filter" data-checklist-filter="París">🇫🇷 París</button>
-    <button type="button" class="filter" data-checklist-filter="Copenhague">🇩🇰 Copenhague</button>
   </div>
   <div id="checklistItems" class="check-grid"></div>
 </section>
@@ -461,27 +465,27 @@ table.balances th{color:var(--muted);font-weight:800;font-size:11px;text-transfo
   </div>
   <div id="recommendationItems"></div>
 
-  <div class="card">
-    <h3>➕ ¿No está en la lista?</h3>
-    <p class="muted">Propón cualquier otro sitio que se te ocurra, aunque no esté entre las ideas de arriba. Pasará a Cambios pendientes, igual que las demás.</p>
+  <div class="card search-place-card">
+    <div class="section-label">Búsqueda real</div>
+    <h3>➕ Buscar y añadir un sitio</h3>
+    <p class="muted">Escribe lo que buscas y la app consultará lugares reales de la ciudad. Por ejemplo: <strong>Mercado navideño</strong>, restaurante italiano, museo, mirador…</p>
     <div class="form-grid">
       <div>
-        <label>Nombre del lugar</label>
-        <input type="text" id="ownPlaceTitle" placeholder="Ej. Museo Rodin">
+        <label>¿Qué buscas?</label>
+        <input type="text" id="ownPlaceTitle" placeholder="Ej. Mercado navideño">
       </div>
       <div>
         <label>Ciudad</label>
         <select id="ownPlaceCity">
-          <option value="París">🇫🇷 París</option>
-          <option value="Copenhague">🇩🇰 Copenhague</option>
+          <option value="paris">🇫🇷 París</option>
+          <option value="cph" selected>🇩🇰 Copenhague</option>
         </select>
       </div>
-      <div>
-        <label>Nota u horario que propones (opcional)</label>
-        <input type="text" id="ownPlaceNote" placeholder="Ej. Viernes por la mañana, antes de comer">
-      </div>
-      <button type="button" class="btn-primary" id="addOwnPlaceBtn">Proponer este lugar</button>
+      <button type="button" class="btn-primary" id="searchPlaceBtn">🔎 Buscar lugares reales</button>
     </div>
+    <div id="placeSearchStatus" class="muted search-status"></div>
+    <div id="placeSearchResults" class="place-results"></div>
+    <div id="selectedPlacePanel" class="selected-place hidden"></div>
   </div>
 </section>
 
@@ -493,19 +497,8 @@ table.balances th{color:var(--muted);font-weight:800;font-size:11px;text-transfo
   <div id="proposalList"></div>
 </section>
 
-<section id="docshub" class="page">
-  <button type="button" class="back-btn" data-go="home">← Volver al inicio</button>
-  <div class="card" style="margin-top:0"><div class="section-label">Accesos generales</div><h2 class="section-title">🪪 Documentación</h2>
-    <p class="muted">Horarios de vuelo y toda la documentación del viaje en un mismo sitio.</p>
-    <div class="quick-list" style="display:flex;flex-direction:column;gap:10px;margin-top:14px">
-      <button type="button" class="back-btn" style="width:100%;justify-content:flex-start;margin:0" data-go="flights">✈️ Vuelos</button>
-      <button type="button" class="back-btn" style="width:100%;justify-content:flex-start;margin:0" data-go="documents">🪪 Documentación / DNI</button>
-    </div>
-  </div>
-</section>
-
 <section id="flights" class="page">
-  <button type="button" class="back-btn" data-go="docshub">← Volver a Documentación</button>
+  <button type="button" class="back-btn" data-go="home">← Volver al inicio</button>
   <div class="card" style="margin-top:0"><div class="section-label">Horarios de vuelo</div><h2 class="section-title">✈️ Vuelos</h2>
     <div class="notice">Adrián + Elia realizan los 3 vuelos. Los otros 3 acompañantes realizan Sevilla → Copenhague y Copenhague → Sevilla.</div>
     <div class="card" style="box-shadow:none;border:1px solid var(--line)">
@@ -522,7 +515,7 @@ table.balances th{color:var(--muted);font-weight:800;font-size:11px;text-transfo
 </section>
 
 <section id="documents" class="page">
-  <button type="button" class="back-btn" data-go="docshub">← Volver a Documentación</button>
+  <button type="button" class="back-btn" data-go="home">← Volver al inicio</button>
   <div class="card" style="margin-top:0"><div class="section-label">Viajes y documentación</div><h2 class="section-title">📁 Documentos</h2>
     <a class="drive" target="_blank" rel="noopener" href="https://drive.google.com/drive/folders/1jndItgl6xKmN5lNCmrHJjvqL7ODoAbhK"><span class="drive-icon">📁</span><span><b>Documentación de vuelos en Drive</b><small>Billetes, check-in, asientos y documentación</small></span></a>
     <a class="drive" target="_blank" rel="noopener" href="https://drive.google.com/drive/folders/13M3lATcBNvRxqvdg0Q4YJj7QwcJ7PeOT"><span class="drive-icon">🪪</span><span><b>DNIs en Drive</b><small>La aplicación no muestra ni almacena aquí los datos de los documentos</small></span></a>
@@ -533,13 +526,13 @@ table.balances th{color:var(--muted);font-weight:800;font-size:11px;text-transfo
 <section id="fotos" class="page">
   <button type="button" class="back-btn" data-go="home">← Volver al inicio</button>
   <div class="card" style="margin-top:0"><div class="section-label">Recuerdos del viaje</div><h2 class="section-title">📸 Fotos</h2>
-    <p class="muted">Cada uno tiene su carpeta, pero al ser todas compartidas, podéis entrar en la de cualquiera para subir vuestras fotos o ver las que ya haya subido esa persona. Al final del viaje se pueden mezclar todas para hacer el resumen.</p>
-    <a class="drive" target="_blank" rel="noopener" href="https://drive.google.com/drive/folders/1BhXOAwgOBkVhJf5X5k92FlmwEBu5ZndE"><span class="drive-icon">📸</span><span><b>Adrián</b><small>Subir y ver fotos</small></span></a>
-    <a class="drive" target="_blank" rel="noopener" href="https://drive.google.com/drive/folders/1ewU3jIZdfxsq8HAJfNWr3GGr_zzXNL2W"><span class="drive-icon">📸</span><span><b>Elia</b><small>Subir y ver fotos</small></span></a>
-    <a class="drive" target="_blank" rel="noopener" href="https://drive.google.com/drive/folders/1XaiFiCYMkx1ZvdS0ej-xLc57Lwej1AD0"><span class="drive-icon">📸</span><span><b>Marina</b><small>Subir y ver fotos</small></span></a>
-    <a class="drive" target="_blank" rel="noopener" href="https://drive.google.com/drive/folders/1s4LKOhIbIIBw_KxoBu8EathnG3LeuoO0"><span class="drive-icon">📸</span><span><b>Irene</b><small>Subir y ver fotos</small></span></a>
-    <a class="drive" target="_blank" rel="noopener" href="https://drive.google.com/drive/folders/1uZebcqcj3nnsJmMGiPHyut9KO1xuAty4"><span class="drive-icon">📸</span><span><b>Juan Carlos</b><small>Subir y ver fotos</small></span></a>
-    <div class="notice">Al abrir el enlace verás las fotos que ya haya ahí. Para añadir las tuyas, usa el botón "+" o "Subir" dentro de la app de Drive.</div>
+    <p class="muted">Cada uno sube sus fotos a su propia carpeta. Al final del viaje se pueden mezclar todas para hacer el resumen.</p>
+    <a class="drive" target="_blank" rel="noopener" href="https://drive.google.com/drive/folders/1BhXOAwgOBkVhJf5X5k92FlmwEBu5ZndE"><span class="drive-icon">📸</span><span><b>Adrián</b><small>Subir mis fotos</small></span></a>
+    <a class="drive" target="_blank" rel="noopener" href="https://drive.google.com/drive/folders/1ewU3jIZdfxsq8HAJfNWr3GGr_zzXNL2W"><span class="drive-icon">📸</span><span><b>Elia</b><small>Subir mis fotos</small></span></a>
+    <a class="drive" target="_blank" rel="noopener" href="https://drive.google.com/drive/folders/1XaiFiCYMkx1ZvdS0ej-xLc57Lwej1AD0"><span class="drive-icon">📸</span><span><b>Marina</b><small>Subir mis fotos</small></span></a>
+    <a class="drive" target="_blank" rel="noopener" href="https://drive.google.com/drive/folders/1s4LKOhIbIIBw_KxoBu8EathnG3LeuoO0"><span class="drive-icon">📸</span><span><b>Irene</b><small>Subir mis fotos</small></span></a>
+    <a class="drive" target="_blank" rel="noopener" href="https://drive.google.com/drive/folders/1uZebcqcj3nnsJmMGiPHyut9KO1xuAty4"><span class="drive-icon">📸</span><span><b>Juan Carlos</b><small>Subir mis fotos</small></span></a>
+    <div class="notice">Al abrir el enlace, usa el botón "+" o "Subir" dentro de la app de Drive para añadir tus fotos directamente desde el móvil.</div>
   </div>
 </section>
 
@@ -547,10 +540,11 @@ table.balances th{color:var(--muted);font-weight:800;font-size:11px;text-transfo
   <button type="button" class="back-btn" data-go="home">← Volver al inicio</button>
   <div class="card" style="margin-top:0"><div class="section-label">Más</div><h2 class="section-title">☰ Apartados</h2>
     <div class="quick-list" style="display:flex;flex-direction:column;gap:10px;margin-top:14px">
-      <button type="button" class="back-btn" style="width:100%;justify-content:flex-start;margin:0" data-go="checklist">✅ Checklist</button>
       <button type="button" class="back-btn" style="width:100%;justify-content:flex-start;margin:0" data-go="recommendations">⭐ Ideas</button>
       <button type="button" class="back-btn" style="width:100%;justify-content:flex-start;margin:0" data-go="proposals">🔔 Cambios pendientes</button>
-      <button type="button" class="back-btn" style="width:100%;justify-content:flex-start;margin:0" data-go="docshub">🪪 Documentación</button>
+      <button type="button" class="back-btn" style="width:100%;justify-content:flex-start;margin:0" data-go="flights">✈️ Vuelos</button>
+      <button type="button" class="back-btn" style="width:100%;justify-content:flex-start;margin:0" data-go="documents">📁 Documentos</button>
+      <button type="button" class="back-btn" style="width:100%;justify-content:flex-start;margin:0" data-go="fotos">📸 Fotos</button>
       <button type="button" class="back-btn" style="width:100%;justify-content:flex-start;margin:0" data-go="ajustes">⚙️ Nombres de los 5 viajeros</button>
     </div>
   </div>
@@ -684,7 +678,9 @@ const DEFAULT_NAMES=["Adrián","Elia","Marina","Irene","Juan Carlos"];
 /* ============ ESTADO LOCAL (fallback sin conexión / sin Firebase) ============ */
 let checked=JSON.parse(localStorage.getItem("travel_checklist")||"{}");
 let pending=JSON.parse(localStorage.getItem("travel_pending")||"[]");
+let tripAdditions=JSON.parse(localStorage.getItem("travel_additions")||"[]");
 let expenses=JSON.parse(localStorage.getItem("travel_expenses")||"[]");
+let selectedSearchPlace=null;
 let travelerNames=JSON.parse(localStorage.getItem("travel_names")||"null")||DEFAULT_NAMES.slice();
 let filter="all";
 let mapCity="paris";
@@ -710,6 +706,7 @@ function showPage(id, pushState = true){
     }catch(err){ /* file:// u orígenes restringidos: ignoramos, la página ya ha cambiado visualmente */ }
   }
   if(id==="mapa") setTimeout(initMapIfNeeded,60);
+  if(id==="paris"||id==="cph") setTimeout(()=>{renderAddedItineraries();renderDayPosters();},80);
 }
 
 window.addEventListener('popstate', (e) => {
@@ -743,31 +740,17 @@ document.addEventListener("click",e=>{
     if(nav.dataset.filterOnOpen){
       filter=nav.dataset.filterOnOpen;
       setTimeout(()=>{
-        document.querySelectorAll(".filter[data-filter]").forEach(x=>x.classList.toggle("active",x.dataset.filter===filter));
+        document.querySelectorAll(".filter").forEach(x=>x.classList.toggle("active",x.dataset.filter===filter));
         renderRecs();
-      },0);
-    }
-    if(nav.dataset.checklistCity){
-      checklistCityFilter=nav.dataset.checklistCity;
-      setTimeout(()=>{
-        document.querySelectorAll("[data-checklist-filter]").forEach(x=>x.classList.toggle("active",x.dataset.checklistFilter===checklistCityFilter));
-        renderChecklist();
       },0);
     }
     return;
   }
   const ck=e.target.closest("[data-check]");
   if(ck){
-    const i=ck.dataset.check;
-    checked["c"+i]=ck.checked;
+    const key=ck.dataset.check;
+    checked[key]=ck.checked;
     saveChecklist();
-    renderChecklist();
-    return;
-  }
-  const clf=e.target.closest("[data-checklist-filter]");
-  if(clf){
-    checklistCityFilter=clf.dataset.checklistFilter==="all"?null:clf.dataset.checklistFilter;
-    document.querySelectorAll("[data-checklist-filter]").forEach(x=>x.classList.toggle("active",x===clf));
     renderChecklist();
     return;
   }
@@ -787,14 +770,31 @@ document.addEventListener("click",e=>{
   }
   const ap=e.target.closest("[data-approve]");
   if(ap){
-    removePending(+ap.dataset.approve);
-    toast("Cambio aceptado");
+    approvePending(+ap.dataset.approve);
     return;
   }
   const re=e.target.closest("[data-reject]");
   if(re){
-    removePending(+re.dataset.reject);
-    toast("Propuesta rechazada");
+    rejectPending(+re.dataset.reject);
+    return;
+  }
+  const selectPlace=e.target.closest("[data-select-place]");
+  if(selectPlace){
+    selectSearchPlace(+selectPlace.dataset.selectPlace);
+    return;
+  }
+  const cityJump=e.target.closest("[data-city-jump]");
+  if(cityJump){
+    const target=cityJump.dataset.cityJump;
+    const [city,kind]=target.split('-');
+    const page=document.getElementById(city);
+    if(page){
+      showPage(city);
+      setTimeout(()=>{
+        if(kind==='itinerary') page.querySelector('.day')?.scrollIntoView({behavior:'smooth',block:'start'});
+        if(kind==='food'){ const el=[...page.querySelectorAll('.event-title')].find(x=>/desayuno|almuerzo|comida|cena/i.test(x.textContent)); if(el) el.scrollIntoView({behavior:'smooth',block:'center'}); }
+      },60);
+    }
     return;
   }
   const delExp=e.target.closest("[data-del-exp]");
@@ -822,17 +822,22 @@ document.addEventListener("click",e=>{
 });
 
 /* ============ CHECKLIST ============ */
-let checklistCityFilter=null;
 function renderChecklist(){
   const c=document.getElementById("checklistItems");
   if(!c)return;
   c.innerHTML="";
   checklist.forEach((x,i)=>{
-    if(checklistCityFilter && x[1]!==checklistCityFilter) return;
-    const on=!!checked["c"+i];
+    const key="c"+i; const on=!!checked[key];
     c.insertAdjacentHTML("beforeend",`<label class="check-item ${on?"done":""}">
-      <input type="checkbox" data-check="${i}" ${on?"checked":""}>
+      <input type="checkbox" data-check="${key}" ${on?"checked":""}>
       <span>${x[0]}<small>📍 ${x[1]} · <a href="${x[2]}" target="_blank" rel="noopener">Ver ubicación en Maps</a></small></span>
+    </label>`);
+  });
+  tripAdditions.forEach((a,i)=>{
+    const key="add-"+(a.id||i); const on=!!checked[key];
+    c.insertAdjacentHTML("beforeend",`<label class="check-item ${on?"done":""}">
+      <input type="checkbox" data-check="${key}" ${on?"checked":""}>
+      <span>⭐ ${escapeHtml(a.title)} <small>📍 ${escapeHtml(a.loc||a.cityLabel||'')} · <a href="${a.map}" target="_blank" rel="noopener">Ver ubicación en Maps</a> · <strong>AÑADIDO POSTERIORMENTE</strong></small></span>
     </label>`);
   });
 }
@@ -841,7 +846,7 @@ function saveChecklist(){
   syncSet("checklist","state",checked);
 }
 
-/* ============ RECOMENDACIONES ============ */
+/* ============ RECOMENDACIONES + BÚSQUEDA REAL ============ */
 let recSearch="";
 function renderRecs(){
   const c=document.getElementById("recommendationItems");
@@ -851,43 +856,209 @@ function renderRecs(){
   const filtered=recs.filter(r=>filter==="all"||r.city===filter||r.type===filter)
     .filter(r=>!q || (r.title+" "+r.loc).toLowerCase().includes(q));
   if(!filtered.length){
-    c.innerHTML='<div class="card"><p class="muted">No hay ninguna idea que coincida. Prueba a cambiar el filtro o propón el sitio tú mismo aquí abajo. 👇</p></div>';
+    c.innerHTML='<div class="card"><p class="muted">No hay ninguna idea que coincida. Usa la búsqueda real de abajo para encontrar cualquier sitio.</p></div>';
     return;
   }
   filtered.forEach(r=>{
     c.insertAdjacentHTML("beforeend",`<article class="rec">
       <h3>${r.title}</h3>
       <div class="meta">📍 ${r.loc}<br>💶 ${r.price} · ⏱️ ${r.time}<br>💡 ${r.why}<br>🗓️ <strong>Momento sugerido:</strong> ${r.suggest}</div>
-      <div class="actions"><button type="button" class="add" data-rec="${r.id}">☑️ Añadir al Checklist</button><a class="map-link" href="${r.map}" target="_blank" rel="noopener">🗺️ Maps</a></div>
+      <div class="actions"><button type="button" class="add" data-rec="${r.id}">☑️ Proponer</button><a class="map-link" href="${r.map}" target="_blank" rel="noopener">🗺️ Maps</a></div>
     </article>`);
   });
 }
+
 document.addEventListener("input",e=>{
   if(e.target.id==="recSearch"){
     recSearch=e.target.value;
     renderRecs();
   }
 });
-function addOwnPlace(){
-  const title=document.getElementById("ownPlaceTitle").value.trim();
-  const city=document.getElementById("ownPlaceCity").value;
-  const note=document.getElementById("ownPlaceNote").value.trim();
-  if(!title){ toast("Escribe el nombre del lugar"); return; }
-  const place={
-    title,
-    loc:city,
-    suggest: note || "Por decidir",
-    map:"https://maps.google.com/?q="+encodeURIComponent(title+" "+city)
-  };
+
+const SEARCH_CITIES={
+  paris:{label:'París',lat:48.8566,lon:2.3522,country:'France'},
+  cph:{label:'Copenhague',lat:55.6761,lon:12.5683,country:'Denmark'}
+};
+const SEARCH_TRANSLATIONS={
+  'mercado navideño':'Christmas market','mercados navideños':'Christmas markets','restaurante':'restaurant','restaurantes':'restaurants',
+  'museo':'museum','museos':'museums','mirador':'viewpoint','miradores':'viewpoints','parque':'park','parques':'parks',
+  'iglesia':'church','castillo':'castle','palacio':'palace','mercado':'market','cafetería':'cafe','cafeteria':'cafe','bar':'bar',
+  'tienda':'shop','tiendas':'shops','foto':'photo spot','fotografía':'photo spot','jardín':'garden','jardin':'garden'
+};
+let livePlaceResults=[];
+function normalizeSearch(q){
+  const k=q.trim().toLowerCase();
+  return SEARCH_TRANSLATIONS[k] || q;
+}
+function escapeHtml(v){return String(v||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));}
+async function searchCommonsImage(title,city){
+  try{
+    const q=encodeURIComponent(`${title} ${city}`);
+    const url=`https://commons.wikimedia.org/w/api.php?action=query&generator=search&gsrsearch=${q}&gsrnamespace=6&gsrlimit=1&prop=imageinfo&iiprop=url&iiurlwidth=600&format=json&formatversion=2&origin=*`;
+    const r=await fetch(url); const d=await r.json();
+    return d.query?.pages?.[0]?.imageinfo?.[0]?.thumburl || d.query?.pages?.[0]?.imageinfo?.[0]?.url || '';
+  }catch(e){return '';}
+}
+function fallbackPlaceImage(city){
+  return city==='cph'
+    ? 'https://images.unsplash.com/photo-1513622470522-26c3c8a854bc?w=700&auto=format&fit=crop&q=85'
+    : 'https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=700&auto=format&fit=crop&q=85';
+}
+function featureToPlace(f,cityKey){
+  const p=f.properties||{}; const [lon,lat]=f.geometry?.coordinates||[];
+  if(!lat||!lon) return null;
+  const city=SEARCH_CITIES[cityKey];
+  const name=p.name || p.street || 'Lugar sin nombre';
+  const address=[p.street,p.housenumber,p.city,p.postcode].filter(Boolean).join(', ') || city.label;
+  const type=[p.osm_value,p.type,p.osm_key].filter(Boolean).join(' · ');
+  return {id:`search-${cityKey}-${lat}-${lon}-${name}` ,title:name,city:cityKey,cityLabel:city.label,loc:address,lat,lng:lon,type, map:`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(name+' '+address)}`,image:f.image||'',source:'Photon / OpenStreetMap'};
+}
+async function searchRealPlaces(){
+  const q=document.getElementById('ownPlaceTitle').value.trim();
+  const cityKey=document.getElementById('ownPlaceCity').value;
+  const status=document.getElementById('placeSearchStatus');
+  const results=document.getElementById('placeSearchResults');
+  const selected=document.getElementById('selectedPlacePanel');
+  if(!q){toast('Escribe qué quieres buscar');return;}
+  selected.classList.add('hidden'); selected.innerHTML=''; selectedSearchPlace=null;
+  results.innerHTML=''; status.textContent='🔎 Buscando lugares reales…';
+  const city=SEARCH_CITIES[cityKey];
+  const queries=[`${q}, ${city.label}`,`${normalizeSearch(q)}, ${city.label}`];
+  try{
+    const responses=await Promise.all(queries.map(query=>fetch(`https://photon.komoot.io/api/?q=${encodeURIComponent(query)}&limit=8&lat=${city.lat}&lon=${city.lon}&lang=es`).then(r=>r.json())));
+    const all=[]; const seen=new Set();
+    responses.flatMap(x=>x.features||[]).forEach(f=>{
+      const place=featureToPlace(f,cityKey); if(!place)return;
+      const key=(place.title+'|'+place.lat.toFixed(5)+'|'+place.lng.toFixed(5)).toLowerCase();
+      if(!seen.has(key)){seen.add(key);all.push(place);}
+    });
+    livePlaceResults=all.slice(0,8);
+    if(!livePlaceResults.length){
+      status.textContent='No he encontrado coincidencias claras. Prueba con otra palabra, por ejemplo "Christmas market".';
+      return;
+    }
+    status.textContent=`${livePlaceResults.length} resultados encontrados en ${city.label}`;
+    results.innerHTML=livePlaceResults.map((p,i)=>`<div class="place-result"><img id="place-img-${i}" src="${fallbackPlaceImage(cityKey)}" alt=""><div><h4>${escapeHtml(p.title)}</h4><p>📍 ${escapeHtml(p.loc)}${p.type?`<br>🏷️ ${escapeHtml(p.type)}`:''}</p><button type="button" class="small-btn" data-select-place="${i}">Seleccionar este sitio</button></div></div>`).join('');
+    livePlaceResults.forEach(async(p,i)=>{const img=await searchCommonsImage(p.title,city.label); if(img){p.image=img; const el=document.getElementById(`place-img-${i}`); if(el)el.src=img;}});
+  }catch(err){
+    status.textContent='No se pudo consultar el buscador ahora. Comprueba la conexión e inténtalo de nuevo.';
+  }
+}
+function selectSearchPlace(index){
+  const p=livePlaceResults[index]; if(!p)return;
+  selectedSearchPlace=p;
+  const dates=p.city==='paris' ? [['','Sin fecha todavía'],['2026-12-03','Jueves 3'],['2026-12-04','Viernes 4'],['2026-12-05','Sábado 5']] : [['','Sin fecha todavía'],['2026-12-05','Sábado 5'],['2026-12-06','Domingo 6'],['2026-12-07','Lunes 7'],['2026-12-08','Martes 8']];
+  document.getElementById('selectedPlacePanel').classList.remove('hidden');
+  document.getElementById('selectedPlacePanel').innerHTML=`<div class="selected-place-head"><img src="${p.image||fallbackPlaceImage(p.city)}" alt=""><div><h4>${escapeHtml(p.title)}</h4><div class="meta">📍 ${escapeHtml(p.loc)}<br>🔎 Lugar real encontrado en ${escapeHtml(p.cityLabel)}<br><a href="${p.map}" target="_blank" rel="noopener">Abrir ubicación en Google Maps →</a></div></div></div><div class="place-plan"><div><label>📅 ¿Cuándo quieres ir? (opcional)</label><select id="placeDate">${dates.map(x=>`<option value="${x[0]}">${x[1]}</option>`).join('')}</select></div><div><label>🕐 Hora (opcional)</label><input type="time" id="placeTime"></div><div><label>⏱️ Tiempo de visita</label><select id="placeDuration"><option value="30">30 min</option><option value="45">45 min</option><option value="60" selected>1 h</option><option value="90">1 h 30 min</option><option value="120">2 h</option></select></div><div><label>💶 Precio por persona (opcional)</label><input type="number" id="placePrice" min="0" step="0.5" placeholder="0"></div></div><button type="button" class="btn-primary" id="addOwnPlaceBtn" style="margin-top:12px">⭐ Proponer este sitio</button>`;
+  document.getElementById('selectedPlacePanel').scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+function proposeSelectedPlace(){
+  if(!selectedSearchPlace){toast('Selecciona primero un lugar');return;}
+  const date=document.getElementById('placeDate')?.value||'';
+  const time=document.getElementById('placeTime')?.value||'';
+  const duration=Number(document.getElementById('placeDuration')?.value||60);
+  const price=Number(document.getElementById('placePrice')?.value||0);
+  const dayKey=dateToDayKey(date);
+  const place={...selectedSearchPlace,date,time,duration,price,day:dayKey,suggest:date?(time||'Horario pendiente'):'Por decidir'};
   addPending(place);
-  document.getElementById("ownPlaceTitle").value="";
-  document.getElementById("ownPlaceNote").value="";
-  toast("Propuesta enviada para aprobación");
+  document.getElementById('selectedPlacePanel').classList.add('hidden');
+  document.getElementById('selectedPlacePanel').innerHTML='';
+  selectedSearchPlace=null;
+  document.getElementById('ownPlaceTitle').value='';
+  document.getElementById('placeSearchResults').innerHTML='';
+  document.getElementById('placeSearchStatus').textContent='';
+  toast(date?'Propuesta enviada con el día indicado':'Propuesta enviada; el día se puede decidir después');
+}
+
+function dateToDayKey(date){
+  return ({'2026-12-03':'jue','2026-12-04':'vie','2026-12-05':'sab','2026-12-06':'dom','2026-12-07':'lun','2026-12-08':'mar'})[date]||'';
+}
+function saveAdditions(){localStorage.setItem('travel_additions',JSON.stringify(tripAdditions));syncSet('additions','list',tripAdditions);}
+function dayLabel(date){return new Date(date+'T12:00:00').toLocaleDateString('es-ES',{weekday:'long',day:'numeric',month:'long'});}
+function durationLabel(min){return min>=60?`${Math.floor(min/60)} h${min%60?` ${min%60} min`:''}`:`${min} min`;}
+function cityKeyForSection(section){return section==='paris'?'paris':'cph';}
+function timeToMinutes(t){const m=String(t||'').match(/(\d{1,2}):(\d{2})/);return m?(+m[1])*60+(+m[2]):9999;}
+function getDayStops(cityKey,dayKey){
+  const base=(mapStops[cityKey]||[]).filter(s=>s.day===dayKey).map(s=>({...s,added:false,duration:s.duration||60,price:s.price||0}));
+  const extra=tripAdditions.filter(a=>a.city===cityKey&&a.day===dayKey).map((a,i)=>({day:dayKey,label:dayLabel(a.date),order:base.length+i+1,title:a.title,time:a.time||'Horario pendiente',lat:a.lat,lng:a.lng,map:a.map,duration:a.duration||60,price:a.price||0,added:true,image:a.image||''}));
+  const all=base.concat(extra).sort((a,b)=>timeToMinutes(a.time)-timeToMinutes(b.time));
+  return all.map((x,i)=>({...x,order:i+1}));
+}
+function initDynamicDayMeta(){
+  [['paris',['2026-12-03','2026-12-04','2026-12-05']],['cph',['2026-12-05','2026-12-06','2026-12-07','2026-12-08']]].forEach(([city,dates])=>{
+    const page=document.getElementById(city); if(!page)return;
+    [...page.querySelectorAll('.day')].forEach((day,i)=>{ if(dates[i]){day.dataset.date=dates[i];day.dataset.city=city;} });
+  });
+}
+function renderAddedItineraries(){
+  initDynamicDayMeta();
+  document.querySelectorAll('.timeline .added-event').forEach(x=>x.remove());
+  tripAdditions.filter(a=>a.date).forEach(a=>{
+    const timeline=document.querySelector(`.day[data-date="${a.date}"] .timeline`); if(!timeline)return;
+    const article=document.createElement('article'); article.className='added-event';
+    article.innerHTML=`<time>${escapeHtml(a.time||'Horario pendiente')}</time><div><div class="event-title">⭐ ${escapeHtml(a.title)} <span class="added-tag">AÑADIDO POSTERIORMENTE</span></div><p>📍 ${escapeHtml(a.loc||a.cityLabel)} · ⏱️ ${durationLabel(a.duration||60)}${a.price?` · 💶 ${a.price} €/persona`:''}</p></div>`;
+    const existing=[...timeline.querySelectorAll('article:not(.added-event)')];
+    const before=existing.find(x=>timeToMinutes(x.querySelector('time')?.textContent)>timeToMinutes(a.time));
+    timeline.insertBefore(article,before||null);
+  });
+}
+function haversine(a,b){const R=6371,la1=a.lat*Math.PI/180,la2=b.lat*Math.PI/180,dla=(b.lat-a.lat)*Math.PI/180,dlo=(b.lng-a.lng)*Math.PI/180;const x=Math.sin(dla/2)**2+Math.cos(la1)*Math.cos(la2)*Math.sin(dlo/2)**2;return R*2*Math.atan2(Math.sqrt(x),Math.sqrt(1-x));}
+function googleWalkingUrl(stops){
+  if(!stops.length)return '#';
+  const q=x=>encodeURIComponent(x.title);
+  const origin=q(stops[0]); const destination=q(stops[stops.length-1]);
+  const waypoints=stops.slice(1,-1).map(q).join('%7C');
+  return `https://www.google.com/maps/dir/?api=1&origin=${origin}&destination=${destination}&travelmode=walking${waypoints?`&waypoints=${waypoints}`:''}`;
+}
+async function getPosterImage(title,cityKey,fallback){
+  const add=tripAdditions.find(a=>a.title===title&&a.city===cityKey&&a.image); if(add)return add.image;
+  const img=await searchCommonsImage(title,SEARCH_CITIES[cityKey].label); return img||fallback;
+}
+function posterSvg(dayEl,stops,cityKey){
+  const city=SEARCH_CITIES[cityKey].label; const title=dayEl.querySelector('h3')?.textContent||city; const date=dayEl.dataset.date||'';
+  const bg=cityKey==='cph'?'https://images.unsplash.com/photo-1513622470522-26c3c8a854bc?w=1400&auto=format&fit=crop&q=85':'https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=1400&auto=format&fit=crop&q=85';
+  const W=1200,H=1700; const leftX=70, cardW=500, mapX=610,mapY=290,mapW=520,mapH=1000;
+  const coords=stops.map(s=>[s.lng,s.lat]); const minX=Math.min(...coords.map(x=>x[0])),maxX=Math.max(...coords.map(x=>x[0])),minY=Math.min(...coords.map(x=>x[1])),maxY=Math.max(...coords.map(x=>x[1]));
+  const px=(lng)=>mapX+50+(lng-minX)/Math.max(maxX-minX,0.0001)*(mapW-100); const py=(lat)=>mapY+60+(maxY-lat)/Math.max(maxY-minY,0.0001)*(mapH-120);
+  let out=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" class="route-poster-svg">\n<defs><linearGradient id="hero${cityKey}${date}" x1="0" x2="1"><stop offset="0" stop-color="#092d4f"/><stop offset="1" stop-color="#1769aa"/></linearGradient><filter id="shadow${cityKey}${date}"><feDropShadow dx="0" dy="5" stdDeviation="7" flood-opacity=".18"/></filter></defs>\n<rect width="1200" height="1700" fill="#f7fafc"/>\n<rect width="1200" height="270" fill="url(#hero${cityKey}${date})"/>\n<image href="${bg}" x="650" y="0" width="550" height="270" preserveAspectRatio="xMidYMid slice" opacity=".75"/>\n<text x="60" y="62" fill="#fff" font-family="Arial" font-size="24" font-weight="800">${cityKey==='cph'?'🇩🇰 COPENHAGUE':'🇫🇷 PARÍS'}</text>\n<text x="60" y="135" fill="#fff" font-family="Arial" font-size="44" font-weight="900">${escapeHtml(title.split('·')[0].trim())}</text>\n<text x="60" y="182" fill="#fff" font-family="Arial" font-size="22">Ruta a pie · ${stops.length} paradas</text>\n<text x="60" y="222" fill="#dff3ff" font-family="Arial" font-size="18">${date?dayLabel(date):''}</text>\n<rect x="60" y="300" width="500" height="1000" rx="26" fill="#fff" filter="url(#shadow${cityKey}${date})"/>\n<text x="90" y="345" fill="#082b4c" font-family="Arial" font-size="25" font-weight="900">Tu día, paso a paso</text>`;
+  let y=390;
+  stops.slice(0,8).forEach((s,i)=>{const img=s.image||'';out+=`<circle cx="112" cy="${y-6}" r="25" fill="${DAY_HEX[s.day]||'#1769aa'}"/><text x="112" y="${y+2}" text-anchor="middle" fill="#fff" font-family="Arial" font-size="18" font-weight="900">${i+1}</text>${img?`<image href="${img}" x="150" y="${y-35}" width="120" height="80" preserveAspectRatio="xMidYMid slice" clip-path="inset(0 round 12)"/>`:''}<text x="285" y="${y-8}" fill="#082b4c" font-family="Arial" font-size="17" font-weight="900">${escapeHtml(s.title).slice(0,28)}</text><text x="285" y="${y+16}" fill="#5d6b78" font-family="Arial" font-size="13">${escapeHtml(s.time||'Horario pendiente')} · ${durationLabel(s.duration||60)}</text>${s.added?`<text x="285" y="${y+37}" fill="#c94b4b" font-family="Arial" font-size="11" font-weight="900">⭐ AÑADIDO POSTERIORMENTE</text>`:''}`; y+=112;});
+  out+=`<rect x="610" y="300" width="520" height="1000" rx="26" fill="#eaf4fb" stroke="#d3e6f3"/>\n<text x="650" y="345" fill="#082b4c" font-family="Arial" font-size="26" font-weight="900">Tu ruta en el mapa</text>`;
+  if(stops.length>1){const pts=stops.map(s=>`${px(s.lng)},${py(s.lat)}`).join(' ');out+=`<polyline points="${pts}" fill="none" stroke="#1769aa" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="18 12"/>`;}
+  stops.forEach((s,i)=>{const x=px(s.lng),y2=py(s.lat);out+=`<circle cx="${x}" cy="${y2}" r="23" fill="${DAY_HEX[s.day]||'#1769aa'}" stroke="#fff" stroke-width="5"/><text x="${x}" y="${y2+7}" text-anchor="middle" fill="#fff" font-family="Arial" font-size="18" font-weight="900">${i+1}</text><text x="${x+32}" y="${y2+5}" fill="#082b4c" font-family="Arial" font-size="14" font-weight="800">${escapeHtml(s.title).slice(0,24)}</text>`;});
+  const km=stops.slice(1).reduce((sum,s,i)=>sum+haversine(stops[i],s),0); const walkMin=Math.round(km/4.8*60); const visitMin=stops.reduce((sum,s)=>sum+(s.duration||60),0);
+  let mealCount=0; dayEl.querySelectorAll('.event-title').forEach(e=>{if(/desayuno|almuerzo|comida|cena/i.test(e.textContent))mealCount++;});
+  const meals=mealCount?`Comidas planificadas: ${mealCount} · estimación €7–20/persona según comida`:'Sin comida fijada en el itinerario';
+  const priced=stops.filter(s=>s.price>0).reduce((a,s)=>a+s.price,0); const priceText=priced?`Entradas añadidas: ~${priced.toFixed(0)} €/persona`:'Entradas: según lugar/reserva';
+  out+=`<rect x="650" y="1120" width="440" height="135" rx="20" fill="#fff"/><text x="680" y="1160" fill="#082b4c" font-family="Arial" font-size="18" font-weight="900">Resumen de la ruta</text><text x="680" y="1190" fill="#1769aa" font-family="Arial" font-size="16">🚶 ${km.toFixed(1)} km · ~${walkMin} min caminando</text><text x="680" y="1217" fill="#5d6b78" font-family="Arial" font-size="14">⏱️ ${durationLabel(visitMin)} de visitas</text><text x="680" y="1242" fill="#5d6b78" font-family="Arial" font-size="14">${escapeHtml(priceText)}</text>`;
+  out+=`<rect x="60" y="1340" width="1070" height="270" rx="26" fill="#fff" stroke="#dce8f1"/><text x="90" y="1385" fill="#082b4c" font-family="Arial" font-size="24" font-weight="900">💶 Coste orientativo del día</text><text x="90" y="1430" fill="#5d6b78" font-family="Arial" font-size="15">${escapeHtml(priceText)}</text><text x="90" y="1462" fill="#5d6b78" font-family="Arial" font-size="15">${escapeHtml(meals)}</text><text x="90" y="1494" fill="#5d6b78" font-family="Arial" font-size="15">Comidas no fijadas: el rango mostrado es solo orientativo.</text><text x="90" y="1545" fill="#1769aa" font-family="Arial" font-size="18" font-weight="900">Google Maps → ruta a pie con todas las paradas</text><text x="90" y="1582" fill="#687789" font-family="Arial" font-size="14">La ruta se actualiza automáticamente cuando se aprueba un sitio nuevo.</text><text x="90" y="1645" fill="#082b4c" font-family="Arial" font-size="18" font-weight="900">¡Disfruta del viaje! ✈️</text></svg>`;
+  return out;
+}
+async function renderDayPosters(){
+  initDynamicDayMeta();
+  document.querySelectorAll('.day').forEach(async dayEl=>{
+    const cityKey=dayEl.dataset.city; const date=dayEl.dataset.date; if(!cityKey||!date)return; const dayKey=dateToDayKey(date); const stops=getDayStops(cityKey,dayKey); if(!stops.length)return;
+    let poster=dayEl.querySelector('[data-route-poster]'); if(!poster){ poster=document.createElement('div'); poster.dataset.routePoster=''; dayEl.appendChild(poster); }
+    poster.innerHTML='<div class="muted" style="padding:10px">✨ Preparando tu ruta visual…</div>';
+    const fallback=fallbackPlaceImage(cityKey);
+    for(const stop of stops){ if(!stop.image) stop.image=await getPosterImage(stop.title,cityKey,fallback); }
+    const svg=posterSvg(dayEl,stops,cityKey);
+    const route=googleWalkingUrl(stops);
+    poster.innerHTML=`<div class="route-poster-wrap">${svg}<div class="poster-actions"><a class="poster-download" href="${route}" target="_blank" rel="noopener" style="text-decoration:none;margin-right:auto">🚶 Ruta a pie en Google Maps</a><button type="button" class="poster-download" data-download-poster="${cityKey}|${date}">⬇️ Descargar HQ</button></div></div>`;
+    poster.dataset.svg=svg;
+  });
+}
+function downloadPoster(btn){
+  const wrap=btn.closest('.route-poster-wrap'); const svg=wrap?.querySelector('svg'); if(!svg)return; const source=new XMLSerializer().serializeToString(svg); const blob=new Blob([source],{type:'image/svg+xml;charset=utf-8'}); const url=URL.createObjectURL(blob); const a=document.createElement('a');a.href=url;a.download=`ruta-${btn.dataset.downloadPoster.replace('|','-')}.svg`;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
+}
+
+function addOwnPlace(){
+  proposeSelectedPlace();
 }
 
 /* ============ PROPUESTAS ============ */
 function addPending(r){
-  pending.push(r);
+  pending.push({...r,submittedAt:Date.now()});
   localStorage.setItem("travel_pending",JSON.stringify(pending));
   syncSet("pending","list",pending);
   renderPending();
@@ -897,6 +1068,26 @@ function removePending(i){
   localStorage.setItem("travel_pending",JSON.stringify(pending));
   syncSet("pending","list",pending);
   renderPending();
+}
+function approvePending(i){
+  const p=pending[i]; if(!p)return;
+  pending.splice(i,1);
+  localStorage.setItem("travel_pending",JSON.stringify(pending));
+  syncSet("pending","list",pending);
+  if(p.lat&&p.lng){
+    tripAdditions.push({...p,approvedAt:Date.now()});
+    saveAdditions();
+    renderAddedItineraries();
+    renderChecklist();
+    renderMap();
+    renderDayPosters();
+  }
+  renderPending();
+  toast(p.date?'✅ Aceptado y añadido al día indicado':'✅ Aceptado; queda sin día asignado');
+}
+function rejectPending(i){
+  removePending(i);
+  toast("❌ Propuesta rechazada");
 }
 function renderPending(){
   const c=document.getElementById("proposalList");
@@ -911,7 +1102,7 @@ function renderPending(){
     badge.classList.remove("hidden");
     badge.textContent=`🔔 ${pending.length} pendiente${pending.length>1?"s":""}`;
   }
-  c.innerHTML=pending.map((p,i)=>`<div class="proposal-card"><b>⭐ ${p.title}</b><p>📍 ${p.loc}<br>🗓️ ${p.suggest}<br><small>Propuesto por un viajero</small></p><button type="button" class="approve" data-approve="${i}">✅ Aceptar</button><button type="button" class="reject" data-reject="${i}">❌ Rechazar</button></div>`).join("");
+  c.innerHTML=pending.map((p,i)=>`<div class="proposal-card"><b>⭐ ${escapeHtml(p.title)}</b><p>📍 ${escapeHtml(p.loc||p.cityLabel||'')}<br>🗓️ ${p.date?dayLabel(p.date):'Sin fecha'}${p.time?` · ${escapeHtml(p.time)}`:''}${p.duration?` · ${durationLabel(p.duration)}`:''}<br><small>Propuesto por un viajero · ${escapeHtml(p.source||'')}</small></p><button type="button" class="approve" data-approve="${i}">✅ Aceptar</button><button type="button" class="reject" data-reject="${i}">❌ Rechazar</button></div>`).join("");
 }
 
 /* ============ GASTOS ============ */
@@ -1076,7 +1267,9 @@ function renderMap(){
   renderDayLegend();
   leafletMarkers.forEach(m=>leafletMapObj.removeLayer(m));
   leafletMarkers=[];
-  const stops=mapStops[mapCity].filter(s=>activeDays.size===0||activeDays.has(s.day));
+  const baseStops=mapStops[mapCity].filter(s=>activeDays.size===0||activeDays.has(s.day));
+  const extraStops=tripAdditions.filter(a=>a.city===mapCity&&a.day&&(activeDays.size===0||activeDays.has(a.day))).map((a,i)=>({day:a.day,label:dayLabel(a.date),order:100+i,title:a.title,time:a.time||'Pendiente',lat:a.lat,lng:a.lng,map:a.map,added:true}));
+  const stops=baseStops.concat(extraStops);
   const bounds=[];
   stops.forEach(s=>{
     const icon=L.divIcon({
@@ -1126,6 +1319,9 @@ function listenCollab(){
   });
   onSnapshot(docRef(window.__db,"pending","list"),snap=>{
     if(snap.exists()){ pending=snap.data().value||[]; localStorage.setItem("travel_pending",JSON.stringify(pending)); renderPending(); }
+  });
+  onSnapshot(docRef(window.__db,"additions","list"),snap=>{
+    if(snap.exists()){ tripAdditions=snap.data().value||[]; localStorage.setItem("travel_additions",JSON.stringify(tripAdditions)); renderAddedItineraries(); renderChecklist(); renderMap(); renderDayPosters(); }
   });
   onSnapshot(docRef(window.__db,"expenses","list"),snap=>{
     if(snap.exists()){ expenses=snap.data().value||[]; localStorage.setItem("travel_expenses",JSON.stringify(expenses)); renderExpenses(); }
@@ -1229,7 +1425,11 @@ function weatherDescription(code){
 /* ============ INICIO ============ */
 document.getElementById("addExpenseBtn").addEventListener("click",addExpense);
 document.getElementById("saveNamesBtn").addEventListener("click",saveNames);
-document.getElementById("addOwnPlaceBtn").addEventListener("click",addOwnPlace);
+const searchPlaceBtn=document.getElementById("searchPlaceBtn"); if(searchPlaceBtn) searchPlaceBtn.addEventListener("click",searchRealPlaces);
+document.addEventListener("click",e=>{
+  const b=e.target.closest("[data-download-poster]"); if(b){downloadPoster(b);return;}
+});
+document.addEventListener("keydown",e=>{if(e.key==='Enter'&&e.target.id==='ownPlaceTitle')searchRealPlaces();});
 
 fillPayerSelect();
 renderParticipantChips();
@@ -1238,7 +1438,10 @@ renderChecklist();
 renderRecs();
 renderPending();
 renderExpenses();
+initDynamicDayMeta();
+renderAddedItineraries();
 updateSyncPill();
+setTimeout(renderDayPosters,120);
 loadWeather('Paris',48.8566,2.3522,'paris-temp','paris-desc','paris-forecast');
 loadWeather('Copenhagen',55.6761,12.5683,'cph-temp','cph-desc','cph-forecast');
 
