@@ -1243,54 +1243,143 @@ async function getPosterImage(title,cityKey,fallback){
   const add=tripAdditions.find(a=>a.title===title&&a.city===cityKey&&a.image); if(add)return add.image;
   const img=await searchCommonsImage(title,SEARCH_CITIES[cityKey].label); return img||fallback;
 }
+function posterText(title){
+  const t=String(title||'').toLowerCase();
+  if(/mercad|christmas|navidad/.test(t)) return 'Luces, tradición y mucho encanto. Una ruta pensada para disfrutar de la ciudad sin prisas.';
+  if(/kastellet|sirenita|amalienborg|nyhavn/.test(t)) return 'Una jornada para descubrir los lugares más emblemáticos de la ciudad a pie.';
+  if(/louvre|notre|montmartre|sacre|sagrado|eiffel|seine|sena/.test(t)) return 'Una ruta por los grandes imprescindibles, combinando visitas, paseos y tiempo para disfrutar.';
+  if(/comida|almuerzo|restaurante|torvehallerne|værnedamsvej|vaernedamsvej/.test(t)) return 'Parada para descubrir sabores locales y disfrutar del ambiente de la ciudad.';
+  return 'Una ruta a pie para descubrir los lugares más interesantes del día, con tiempo para disfrutar de cada parada.';
+}
+function posterCategory(s){
+  const t=String(s.title||'').toLowerCase();
+  if(/comida|almuerzo|cena|restaurante|nyhavn|torvehallerne/.test(t)) return {label:'Comida / Restaurante',bg:'#dff4e7',fg:'#16734a',icon:'🍴'};
+  if(/mirador|torre|sirenita|eiffel|sagrado|sacre/.test(t)) return {label:'Mirador / Vistas',bg:'#eee6ff',fg:'#5b35a5',icon:'📸'};
+  if(/mercad|christmas|navidad/.test(t)) return {label:'Mercado navideño',bg:'#ffe7eb',fg:'#a22e43',icon:'☆'};
+  if(/museo|louvre|notre|castillo|palacio|amalienborg|rosenborg/.test(t)) return {label:'Visita / Cultura',bg:'#e8f0ff',fg:'#245ca8',icon:'★'};
+  return {label:'Paseo / Visita',bg:'#e8f0ff',fg:'#245ca8',icon:'📍'};
+}
 function posterSvg(dayEl,stops,cityKey,routeCoords){
-  const city=SEARCH_CITIES[cityKey].label; const title=dayEl.querySelector('h3')?.textContent||city; const date=dayEl.dataset.date||'';
-  const bg=cityKey==='cph'?'https://images.unsplash.com/photo-1513622470522-26c3c8a854bc?w=1400&auto=format&fit=crop&q=85':'https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=1400&auto=format&fit=crop&q=85';
-  const W=1200,H=1700; const leftX=70, cardW=500, mapX=610,mapY=290,mapW=520,mapH=1000;
+  const city=SEARCH_CITIES[cityKey].label;
+  const rawTitle=dayEl.querySelector('h3')?.textContent||'';
+  const title=rawTitle.replace(/^\s*[📅🗓️]?\s*/,'').trim() || 'Ruta del día';
+  const date=dayEl.dataset.date||'';
+  const bg=cityKey==='cph'?'https://images.unsplash.com/photo-1513622470522-26c3c8a854bc?w=1600&auto=format&fit=crop&q=88':'https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=1600&auto=format&fit=crop&q=88';
+  const W=1024;
+  const listTop=300;
+  const headerH=265;
+  const cardX=24, cardW=474;
+  const mapX=518, mapW=482, mapY=290, mapH=940;
+  const n=Math.min(stops.length,8);
+  const rowH=n<=5?188:(n<=6?160:137);
+  const listH=Math.max(940,n*rowH+48);
+  const summaryY=Math.max(listTop+listH+20,mapY+mapH+20);
+  const summaryH=210;
+  const H=summaryY+summaryH+28;
   routeCoords=routeCoords||null;
   const geo=(routeCoords&&routeCoords.length?routeCoords:stops.map(s=>[s.lng,s.lat]));
   const allGeo=geo.concat(stops.map(s=>[s.lng,s.lat]));
   const minX=Math.min(...allGeo.map(x=>x[0])),maxX=Math.max(...allGeo.map(x=>x[0])),minY=Math.min(...allGeo.map(x=>x[1])),maxY=Math.max(...allGeo.map(x=>x[1]));
-  const padX=Math.max((maxX-minX)*.14,.004),padY=Math.max((maxY-minY)*.14,.004);
+  const padX=Math.max((maxX-minX)*.22,.004),padY=Math.max((maxY-minY)*.18,.004);
   const minLon=minX-padX,maxLon=maxX+padX,minLat=minY-padY,maxLat=maxY+padY;
-  const z=Math.min(16,Math.max(13,(maxLon-minLon)<.012?15:(maxLon-minLon)<.025?14:13));
-  const a=mercatorTileXY(minLon,maxLat,z),b=mercatorTileXY(maxLon,minLat,z),tx0=Math.floor(a.x),ty0=Math.floor(a.y),tx1=Math.floor(b.x),ty1=Math.floor(b.y);
-  const worldW=(b.x-a.x)*256,worldH=(b.y-a.y)*256,scale=Math.min((mapW-20)/Math.max(worldW,1),(mapH-20)/Math.max(worldH,1));
+  const z=Math.min(15,Math.max(12,(maxLon-minLon)<.018?15:(maxLon-minLon)<.035?14:13));
+  const a=mercatorTileXY(minLon,maxLat,z),b=mercatorTileXY(maxLon,minLat,z);
+  const tx0=Math.floor(a.x),ty0=Math.floor(a.y),tx1=Math.floor(b.x),ty1=Math.floor(b.y);
+  const worldW=(b.x-a.x)*256,worldH=(b.y-a.y)*256;
+  const scale=Math.min((mapW-16)/Math.max(worldW,1),(mapH-16)/Math.max(worldH,1));
   const ox=mapX+(mapW-worldW*scale)/2-a.x*256*scale,oy=mapY+(mapH-worldH*scale)/2-a.y*256*scale;
   const project=(lng,lat)=>{const q=mercatorTileXY(lng,lat,z);return[ox+q.x*256*scale,oy+q.y*256*scale];};
-  const px=lng=>project(lng,minLat)[0],py=lat=>project(minLon,lat)[1];
-  let out=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" class="route-poster-svg">\n<defs><linearGradient id="hero${cityKey}${date}" x1="0" x2="1"><stop offset="0" stop-color="#092d4f"/><stop offset="1" stop-color="#1769aa"/></linearGradient><filter id="shadow${cityKey}${date}"><feDropShadow dx="0" dy="5" stdDeviation="7" flood-opacity=".18"/></filter></defs>\n<rect width="1200" height="1700" fill="#f7fafc"/>\n<rect width="1200" height="270" fill="url(#hero${cityKey}${date})"/>\n<image href="${bg}" x="650" y="0" width="550" height="270" preserveAspectRatio="xMidYMid slice" opacity=".75"/>\n<text x="60" y="62" fill="#fff" font-family="Arial" font-size="24" font-weight="800">${cityKey==='cph'?'🇩🇰 COPENHAGUE':'🇫🇷 PARÍS'}</text>\n<text x="60" y="135" fill="#fff" font-family="Arial" font-size="44" font-weight="900">${escapeHtml(title.split('·')[0].trim())}</text>\n<text x="60" y="182" fill="#fff" font-family="Arial" font-size="22">Ruta a pie · ${stops.length} paradas</text>\n<text x="60" y="222" fill="#dff3ff" font-family="Arial" font-size="18">${date?dayLabel(date):''}</text>\n<rect x="60" y="300" width="500" height="1000" rx="26" fill="#fff" filter="url(#shadow${cityKey}${date})"/>\n<text x="90" y="345" fill="#082b4c" font-family="Arial" font-size="25" font-weight="900">Tu día, paso a paso</text>`;
-  let y=390;
-  stops.slice(0,8).forEach((s,i)=>{const img=s.image||'';out+=`<circle cx="112" cy="${y-6}" r="25" fill="${DAY_HEX[s.day]||'#1769aa'}"/><text x="112" y="${y+2}" text-anchor="middle" fill="#fff" font-family="Arial" font-size="18" font-weight="900">${i+1}</text>${img?`<image href="${img}" x="150" y="${y-35}" width="120" height="80" preserveAspectRatio="xMidYMid slice" clip-path="inset(0 round 12)"/>`:''}<text x="285" y="${y-8}" fill="#082b4c" font-family="Arial" font-size="17" font-weight="900">${escapeHtml(s.title).slice(0,28)}</text><text x="285" y="${y+16}" fill="#5d6b78" font-family="Arial" font-size="13">${escapeHtml(s.time||'Horario pendiente')} · ${durationLabel(s.duration||60)}</text>${s.added?`<text x="285" y="${y+37}" fill="#c94b4b" font-family="Arial" font-size="11" font-weight="900">⭐ AÑADIDO POSTERIORMENTE</text>`:''}`; y+=112;});
-  out+=`<clipPath id="mapClip${cityKey}${date}"><rect x="610" y="300" width="520" height="1000" rx="26"/></clipPath><rect x="610" y="300" width="520" height="1000" rx="26" fill="#eaf4fb" stroke="#d3e6f3"/>
-<g clip-path="url(#mapClip${cityKey}${date})">`;
-  const cols=Math.min(tx1-tx0+1,6),rows=Math.min(ty1-ty0+1,8);
-  for(let tx=tx0;tx<tx0+cols;tx++)for(let ty=ty0;ty<ty0+rows;ty++){const src=tileUrl(tx,ty,z);if(src)out+=`<image class="poster-map-tile" href="${src}" x="${ox+tx*256*scale}" y="${oy+ty*256*scale}" width="${256*scale}" height="${256*scale}" preserveAspectRatio="none" opacity=".72"/>`;}
-  out+=`<rect x="610" y="300" width="520" height="1000" fill="#ffffff" opacity=".22"/>`;
+  const km=routeCoords&&routeCoords.length?routeDistance(routeCoords):stops.slice(1).reduce((sum,s,i)=>sum+haversine(stops[i],s),0);
+  const walkMin=Math.round(km/4.8*60);
+  const visitMin=stops.reduce((sum,s)=>sum+(s.duration||60),0);
+  const colors=['#e42b4f','#356bd8','#35a887','#ef9d21','#7b4bc2','#e15b32','#168c8c','#6d6bd8'];
+  const safe=(v)=>escapeHtml(v);
+  let out=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" class="route-poster-svg">
+  <defs>
+    <linearGradient id="hero${cityKey}${date}" x1="0" x2="1"><stop offset="0" stop-color="#0b3559"/><stop offset="1" stop-color="#174f78"/></linearGradient>
+    <filter id="shadow${cityKey}${date}" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#173d59" flood-opacity=".16"/></filter>
+    <clipPath id="heroClip${cityKey}${date}"><rect x="0" y="0" width="${W}" height="${headerH}"/></clipPath>
+    <clipPath id="mapClip${cityKey}${date}"><rect x="${mapX}" y="${mapY}" width="${mapW}" height="${mapH}" rx="22"/></clipPath>
+  </defs>
+  <rect width="${W}" height="${H}" fill="#fbfcfd"/>
+  <rect width="${W}" height="${headerH}" fill="url(#hero${cityKey}${date})"/>
+  <g clip-path="url(#heroClip${cityKey}${date})"><image href="${bg}" x="420" y="0" width="604" height="${headerH}" preserveAspectRatio="xMidYMid slice" opacity=".76"/><rect width="${W}" height="${headerH}" fill="#092d4f" opacity=".26"/></g>
+  <rect x="42" y="25" width="34" height="25" rx="6" fill="#ef4057"/>
+  <text x="59" y="44" text-anchor="middle" fill="#fff" font-family="Arial,sans-serif" font-size="17">${cityKey==='cph'?'🇩🇰':'🇫🇷'}</text>
+  <text x="91" y="47" fill="#fff" font-family="Arial,sans-serif" font-size="20" font-weight="800" letter-spacing="2">${cityKey==='cph'?'COPENHAGUE':'PARÍS'}</text>
+  <text x="42" y="113" fill="#fff" font-family="cursive" font-size="48" font-weight="700">${safe(title).slice(0,25)}</text>
+  <text x="42" y="151" fill="#fff" font-family="Arial,sans-serif" font-size="20" font-weight="700">Ruta recomendada · ${stops.length} ${stops.length===1?'parada':'paradas'}</text>
+  <text x="42" y="181" fill="#fff" font-family="Arial,sans-serif" font-size="14">${safe(posterText(title)).slice(0,88)}</text>
+  <text x="42" y="202" fill="#fff" font-family="Arial,sans-serif" font-size="14">${safe(posterText(title).slice(88,176))}</text>
+  <rect x="735" y="25" width="245" height="76" rx="18" fill="#fff" opacity=".96"/>
+  <text x="756" y="54" fill="#092d4f" font-family="Arial,sans-serif" font-size="15" font-weight="800">📅 ${safe(date?dayLabel(date):'Fecha pendiente')}</text>
+  <text x="756" y="79" fill="#092d4f" font-family="Arial,sans-serif" font-size="13" font-weight="700">🚶 Ruta a pie · ${km.toFixed(1).replace('.',',')} km</text>
+  <rect x="735" y="108" width="245" height="54" rx="16" fill="#0b3559" opacity=".95"/>
+  <text x="756" y="141" fill="#fff" font-family="Arial,sans-serif" font-size="14" font-weight="800">◷ ${durationLabel(walkMin)} caminando</text>
+  <rect x="${cardX}" y="${listTop}" width="${cardW}" height="${listH}" rx="22" fill="#fff" filter="url(#shadow${cityKey}${date})"/>
+  <text x="48" y="330" fill="#173b5a" font-family="cursive" font-size="24" font-weight="700">Tu día, paso a paso</text>`;
+  let y=listTop+70;
+  stops.slice(0,8).forEach((s,i)=>{
+    const col=colors[i%colors.length];
+    const img=s.image||'';
+    const cat=posterCategory(s);
+    const desc=posterText(s.title);
+    const titleText=s.title.length>27?s.title.slice(0,27)+'…':s.title;
+    const address=s.loc||`${s.title}, ${city}`;
+    out+=`<circle cx="53" cy="${y+4}" r="21" fill="${col}"/><text x="53" y="${y+10}" text-anchor="middle" fill="#fff" font-family="Arial,sans-serif" font-size="17" font-weight="900">${i+1}</text>`;
+    if(img) out+=`<image href="${img}" x="76" y="${y-30}" width="128" height="108" preserveAspectRatio="xMidYMid slice" clip-path="inset(0 round 14)"/>`;
+    out+=`<text x="218" y="${y-7}" fill="#123b60" font-family="Arial,sans-serif" font-size="15" font-weight="900">${safe(titleText)}</text>
+      <text x="218" y="${y+15}" fill="#164c75" font-family="Arial,sans-serif" font-size="12" font-weight="700">📍 ${safe(address).slice(0,42)}</text>
+      <text x="218" y="${y+35}" fill="#164c75" font-family="Arial,sans-serif" font-size="12" font-weight="700">◷ ${safe(s.time||'Horario pendiente')} · ${durationLabel(s.duration||60)}</text>
+      <text x="218" y="${y+55}" fill="#526474" font-family="Arial,sans-serif" font-size="10.5">${safe(desc).slice(0,64)}</text>
+      <rect x="218" y="${y+68}" width="${Math.min(180,cat.label.length*5.3+44)}" height="23" rx="11.5" fill="${cat.bg}"/>
+      <text x="229" y="${y+84}" fill="${cat.fg}" font-family="Arial,sans-serif" font-size="10" font-weight="800">${cat.icon} ${safe(cat.label)}</text>`;
+    if(s.added) out+=`<text x="${218+Math.min(190,cat.label.length*5.3+44)+8}" y="${y+84}" fill="#c84b4b" font-family="Arial,sans-serif" font-size="9" font-weight="900">⭐ AÑADIDO</text>`;
+    if(i<n-1) out+=`<line x1="53" y1="${y+30}" x2="53" y2="${y+rowH-10}" stroke="#164c75" stroke-width="2" stroke-dasharray="3 7"/><path d="M49 ${y+rowH-16} L53 ${y+rowH-8} L57 ${y+rowH-16}" fill="none" stroke="#164c75" stroke-width="2"/>`;
+    y+=rowH;
+  });
+  out+=`<rect x="${mapX}" y="${mapY}" width="${mapW}" height="${mapH}" rx="22" fill="#e9f1ed" stroke="#d6e6ec"/>
+  <g clip-path="url(#mapClip${cityKey}${date})">`;
+  const cols=Math.min(tx1-tx0+1,6),rows=Math.min(ty1-ty0+1,7);
+  for(let tx=tx0;tx<tx0+cols;tx++) for(let ty=ty0;ty<ty0+rows;ty++){const src=tileUrl(tx,ty,z);if(src)out+=`<image href="${src}" x="${ox+tx*256*scale}" y="${oy+ty*256*scale}" width="${256*scale}" height="${256*scale}" preserveAspectRatio="none" opacity=".62"/>`;}
+  out+=`<rect x="${mapX}" y="${mapY}" width="${mapW}" height="${mapH}" fill="#fff" opacity=".25"/>`;
   const pts=geo.map(c=>project(c[0],c[1]));
-  if(pts.length>1){const line=pts.map(p=>p.join(',')).join(' ');out+=`<polyline points="${line}" fill="none" stroke="#1769aa" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/><polyline points="${line}" fill="none" stroke="#fff" stroke-width="3" stroke-dasharray="2 14" stroke-linecap="round"/>`;}
-  stops.forEach((s,i)=>{const [x,y2]=project(s.lng,s.lat);out+=`<circle cx="${x}" cy="${y2}" r="23" fill="${DAY_HEX[s.day]||'#1769aa'}" stroke="#fff" stroke-width="5"/><text x="${x}" y="${y2+7}" text-anchor="middle" fill="#fff" font-family="Arial" font-size="18" font-weight="900">${i+1}</text><text x="${x+32}" y="${y2+5}" fill="#082b4c" font-family="Arial" font-size="14" font-weight="800">${escapeHtml(s.title).slice(0,24)}</text>`;});
-  out+=`</g><rect x="650" y="320" width="280" height="48" rx="24" fill="#ffffff" opacity=".9"/><text x="680" y="351" fill="#082b4c" font-family="Arial" font-size="22" font-weight="900">Tu ruta en el mapa</text><rect x="625" y="1260" width="250" height="24" rx="7" fill="#fff" opacity=".92"/><text x="635" y="1277" fill="#51616f" font-family="Arial" font-size="11">© OpenStreetMap contributors</text>`;
-  const km=routeCoords&&routeCoords.length?routeDistance(routeCoords):stops.slice(1).reduce((sum,s,i)=>sum+haversine(stops[i],s),0); const walkMin=Math.round(km/4.8*60); const visitMin=stops.reduce((sum,s)=>sum+(s.duration||60),0);
-  let mealCount=0; dayEl.querySelectorAll('.event-title').forEach(e=>{if(/desayuno|almuerzo|comida|cena/i.test(e.textContent))mealCount++;});
-  const meals=mealCount?`Comidas planificadas: ${mealCount} · estimación €7–20/persona según comida`:'Sin comida fijada en el itinerario';
-  const priced=stops.filter(s=>s.price>0).reduce((a,s)=>a+s.price,0); const priceText=priced?`Entradas añadidas: ~${priced.toFixed(0)} €/persona`:'Entradas: según lugar/reserva';
-  out+=`<rect x="650" y="1120" width="440" height="135" rx="20" fill="#fff"/><text x="680" y="1160" fill="#082b4c" font-family="Arial" font-size="18" font-weight="900">Resumen de la ruta</text><text x="680" y="1190" fill="#1769aa" font-family="Arial" font-size="16">🚶 ${km.toFixed(1)} km · ~${walkMin} min caminando</text><text x="680" y="1217" fill="#5d6b78" font-family="Arial" font-size="14">⏱️ ${durationLabel(visitMin)} de visitas</text><text x="680" y="1242" fill="#5d6b78" font-family="Arial" font-size="14">${escapeHtml(priceText)}</text>`;
-  out+=`<rect x="60" y="1340" width="1070" height="270" rx="26" fill="#fff" stroke="#dce8f1"/><text x="90" y="1385" fill="#082b4c" font-family="Arial" font-size="24" font-weight="900">💶 Coste orientativo del día</text><text x="90" y="1430" fill="#5d6b78" font-family="Arial" font-size="15">${escapeHtml(priceText)}</text><text x="90" y="1462" fill="#5d6b78" font-family="Arial" font-size="15">${escapeHtml(meals)}</text><text x="90" y="1494" fill="#5d6b78" font-family="Arial" font-size="15">Comidas no fijadas: el rango mostrado es solo orientativo.</text><text x="90" y="1545" fill="#1769aa" font-family="Arial" font-size="18" font-weight="900">Google Maps → ruta a pie con todas las paradas</text><text x="90" y="1582" fill="#687789" font-family="Arial" font-size="14">La ruta se actualiza automáticamente cuando se aprueba un sitio nuevo.</text><text x="90" y="1645" fill="#082b4c" font-family="Arial" font-size="18" font-weight="900">¡Disfruta del viaje! ✈️</text></svg>`;
+  if(pts.length>1){const line=pts.map(p=>p.join(',')).join(' ');out+=`<polyline points="${line}" fill="none" stroke="#fff" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/><polyline points="${line}" fill="none" stroke="#1267bd" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="11 9"/>`;}
+  stops.forEach((s,i)=>{const [x,y2]=project(s.lng,s.lat),col=colors[i%colors.length];out+=`<circle cx="${x}" cy="${y2}" r="17" fill="${col}" stroke="#fff" stroke-width="4"/><text x="${x}" y="${y2+6}" text-anchor="middle" fill="#fff" font-family="Arial,sans-serif" font-size="13" font-weight="900">${i+1}</text>`;});
+  out+=`</g><rect x="${mapX+18}" y="${mapY+15}" width="235" height="42" rx="21" fill="#fff" opacity=".93"/><text x="${mapX+37}" y="${mapY+43}" fill="#123b60" font-family="cursive" font-size="21" font-weight="700">Tu ruta en el mapa</text>
+  <text x="${mapX+mapW-45}" y="${mapY+38}" text-anchor="middle" fill="#123b60" font-family="Arial,sans-serif" font-size="20">N</text>
+  <text x="${mapX+18}" y="${mapY+mapH-18}" fill="#61727e" font-family="Arial,sans-serif" font-size="9">© OpenStreetMap contributors</text>`;
+  if(stops.length>1){
+    const legRows=stops.slice(1).map((s,i)=>{const d=routeCoords&&routeCoords.length?Math.max(1,Math.round(haversine(stops[i],s)*1000)):Math.round(haversine(stops[i],s)*1000);const mins=Math.max(1,Math.round(d/80));return {d,mins};});
+    const first=legRows[Math.min(0,legRows.length-1)]||{d:0,mins:0};
+    out+=`<rect x="${mapX+18}" y="${mapY+mapH-115}" width="${mapW-36}" height="76" rx="17" fill="#fff" opacity=".94"/><text x="${mapX+35}" y="${mapY+mapH-86}" fill="#123b60" font-family="Arial,sans-serif" font-size="11" font-weight="800">🚶 Distancias entre paradas</text><text x="${mapX+35}" y="${mapY+mapH-62}" fill="#536675" font-family="Arial,sans-serif" font-size="10">Tramos calculados sobre la ruta disponible · ${first.mins} min / ${first.d} m aprox.</text>`;
+  }
+  const priced=stops.filter(s=>s.price>0).reduce((a,s)=>a+s.price,0);
+  const priceText=priced?`Entradas/actividades: ~${priced.toFixed(0)} €/persona`:'Entradas: según lugar o reserva';
+  out+=`<rect x="${cardX}" y="${summaryY}" width="${W-48}" height="${summaryH}" rx="22" fill="#fff" stroke="#b8d7e7"/>
+  <text x="48" y="${summaryY+38}" fill="#123b60" font-family="Arial,sans-serif" font-size="17" font-weight="900">Resumen de la ruta</text>
+  <text x="48" y="${summaryY+68}" fill="#123b60" font-family="Arial,sans-serif" font-size="12" font-weight="700">${stops.slice(0,5).map((s,i)=>`${i+1}. ${safe(s.title).slice(0,20)}`).join('   ')}</text>
+  <line x1="48" y1="${summaryY+84}" x2="${W-48}" y2="${summaryY+84}" stroke="#dbe8ef"/>
+  <text x="48" y="${summaryY+114}" fill="#1769aa" font-family="Arial,sans-serif" font-size="14" font-weight="900">🚶 ${km.toFixed(1).replace('.',',')} km</text>
+  <text x="190" y="${summaryY+114}" fill="#1769aa" font-family="Arial,sans-serif" font-size="14" font-weight="900">◷ ${durationLabel(walkMin)}</text>
+  <text x="330" y="${summaryY+114}" fill="#16734a" font-family="Arial,sans-serif" font-size="14" font-weight="900">⏱️ ${durationLabel(visitMin)} de visitas</text>
+  <text x="48" y="${summaryY+150}" fill="#536675" font-family="Arial,sans-serif" font-size="11">${safe(priceText)}</text>
+  <text x="48" y="${summaryY+178}" fill="#536675" font-family="Arial,sans-serif" font-size="11">La ruta y esta imagen se actualizan al añadir y aprobar nuevos lugares.</text>
+  </svg>`;
   return out;
 }
 async function renderDayPosters(){
   initDynamicDayMeta();
   document.querySelectorAll('.day').forEach(async dayEl=>{
-    const cityKey=dayEl.dataset.city; const date=dayEl.dataset.date; if(!cityKey||!date)return; const dayKey=dateToDayKey(date); const stops=getDayStops(cityKey,dayKey); if(!stops.length)return;
-    let poster=dayEl.querySelector('[data-route-poster]'); if(!poster){ poster=document.createElement('div'); poster.dataset.routePoster=''; dayEl.appendChild(poster); }
-    poster.innerHTML='<div class="muted" style="padding:10px">✨ Calculando ruta real a pie y preparando el póster HQ…</div>';
+    const cityKey=dayEl.dataset.city; const date=dayEl.dataset.date; if(!cityKey||!date)return;
+    const dayKey=dateToDayKey(date); const stops=getDayStops(cityKey,dayKey); if(!stops.length)return;
+    let poster=dayEl.querySelector('[data-route-poster]'); if(!poster){ poster=document.createElement('div'); poster.dataset.routePoster=''; poster.className='day-route-poster'; dayEl.appendChild(poster); }
+    poster.innerHTML='<div class="muted" style="padding:10px">✨ Preparando la imagen del itinerario…</div>';
     const fallback=fallbackPlaceImage(cityKey);
     for(const stop of stops){ if(!stop.image) stop.image=await getPosterImage(stop.title,cityKey,fallback); }
     const routeCoords=await getWalkingRoute(stops);
     const svg=posterSvg(dayEl,stops,cityKey,routeCoords);
-    const route=googleWalkingUrl(stops);
-    poster.innerHTML=`<div class="route-poster-wrap">${svg}<div class="poster-actions"><a class="poster-download" href="${route}" target="_blank" rel="noopener" style="text-decoration:none;margin-right:auto">🚶 Ruta a pie en Google Maps</a><button type="button" class="poster-download" data-download-poster="${cityKey}|${date}">⬇️ Descargar HQ</button></div></div>`;
+    poster.innerHTML=`<div class="route-poster-wrap">${svg}</div>`;
     poster.dataset.svg=svg;
   });
 }
