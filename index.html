@@ -214,6 +214,31 @@ table.balances th{color:var(--muted);font-weight:800;font-size:11px;text-transfo
 .poster-actions{display:flex;justify-content:flex-end;padding:9px;background:#f7fafc;border-top:1px solid #e1eaf0}.poster-download{border:0;border-radius:10px;background:var(--navy);color:#fff;padding:9px 12px;font-size:12px;font-weight:850}
 @media(max-width:520px){.place-result{grid-template-columns:64px 1fr}.place-result img{width:64px;height:64px}.place-plan{grid-template-columns:1fr}.city-menu button{font-size:11px;padding:10px 6px}}
 
+
+.food-toolbar{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:12px}
+.food-toolbar button,.food-city-btn{border:1px solid var(--line);background:#fff;color:var(--navy);border-radius:13px;padding:11px 10px;font-weight:850}
+.food-toolbar button.active,.food-city-btn.active{background:var(--navy);color:#fff;border-color:var(--navy)}
+.food-search{display:grid;grid-template-columns:1fr auto;gap:8px;margin-top:12px}
+.food-search input{width:100%;padding:12px;border:1px solid var(--line);border-radius:12px;background:#fbfdff;font-size:15px}
+.food-search button{border:0;border-radius:12px;background:var(--blue);color:#fff;padding:0 15px;font-weight:900}
+.food-location{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.food-location button{border:1px solid #cfe1ef;background:#eef7fd;color:var(--blue);border-radius:12px;padding:9px 11px;font-weight:850}
+.food-location button.active{background:#dff3e8;color:#0b6b3b;border-color:#b6e1ca}
+.food-results{display:grid;gap:12px;margin-top:14px}
+.food-card{display:grid;grid-template-columns:92px 1fr;gap:12px;background:#fff;border:1px solid var(--line);border-radius:18px;padding:10px;box-shadow:0 6px 18px rgba(8,43,76,.07)}
+.food-card img{width:92px;height:92px;object-fit:cover;border-radius:14px;background:#eaf4fb}
+.food-card h3{margin:1px 0 5px;color:var(--navy);font-size:16px}
+.food-card .food-meta{font-size:12px;color:var(--muted);line-height:1.5}
+.food-card .food-summary{margin:5px 0 0;font-size:12px;color:#33475b;line-height:1.42}
+.food-actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:9px}
+.food-actions button,.food-actions a{border:0;border-radius:10px;padding:8px 10px;font-size:11px;font-weight:900;text-decoration:none}
+.food-actions .choose{background:var(--green);color:#fff}.food-actions .food-map{background:#edf4fb;color:var(--blue)}
+.food-distance{color:var(--blue);font-weight:850}.food-note{font-size:11px;color:var(--muted);margin-top:8px}
+.food-selected{margin-top:14px;padding:15px;border-radius:18px;background:linear-gradient(135deg,#eef7fd,#fff);border:1px solid #d8eaf6}
+.food-selected h3{margin:0 0 5px;color:var(--navy)}
+.food-plan{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:12px}.food-plan label{font-size:11px;font-weight:850;color:var(--navy)}.food-plan input,.food-plan select{width:100%;padding:10px;border:1px solid var(--line);border-radius:10px;background:#fff}
+@media(max-width:520px){.food-card{grid-template-columns:72px 1fr}.food-card img{width:72px;height:72px}.food-search{grid-template-columns:1fr}.food-search button{padding:11px}.food-plan{grid-template-columns:1fr}.food-toolbar{grid-template-columns:1fr 1fr}}
+
 #leafletMap{width:100%;height:400px;border-radius:20px;overflow:hidden;box-shadow:var(--shadow)}
 .city-toggle{display:flex;gap:8px;margin-bottom:12px}
 .city-toggle button{flex:1;border:1px solid var(--line);background:#fff;border-radius:12px;padding:11px;font-weight:850;color:var(--navy)}
@@ -306,7 +331,7 @@ table.balances th{color:var(--muted);font-weight:800;font-size:11px;text-transfo
   <div class="page-hero paris-hero"><span class="flag">🇫🇷</span><div><h2>París</h2><p>3–5 diciembre · Adrián + Elia</p></div></div>
   <div class="city-menu">
     <button type="button" data-city-jump="paris-itinerary">📅 Itinerario</button>
-    <button type="button" data-city-jump="paris-food">🍴 Comer</button>
+    <button type="button" data-go="food" data-food-city="paris">🍴 Comer</button>
     <button type="button" data-go="recommendations" data-filter-on-open="paris">⭐ Recomendaciones</button>
     <button type="button" data-go="checklist">✅ Checklist</button>
   </div>
@@ -350,7 +375,7 @@ table.balances th{color:var(--muted);font-weight:800;font-size:11px;text-transfo
   <div class="page-hero cph-hero"><span class="flag">🇩🇰</span><div><h2>Copenhague</h2><p>5–8 diciembre · sábado noche en adelante, los 5 juntos</p></div></div>
   <div class="city-menu">
     <button type="button" data-city-jump="cph-itinerary">📅 Itinerario</button>
-    <button type="button" data-city-jump="cph-food">🍴 Comer</button>
+    <button type="button" data-go="food" data-food-city="cph">🍴 Comer</button>
     <button type="button" data-go="recommendations" data-filter-on-open="cph">⭐ Recomendaciones</button>
     <button type="button" data-go="checklist">✅ Checklist</button>
   </div>
@@ -384,6 +409,31 @@ table.balances th{color:var(--muted);font-weight:800;font-size:11px;text-transfo
     <article><time>09:30–11:30</time><div><div class="event-title">Lagos Søerne</div><p>📍 Søerne, Copenhagen · ⏱️ 2 h</p><a class="maps" target="_blank" rel="noopener" href="https://maps.google.com/?q=Soerne+Copenhagen">📍 Maps</a></div></article>
     <article><time>13:45–17:25</time><div><div class="event-title">✈️ SAS SK2521 · Copenhague → Sevilla</div><p>Los 5 juntos · llegada prevista a Sevilla 17:25.</p></div></article>
   </div><a class="route" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/Soerne,+Copenhagen/Copenhagen+Airport">🗺️ Ver ruta del martes</a></div>
+</section>
+
+<section id="food" class="page">
+  <button type="button" class="back-btn" data-go="home">← Volver al inicio</button>
+  <div class="card" style="margin-top:0">
+    <div class="section-label">Restaurantes y comida</div>
+    <h2 class="section-title">🍴 Comer</h2>
+    <p class="muted">Busca sitios reales cerca del centro o alrededor de tu ubicación actual. Puedes elegir uno y proponerlo para el viaje.</p>
+    <div class="food-toolbar">
+      <button type="button" class="food-city-btn active" data-food-city-btn="paris">🇫🇷 París</button>
+      <button type="button" class="food-city-btn" data-food-city-btn="cph">🇩🇰 Copenhague</button>
+    </div>
+    <div class="food-location">
+      <button type="button" id="foodCenterBtn" class="active">📍 Cerca del centro</button>
+      <button type="button" id="foodGpsBtn">📡 Cerca de mi ubicación</button>
+    </div>
+    <div class="food-search">
+      <input type="text" id="foodSearch" placeholder="Ej. comida típica, pizza, hamburguesa, barato…">
+      <button type="button" id="foodSearchBtn">🔎 Buscar</button>
+    </div>
+    <div id="foodStatus" class="search-status muted"></div>
+    <div id="foodResults" class="food-results"></div>
+    <div id="foodSelected" class="food-selected hidden"></div>
+    <div class="food-note">ℹ️ Los lugares proceden de datos reales de OpenStreetMap. Cuando el precio no está publicado, se muestra una estimación orientativa basada en el tipo de establecimiento.</div>
+  </div>
 </section>
 
 <section id="mapa" class="page">
@@ -692,6 +742,11 @@ let mapCity="paris";
 let activeDays=new Set();
 let leafletMapObj=null;
 let leafletMarkers=[];
+let foodCity='paris';
+let foodMode='center';
+let foodGpsCoords=null;
+let foodResults=[];
+let selectedFoodPlace=null;
 
 /* ============ NAVEGACIÓN (delegación robusta) ============ */
 function showPage(id, pushState = true){
@@ -711,6 +766,7 @@ function showPage(id, pushState = true){
     }catch(err){ /* file:// u orígenes restringidos: ignoramos, la página ya ha cambiado visualmente */ }
   }
   if(id==="mapa") setTimeout(initMapIfNeeded,60);
+  if(id==="food") setTimeout(()=>loadFoodPlaces(),80);
   if(id==="paris"||id==="cph") setTimeout(()=>{renderAddedItineraries();renderDayPosters();},80);
 }
 
@@ -748,6 +804,12 @@ document.addEventListener("click",e=>{
         document.querySelectorAll(".filter").forEach(x=>x.classList.toggle("active",x.dataset.filter===filter));
         renderRecs();
       },0);
+    }
+    if(nav.dataset.foodCity){
+      foodCity=nav.dataset.foodCity;
+      foodMode='center';
+      foodGpsCoords=null;
+      setTimeout(()=>loadFoodPlaces(),0);
     }
     return;
   }
@@ -792,6 +854,21 @@ document.addEventListener("click",e=>{
     proposeSelectedPlace();
     return;
   }
+  const foodCityBtn=e.target.closest("[data-food-city-btn]");
+  if(foodCityBtn){
+    foodCity=foodCityBtn.dataset.foodCityBtn;foodMode='center';foodGpsCoords=null;loadFoodPlaces();return;
+  }
+  if(e.target.closest('#foodCenterBtn')){foodMode='center';foodGpsCoords=null;loadFoodPlaces();return;}
+  if(e.target.closest('#foodGpsBtn')){
+    if(!navigator.geolocation){toast('Este dispositivo no permite obtener la ubicación');return;}
+    const status=document.getElementById('foodStatus');if(status)status.textContent='📡 Solicitando ubicación…';
+    navigator.geolocation.getCurrentPosition(pos=>{foodGpsCoords={lat:pos.coords.latitude,lng:pos.coords.longitude};foodMode='gps';loadFoodPlaces();},()=>{toast('No se pudo obtener tu ubicación. Puedes usar Cerca del centro.');},{enableHighAccuracy:true,timeout:10000,maximumAge:300000});
+    return;
+  }
+  if(e.target.closest('#foodSearchBtn')){loadFoodPlaces();return;}
+  const foodSelect=e.target.closest('[data-food-select]');
+  if(foodSelect){selectFoodPlace(+foodSelect.dataset.foodSelect);return;}
+  if(e.target.closest('#proposeFoodBtn')){proposeFoodPlace();return;}
   const cityJump=e.target.closest("[data-city-jump]");
   if(cityJump){
     const target=cityJump.dataset.cityJump;
@@ -829,6 +906,148 @@ document.addEventListener("click",e=>{
     return;
   }
 });
+
+
+/* ============ COMER: RESTAURANTES REALES ============ */
+const FOOD_CITIES={
+  paris:{label:'París',lat:48.8566,lon:2.3522},
+  cph:{label:'Copenhague',lat:55.6761,lon:12.5683}
+};
+const FOOD_FALLBACK_IMAGES={
+  paris:'https://images.unsplash.com/photo-1515003197210-e0cd71810b5f?w=700&auto=format&fit=crop&q=82',
+  cph:'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=700&auto=format&fit=crop&q=82'
+};
+const CUISINE_NAMES={
+  spanish:'Española',french:'Francesa',danish:'Danesa',nordic:'Nórdica',italian:'Italiana',pizza:'Pizza',burger:'Hamburguesas',
+  chinese:'China',japanese:'Japonesa',sushi:'Sushi',thai:'Tailandesa',indian:'India',mexican:'Mexicana',kebab:'Kebab',
+  greek:'Griega',mediterranean:'Mediterránea',seafood:'Marisco / pescado',steak_house:'Carnes',american:'Americana',
+  vegan:'Vegana',vegetarian:'Vegetariana',cafe:'Cafetería',bakery:'Panadería',coffee_shop:'Cafetería',fast_food:'Comida rápida'
+};
+function foodCuisine(tags){
+  const raw=String(tags.cuisine||'').split(';').map(x=>x.trim()).filter(Boolean);
+  if(tags.amenity==='cafe' && !raw.length) return 'Cafetería';
+  if(tags.amenity==='fast_food' && !raw.length) return 'Comida rápida';
+  if(!raw.length) return tags.amenity==='restaurant'?'Restaurante':'Comida';
+  return raw.slice(0,3).map(x=>CUISINE_NAMES[x]||x.replace(/_/g,' ')).join(' · ');
+}
+function foodPrice(tags){
+  const direct=tags.price_range||tags.price_level||tags.price;
+  if(direct) return {label:String(direct),estimated:false};
+  const amenity=tags.amenity||'';
+  const cuisine=String(tags.cuisine||'').toLowerCase();
+  if(amenity==='fast_food') return {label:'€',estimated:true};
+  if(amenity==='cafe'||amenity==='bakery') return {label:'€–€€',estimated:true};
+  if(/fine_dining|steak|seafood|french/.test(cuisine)) return {label:'€€–€€€',estimated:true};
+  return {label:'€€ aprox.',estimated:true};
+}
+function foodSummary(tags,name){
+  const cuisine=foodCuisine(tags);
+  if(tags.description) return tags.description;
+  if(tags.diet==='vegan'||tags['diet:vegan']==='yes') return `${cuisine}. Opciones veganas disponibles.`;
+  if(tags['diet:vegetarian']==='yes') return `${cuisine}. Opciones vegetarianas disponibles.`;
+  if(tags.amenity==='cafe') return `${cuisine} para desayuno, café, merienda o algo ligero.`;
+  if(tags.amenity==='fast_food') return `${cuisine} para una comida rápida y sencilla.`;
+  return `${cuisine}. Una opción para comer en ${name}.`;
+}
+function foodDistance(a,b){return haversine({lat:a.lat,lng:a.lng},{lat:b.lat,lng:b.lng});}
+function foodElementToPlace(el){
+  const t=el.tags||{}; const lat=Number(el.lat??el.center?.lat), lng=Number(el.lon??el.center?.lon);
+  if(!t.name||!Number.isFinite(lat)||!Number.isFinite(lng)) return null;
+  const city=FOOD_CITIES[foodCity];
+  const address=[t['addr:housenumber'],t['addr:street'],t['addr:postcode'],t['addr:city']].filter(Boolean).join(', ')||city.label;
+  const price=foodPrice(t);
+  return {
+    id:`food-${foodCity}-${el.type}-${el.id}`,
+    title:t.name,city:foodCity,cityLabel:city.label,lat,lng,loc:address,
+    cuisine:foodCuisine(t),price:price.label,priceEstimated:price.estimated,
+    summary:foodSummary(t,t.name),amenity:t.amenity||'restaurant',tags:t,
+    map:`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(t.name+' '+address)}`,
+    image:'',source:'OpenStreetMap'
+  };
+}
+function foodOverpassQuery(lat,lon,radius,term){
+  const needle=term?`[name~"${term.replace(/([\\"'])/g,'\\$1')}",i]`:'';
+  return `[out:json][timeout:25];(nwr[amenity~"restaurant|fast_food|cafe|food_court|pub|bar"]${needle}(around:${radius},${lat},${lon}););out center tags;`;
+}
+async function fetchFoodPlaces(){
+  const city=FOOD_CITIES[foodCity];
+  const origin=foodMode==='gps'&&foodGpsCoords?foodGpsCoords:{lat:city.lat,lng:city.lon};
+  const radius=foodMode==='gps'?1800:2300;
+  const term=document.getElementById('foodSearch')?.value.trim()||'';
+  const status=document.getElementById('foodStatus');
+  const query=foodOverpassQuery(origin.lat,origin.lng,radius,term);
+  const endpoints=['https://overpass-api.de/api/interpreter','https://overpass.kumi.systems/api/interpreter'];
+  let data=null,lastErr=null;
+  for(const endpoint of endpoints){
+    try{
+      const r=await fetch(endpoint+'?data='+encodeURIComponent(query),{headers:{'Accept':'application/json'}});
+      if(!r.ok) throw new Error('HTTP '+r.status);
+      data=await r.json();break;
+    }catch(err){lastErr=err;}
+  }
+  if(!data) throw lastErr||new Error('No se pudo consultar Overpass');
+  const seen=new Set(),items=[];
+  (data.elements||[]).forEach(el=>{
+    const p=foodElementToPlace(el);if(!p)return;
+    const key=(p.title+'|'+p.lat.toFixed(5)+'|'+p.lng.toFixed(5)).toLowerCase();
+    if(seen.has(key))return;seen.add(key);
+    p.distance=foodDistance(p,origin);items.push(p);
+  });
+  items.sort((a,b)=>a.distance-b.distance);
+  return items.slice(0,24);
+}
+async function enrichFoodImages(items){
+  const city=FOOD_CITIES[foodCity];
+  await Promise.all(items.slice(0,12).map(async(p,i)=>{
+    try{p.image=await searchCommonsImage(p.title,city.label)||FOOD_FALLBACK_IMAGES[foodCity];}
+    catch(e){p.image=FOOD_FALLBACK_IMAGES[foodCity];}
+    const img=document.getElementById('food-img-'+i);if(img)img.src=p.image;
+  }));
+  items.slice(12).forEach(p=>p.image=FOOD_FALLBACK_IMAGES[foodCity]);
+}
+function renderFoodResults(){
+  const box=document.getElementById('foodResults');if(!box)return;
+  const origin=foodMode==='gps'&&foodGpsCoords?foodGpsCoords:{lat:FOOD_CITIES[foodCity].lat,lng:FOOD_CITIES[foodCity].lon};
+  if(!foodResults.length){box.innerHTML='<div class="card" style="margin:0"><p class="muted">No he encontrado restaurantes con esos criterios. Prueba otra búsqueda.</p></div>';return;}
+  box.innerHTML=foodResults.map((p,i)=>`<article class="food-card">
+    <img id="food-img-${i}" src="${p.image||FOOD_FALLBACK_IMAGES[foodCity]}" alt="${escapeHtml(p.title)}">
+    <div>
+      <h3>${escapeHtml(p.title)}</h3>
+      <div class="food-meta">🍴 ${escapeHtml(p.cuisine)} · 💶 <strong>${escapeHtml(p.price)}</strong>${p.priceEstimated?' <small>(orientativo)</small>':''}<br>📍 ${escapeHtml(p.loc)}<br><span class="food-distance">📏 ${p.distance<1?Math.round(p.distance*1000)+' m':p.distance.toFixed(1)+' km'}</span></div>
+      <p class="food-summary">${escapeHtml(p.summary)}</p>
+      <div class="food-actions"><button type="button" class="choose" data-food-select="${i}">🍽️ Elegir</button><a class="food-map" target="_blank" rel="noopener" href="${p.map}">🗺️ Maps</a></div>
+    </div>
+  </article>`).join('');
+  enrichFoodImages(foodResults);
+}
+async function loadFoodPlaces(){
+  const status=document.getElementById('foodStatus'),box=document.getElementById('foodResults');if(!status||!box)return;
+  document.querySelectorAll('[data-food-city-btn]').forEach(b=>b.classList.toggle('active',b.dataset.foodCityBtn===foodCity));
+  document.getElementById('foodCenterBtn')?.classList.toggle('active',foodMode==='center');
+  document.getElementById('foodGpsBtn')?.classList.toggle('active',foodMode==='gps');
+  status.textContent=`🔎 Buscando lugares reales ${foodMode==='gps'?'cerca de tu ubicación':'cerca del centro'}…`;box.innerHTML='';
+  try{
+    foodResults=await fetchFoodPlaces();
+    status.textContent=`${foodResults.length} opciones encontradas · ${FOOD_CITIES[foodCity].label}`;
+    renderFoodResults();
+  }catch(err){console.error(err);status.textContent='No se pudo consultar los restaurantes ahora. Comprueba la conexión e inténtalo de nuevo.';box.innerHTML='<div class="card" style="margin:0"><p class="muted">El buscador de lugares reales necesita conexión a Internet.</p></div>';}
+}
+function selectFoodPlace(index){
+  const p=foodResults[index];if(!p)return;selectedFoodPlace=p;
+  const dates=p.city==='paris'?[['','Sin fecha todavía'],['2026-12-03','Jueves 3'],['2026-12-04','Viernes 4'],['2026-12-05','Sábado 5']]:[['','Sin fecha todavía'],['2026-12-05','Sábado 5'],['2026-12-06','Domingo 6'],['2026-12-07','Lunes 7'],['2026-12-08','Martes 8']];
+  const box=document.getElementById('foodSelected');box.classList.remove('hidden');
+  box.innerHTML=`<h3>🍽️ ${escapeHtml(p.title)}</h3><div class="meta">📍 ${escapeHtml(p.loc)}<br>🍴 ${escapeHtml(p.cuisine)} · 💶 ${escapeHtml(p.price)}${p.priceEstimated?' (orientativo)':''}<br>${escapeHtml(p.summary)}<br><a href="${p.map}" target="_blank" rel="noopener">Abrir ubicación en Google Maps →</a></div>
+    <div class="food-plan"><div><label>📅 Día (opcional)</label><select id="foodDate">${dates.map(x=>`<option value="${x[0]}">${x[1]}</option>`).join('')}</select></div><div><label>🕐 Hora (opcional)</label><input type="time" id="foodTime"></div><div><label>⏱️ Duración</label><select id="foodDuration"><option value="45">45 min</option><option value="60" selected>1 h</option><option value="90">1 h 30 min</option><option value="120">2 h</option></select></div><div><label>💶 Precio por persona</label><input type="number" id="foodPrice" min="0" step="0.5" placeholder="Opcional"></div></div>
+    <button type="button" class="btn-primary" id="proposeFoodBtn" style="margin-top:12px">⭐ Proponer este restaurante</button>`;
+  box.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+function proposeFoodPlace(){
+  if(!selectedFoodPlace){toast('Elige primero un restaurante');return;}
+  const date=document.getElementById('foodDate')?.value||'',time=document.getElementById('foodTime')?.value||'';
+  const duration=Number(document.getElementById('foodDuration')?.value||60);const manualPrice=Number(document.getElementById('foodPrice')?.value||0);
+  const p=selectedFoodPlace;const place={...p,date,time,duration,price:manualPrice||0,day:dateToDayKey(date),suggest:date?(time||'Horario pendiente'):'Por decidir',type:'food'};
+  addPending(place);selectedFoodPlace=null;document.getElementById('foodSelected').classList.add('hidden');document.getElementById('foodSelected').innerHTML='';toast('Restaurante propuesto para aprobación');
+}
 
 /* ============ CHECKLIST ============ */
 function renderChecklist(){
