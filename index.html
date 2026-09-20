@@ -1270,7 +1270,11 @@ function tileUrl(x,y,z){const n=2**z;if(y<0||y>=n)return '';return `https://tile
 function routeDistance(c){let k=0;for(let i=1;i<c.length;i++)k+=haversine({lat:c[i-1][1],lng:c[i-1][0]},{lat:c[i][1],lng:c[i][0]});return k;}
 async function getPosterImage(title,cityKey,fallback){
   const add=tripAdditions.find(a=>a.title===title&&a.city===cityKey&&a.image); if(add)return add.image;
-  const img=await searchCommonsImage(title,SEARCH_CITIES[cityKey].label); return img||fallback;
+  // Para eventos logísticos, la imagen debe representar el lugar real y no el concepto.
+  let searchTitle=title;
+  if(/encuentro\s+del\s+grupo/i.test(title) && cityKey==='cph') searchTitle='Copenhagen Central Station';
+  if(/llegada\s+a\s+cph/i.test(title) && cityKey==='cph') searchTitle='Copenhagen Airport';
+  const img=await searchCommonsImage(searchTitle,SEARCH_CITIES[cityKey].label); return img||fallback;
 }
 function posterText(title){
   const t=String(title||'').toLowerCase();
@@ -1421,27 +1425,76 @@ async function renderDayPosters(){
     poster.dataset.svg=svg;
   });
 }
+async function blobToDataUrl(blob){
+  return await new Promise((resolve,reject)=>{
+    const fr=new FileReader(); fr.onload=()=>resolve(fr.result); fr.onerror=reject; fr.readAsDataURL(blob);
+  });
+}
+async function fetchImageDataUrl(src){
+  if(!src || src.startsWith('data:')) return src;
+  try{
+    const r=await fetch(src,{mode:'cors',credentials:'omit',cache:'force-cache'});
+    if(!r.ok) throw new Error('HTTP '+r.status);
+    return await blobToDataUrl(await r.blob());
+  }catch(e){
+    // Fallback through a public image proxy so the downloaded PNG can remain self-contained.
+    try{
+      const proxy='https://images.weserv.nl/?url='+encodeURIComponent(src);
+      const r=await fetch(proxy,{mode:'cors',credentials:'omit',cache:'force-cache'});
+      if(!r.ok) throw new Error('proxy HTTP '+r.status);
+      return await blobToDataUrl(await r.blob());
+    }catch(e2){
+      console.warn('No se pudo incrustar imagen del poster:',src,e2);
+      return src;
+    }
+  }
+}
+async function embedPosterImages(svg){
+  const clone=svg.cloneNode(true);
+  const images=[...clone.querySelectorAll('image')];
+  await Promise.all(images.map(async im=>{
+    const src=im.getAttribute('href') || im.getAttributeNS('http://www.w3.org/1999/xlink','href');
+    if(!src || src.startsWith('data:')) return;
+    const data=await fetchImageDataUrl(src);
+    if(data && data.startsWith('data:')){
+      im.setAttribute('href',data);
+      im.removeAttributeNS('http://www.w3.org/1999/xlink','href');
+    }
+  }));
+  // Make the SVG self-contained before handing it to the browser canvas.
+  clone.setAttribute('xmlns','http://www.w3.org/2000/svg');
+  clone.setAttribute('xmlns:xlink','http://www.w3.org/1999/xlink');
+  return clone;
+}
 async function downloadPoster(btn){
   const wrap=btn.closest('.route-poster-wrap'); const svg=wrap?.querySelector('svg'); if(!svg)return;
   btn.disabled=true; btn.textContent='⏳ Preparando imagen HD…';
   try{
-    const source=new XMLSerializer().serializeToString(svg);
+    // The on-screen SVG contains remote OSM tiles and place photos. Embed every image
+    // as a data URL first; otherwise a canvas download can omit them or become tainted.
+    const selfContained=await embedPosterImages(svg);
+    const source=new XMLSerializer().serializeToString(selfContained);
     const blob=new Blob([source],{type:'image/svg+xml;charset=utf-8'});
     const url=URL.createObjectURL(blob);
     const img=new Image();
+    img.decoding='async';
     await new Promise((resolve,reject)=>{img.onload=resolve;img.onerror=reject;img.src=url;});
-    const vb=svg.viewBox.baseVal; const scale=2;
+    const vb=selfContained.viewBox.baseVal;
+    const scale=3;
     const canvas=document.createElement('canvas'); canvas.width=Math.round(vb.width*scale); canvas.height=Math.round(vb.height*scale);
     const ctx=canvas.getContext('2d'); ctx.fillStyle='#fff'; ctx.fillRect(0,0,canvas.width,canvas.height); ctx.drawImage(img,0,0,canvas.width,canvas.height);
-    const png=await new Promise(resolve=>canvas.toBlob(resolve,'image/png',1));
-    const dl=URL.createObjectURL(png); const a=document.createElement('a'); a.href=dl; a.download=`ruta-${btn.dataset.downloadPoster.replace('|','-')}-HD.png`; a.click();
-    setTimeout(()=>{URL.revokeObjectURL(url);URL.revokeObjectURL(dl);},1500);
+    const png=await new Promise((resolve,reject)=>canvas.toBlob(b=>b?resolve(b):reject(new Error('No se pudo crear PNG')),'image/png',1));
+    const dl=URL.createObjectURL(png); const a=document.createElement('a'); a.href=dl; a.download=`ruta-${btn.dataset.downloadPoster.replace('|','-')}-HD.png`; document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(()=>{URL.revokeObjectURL(url);URL.revokeObjectURL(dl);},2000);
   }catch(err){
-    console.warn('No se pudo generar PNG HD; descargando SVG.',err);
-    const source=new XMLSerializer().serializeToString(svg); const blob=new Blob([source],{type:'image/svg+xml;charset=utf-8'}); const url=URL.createObjectURL(blob); const a=document.createElement('a');a.href=url;a.download=`ruta-${btn.dataset.downloadPoster.replace('|','-')}.svg`;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
+    console.warn('No se pudo generar PNG HD; descargando SVG autocontenido.',err);
+    try{
+      const selfContained=await embedPosterImages(svg);
+      const source=new XMLSerializer().serializeToString(selfContained);
+      const blob=new Blob([source],{type:'image/svg+xml;charset=utf-8'}); const url=URL.createObjectURL(blob); const a=document.createElement('a');a.href=url;a.download=`ruta-${btn.dataset.downloadPoster.replace('|','-')}-HD.svg`;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1500);
+    }catch(e2){ console.error('Fallo también la descarga SVG',e2); }
   }finally{btn.disabled=false;btn.textContent='⬇️ Descargar imagen HD';}
 }
-
 function addOwnPlace(){
   proposeSelectedPlace();
 }
