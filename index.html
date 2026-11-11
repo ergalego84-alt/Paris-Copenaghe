@@ -314,6 +314,11 @@ table.balances th{color:var(--muted);font-weight:800;font-size:11px;text-transfo
     </div>
   </div>
 
+  <div id="syncErrorCard" class="card hidden">
+    <div class="card-title"><span class="card-icon">⚠️</span><div><h3>No se está sincronizando</h3><div class="muted" id="syncErrorDetail"></div></div></div>
+    <p>Firebase está rechazando los datos (suele pasar si las reglas de Firestore han caducado o no permiten leer y escribir). Lo que añadas ahora se guarda solo en este móvil. Revisa Firebase → Firestore Database → Reglas.</p>
+  </div>
+
   <div id="localModeCard" class="card hidden">
     <div class="card-title"><span class="card-icon">📵</span><div><h3>Sincronización no configurada</h3><div class="muted">Ahora mismo cada móvil ve solo sus propios datos</div></div></div>
     <p>Para que los cambios de <strong>Checklist, Gastos y Cambios pendientes</strong> se vean en los 5 móviles a la vez, hay que configurar Firebase (gratis, 5 minutos). Instrucciones en el <code>README.md</code> del proyecto, apartado "Activar sincronización".</p>
@@ -341,6 +346,7 @@ table.balances th{color:var(--muted);font-weight:800;font-size:11px;text-transfo
     <article><time>08:15–09:00</time><div><div class="event-title">🥐 Desayuno</div><p>Desayuno antes de comenzar el viaje.</p></div></article>
     <article><time>09:10</time><div><div class="event-title">🚗 Parking · Aeropuerto de Sevilla</div><p>📍 Aeropuerto de Sevilla (SVQ)</p><a class="maps" target="_blank" rel="noopener" href="https://maps.google.com/?q=Aeropuerto+de+Sevilla+SVQ">📍 Abrir en Maps</a></div></article>
     <article><time>10:25–13:00</time><div><div class="event-title">✈️ VY8073 · Sevilla → París Orly</div><p>Adrián + Elia · duración estimada 2 h 35 min</p></div></article>
+    <article><time>14:15–15:00</time><div><div class="event-title">🏨 Check-in · Hôtel du Mont Blanc</div><p>📍 28 Rue de la Huchette, Barrio Latino · entrada desde las 14:00 · desde Orly cuenta con ~1 h en transporte público (estimado)</p><a class="maps" target="_blank" rel="noopener" href="https://maps.google.com/?q=H%C3%B4tel+du+Mont+Blanc+28+Rue+de+la+Huchette+Paris">📍 Maps</a></div></article>
     <article><time>15:00–15:45</time><div><div class="event-title">Île de la Cité</div><p>📍 Île de la Cité, Paris · ⏱️ 45 min</p><a class="maps" target="_blank" rel="noopener" href="https://maps.google.com/?q=Ile+de+la+Cite+Paris">📍 Maps</a></div></article>
     <article><time>15:45–16:15</time><div><div class="event-title">Notre-Dame</div><p>📍 Parvis Notre-Dame, Paris · ⏱️ 30 min</p><a class="maps" target="_blank" rel="noopener" href="https://maps.google.com/?q=Notre+Dame+Paris">📍 Maps</a></div></article>
     <article><time>16:15–17:00</time><div><div class="event-title">Barrio Latino</div><p>📍 Quartier Latin, Paris · ⏱️ 45 min</p><a class="maps" target="_blank" rel="noopener" href="https://maps.google.com/?q=Barrio+Latino+Paris">📍 Maps</a></div></article>
@@ -363,11 +369,12 @@ table.balances th{color:var(--muted);font-weight:800;font-size:11px;text-transfo
 
   <div class="day"><div class="day-head"><h3>Sábado 5 · Última mañana & Beauvais</h3><span class="day-badge">Adrián + Elia</span></div><div class="timeline">
     <article><time>08:00</time><div><div class="event-title">Levantarse</div></div></article>
-    <article><time>08:15–09:00</time><div><div class="event-title">🥐 Desayuno</div></div></article>
-    <article><time>09:30–11:00</time><div><div class="event-title">Panteón</div><p>📍 Place du Panthéon, Paris · ⏱️ 1 h 30 min</p><a class="maps" target="_blank" rel="noopener" href="https://maps.google.com/?q=Pantheon+Paris">📍 Maps</a></div></article>
-    <article><time>11:00–13:30</time><div><div class="event-title">🚐 Traslado a Beauvais</div><p>📍 Aéroport Paris-Beauvais (BVA) · ⏱️ 2 h 30 min</p><a class="maps" target="_blank" rel="noopener" href="https://maps.google.com/?q=Aeropuerto+de+Paris+Beauvais">📍 Maps</a></div></article>
+    <article><time>08:15</time><div><div class="event-title">🧳 Check-out · Hôtel du Mont Blanc</div><p>Se deja la habitación al salir a desayunar y se sigue con las maletas (la salida es antes de las 12:00)</p><a class="maps" target="_blank" rel="noopener" href="https://maps.google.com/?q=H%C3%B4tel+du+Mont+Blanc+28+Rue+de+la+Huchette+Paris">📍 Maps</a></div></article>
+    <article><time>08:30–09:15</time><div><div class="event-title">🥐 Desayuno tranquilo y paseo</div><p>Panteón solo por fuera y si apetece el desvío (a ~10 min andando, en dirección contraria al bus); si no encaja, se omite</p><a class="maps" target="_blank" rel="noopener" href="https://maps.google.com/?q=Pantheon+Paris">📍 Panteón</a></div></article>
+    <article><time>09:15–10:00</time><div><div class="event-title">🚇 Hacia Porte Maillot</div><p>~35–40 min en transporte público (estimado)</p><a class="maps" target="_blank" rel="noopener" href="https://maps.google.com/?q=Porte+Maillot+Paris+navette+Beauvais">📍 Maps</a></div></article>
+    <article><time>10:15–11:45</time><div><div class="event-title">🚐 Bus a Beauvais</div><p>📍 Sale de Porte Maillot unas 3 h antes del vuelo (~10:15–10:30) · trayecto ~1 h 15 · confirmar la hora exacta en la web de Aérobus</p><a class="maps" target="_blank" rel="noopener" href="https://maps.google.com/?q=Aeropuerto+de+Paris+Beauvais">📍 Aeropuerto</a></div></article>
     <article><time>13:30–15:20</time><div><div class="event-title">✈️ FR7981 · Beauvais → Copenhague</div><p>Adrián + Elia · duración estimada 1 h 50 min.</p></div></article>
-  </div><a class="route" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/Panthéon,+Paris/Aéroport+Paris-Beauvais">🗺️ Ver ruta completa del sábado</a></div>
+  </div><a class="route" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/Hôtel+du+Mont+Blanc,+28+Rue+de+la+Huchette,+Paris/Porte+Maillot,+Paris/Aéroport+Paris-Beauvais">🗺️ Ver ruta completa del sábado</a></div>
 </section>
 
 <section id="cph" class="page">
@@ -587,6 +594,8 @@ table.balances th{color:var(--muted);font-weight:800;font-size:11px;text-transfo
   <div class="card" style="margin-top:0"><div class="section-label">Viajes y documentación</div><h2 class="section-title">📁 Documentos</h2>
     <a class="drive" target="_blank" rel="noopener" href="https://drive.google.com/drive/folders/1jndItgl6xKmN5lNCmrHJjvqL7ODoAbhK"><span class="drive-icon">📁</span><span><b>Documentación de vuelos en Drive</b><small>Billetes, check-in, asientos y documentación</small></span></a>
     <a class="drive" target="_blank" rel="noopener" href="https://drive.google.com/drive/folders/13M3lATcBNvRxqvdg0Q4YJj7QwcJ7PeOT"><span class="drive-icon">🪪</span><span><b>DNIs en Drive</b><small>La aplicación no muestra ni almacena aquí los datos de los documentos</small></span></a>
+    <a class="drive" target="_blank" rel="noopener" href="https://maps.google.com/?q=H%C3%B4tel+du+Mont+Blanc+28+Rue+de+la+Huchette+Paris"><span class="drive-icon">🏨</span><span><b>Hôtel du Mont Blanc · París</b><small>28 Rue de la Huchette, Barrio Latino · 3–5 dic · entrada desde las 14:00, salida antes de las 12:00</small></span></a>
+    <a class="drive" href="tel:+33143544944"><span class="drive-icon">📞</span><span><b>Llamar al hotel</b><small>+33 1 43 54 49 44 · el nº de confirmación está en el correo de la reserva</small></span></a>
     <div class="notice">Si un enlace no se abre estando la app instalada en la pantalla de inicio, mantén pulsado el enlace y elige "Abrir en Safari/Chrome".</div>
   </div>
 </section>
@@ -594,13 +603,13 @@ table.balances th{color:var(--muted);font-weight:800;font-size:11px;text-transfo
 <section id="fotos" class="page">
   <button type="button" class="back-btn" data-go="home">← Volver al inicio</button>
   <div class="card" style="margin-top:0"><div class="section-label">Recuerdos del viaje</div><h2 class="section-title">📸 Fotos</h2>
-    <p class="muted">Cada uno sube sus fotos a su propia carpeta. Al final del viaje se pueden mezclar todas para hacer el resumen.</p>
-    <a class="drive" target="_blank" rel="noopener" href="https://drive.google.com/drive/folders/1BhXOAwgOBkVhJf5X5k92FlmwEBu5ZndE"><span class="drive-icon">📸</span><span><b>Adrián</b><small>Subir mis fotos</small></span></a>
-    <a class="drive" target="_blank" rel="noopener" href="https://drive.google.com/drive/folders/1ewU3jIZdfxsq8HAJfNWr3GGr_zzXNL2W"><span class="drive-icon">📸</span><span><b>Elia</b><small>Subir mis fotos</small></span></a>
-    <a class="drive" target="_blank" rel="noopener" href="https://drive.google.com/drive/folders/1XaiFiCYMkx1ZvdS0ej-xLc57Lwej1AD0"><span class="drive-icon">📸</span><span><b>Marina</b><small>Subir mis fotos</small></span></a>
-    <a class="drive" target="_blank" rel="noopener" href="https://drive.google.com/drive/folders/1s4LKOhIbIIBw_KxoBu8EathnG3LeuoO0"><span class="drive-icon">📸</span><span><b>Irene</b><small>Subir mis fotos</small></span></a>
-    <a class="drive" target="_blank" rel="noopener" href="https://drive.google.com/drive/folders/1uZebcqcj3nnsJmMGiPHyut9KO1xuAty4"><span class="drive-icon">📸</span><span><b>Juan Carlos</b><small>Subir mis fotos</small></span></a>
-    <div class="notice">Al abrir el enlace, usa el botón "+" o "Subir" dentro de la app de Drive para añadir tus fotos directamente desde el móvil.</div>
+    <p class="muted">Cada uno tiene su carpeta, pero al ser todas compartidas, podéis entrar en la de cualquiera para subir vuestras fotos o ver las que ya haya subido esa persona. Al final del viaje se pueden mezclar todas para hacer el resumen.</p>
+    <a class="drive" target="_blank" rel="noopener" href="https://drive.google.com/drive/folders/1BhXOAwgOBkVhJf5X5k92FlmwEBu5ZndE"><span class="drive-icon">📸</span><span><b>Adrián</b><small>Subir y ver fotos</small></span></a>
+    <a class="drive" target="_blank" rel="noopener" href="https://drive.google.com/drive/folders/1ewU3jIZdfxsq8HAJfNWr3GGr_zzXNL2W"><span class="drive-icon">📸</span><span><b>Elia</b><small>Subir y ver fotos</small></span></a>
+    <a class="drive" target="_blank" rel="noopener" href="https://drive.google.com/drive/folders/1XaiFiCYMkx1ZvdS0ej-xLc57Lwej1AD0"><span class="drive-icon">📸</span><span><b>Marina</b><small>Subir y ver fotos</small></span></a>
+    <a class="drive" target="_blank" rel="noopener" href="https://drive.google.com/drive/folders/1s4LKOhIbIIBw_KxoBu8EathnG3LeuoO0"><span class="drive-icon">📸</span><span><b>Irene</b><small>Subir y ver fotos</small></span></a>
+    <a class="drive" target="_blank" rel="noopener" href="https://drive.google.com/drive/folders/1uZebcqcj3nnsJmMGiPHyut9KO1xuAty4"><span class="drive-icon">📸</span><span><b>Juan Carlos</b><small>Subir y ver fotos</small></span></a>
+    <div class="notice">Al abrir el enlace verás las fotos que ya haya ahí. Para añadir las tuyas, usa el botón "+" o "Subir" dentro de la app de Drive.</div>
   </div>
 </section>
 
@@ -714,20 +723,22 @@ const DAY_COLORS={jue:"var(--d-thu)",vie:"var(--d-fri)",sab:"var(--d-sat)",dom:"
 const DAY_HEX={jue:"#2b6cff",vie:"#1fae6b",sab:"#f28c28",dom:"#c94b4b",lun:"#8a4bd1",mar:"#c9a227"};
 const mapStops={
   paris:[
-    {day:"jue",label:"Jueves 3",order:1,title:"Île de la Cité",time:"15:00",lat:48.8554,lng:2.3475,map:"https://maps.google.com/?q=Ile+de+la+Cite+Paris"},
-    {day:"jue",label:"Jueves 3",order:2,title:"Notre-Dame",time:"15:45",lat:48.8530,lng:2.3499,map:"https://maps.google.com/?q=Notre+Dame+Paris"},
-    {day:"jue",label:"Jueves 3",order:3,title:"Barrio Latino",time:"16:15",lat:48.8496,lng:2.3441,map:"https://maps.google.com/?q=Barrio+Latino+Paris"},
-    {day:"jue",label:"Jueves 3",order:4,title:"Pirámide del Louvre",time:"17:00",lat:48.8606,lng:2.3376,map:"https://maps.google.com/?q=Pyramide+du+Louvre+Paris"},
-    {day:"jue",label:"Jueves 3",order:5,title:"Sagrado Corazón",time:"18:00",lat:48.8867,lng:2.3431,map:"https://maps.google.com/?q=Sacre+Coeur+Paris"},
-    {day:"jue",label:"Jueves 3",order:6,title:"Montmartre",time:"19:15",lat:48.8846,lng:2.3410,map:"https://maps.google.com/?q=Montmartre+Paris"},
+    {day:"jue",label:"Jueves 3",order:1,title:"Hôtel du Mont Blanc (check-in)",time:"14:15",lat:48.8526,lng:2.3462,map:"https://maps.google.com/?q=H%C3%B4tel+du+Mont+Blanc+28+Rue+de+la+Huchette+Paris"},
+    {day:"jue",label:"Jueves 3",order:2,title:"Île de la Cité",time:"15:00",lat:48.8554,lng:2.3475,map:"https://maps.google.com/?q=Ile+de+la+Cite+Paris"},
+    {day:"jue",label:"Jueves 3",order:3,title:"Notre-Dame",time:"15:45",lat:48.8530,lng:2.3499,map:"https://maps.google.com/?q=Notre+Dame+Paris"},
+    {day:"jue",label:"Jueves 3",order:4,title:"Barrio Latino",time:"16:15",lat:48.8496,lng:2.3441,map:"https://maps.google.com/?q=Barrio+Latino+Paris"},
+    {day:"jue",label:"Jueves 3",order:5,title:"Pirámide del Louvre",time:"17:00",lat:48.8606,lng:2.3376,map:"https://maps.google.com/?q=Pyramide+du+Louvre+Paris"},
+    {day:"jue",label:"Jueves 3",order:6,title:"Sagrado Corazón",time:"18:00",lat:48.8867,lng:2.3431,map:"https://maps.google.com/?q=Sacre+Coeur+Paris"},
+    {day:"jue",label:"Jueves 3",order:7,title:"Montmartre",time:"19:15",lat:48.8846,lng:2.3410,map:"https://maps.google.com/?q=Montmartre+Paris"},
     {day:"vie",label:"Viernes 4",order:1,title:"Galeries Lafayette",time:"09:00",lat:48.8722,lng:2.3320,map:"https://maps.google.com/?q=Galeries+Lafayette+Haussmann+Paris"},
     {day:"vie",label:"Viernes 4",order:2,title:"Campos Elíseos",time:"10:15",lat:48.8698,lng:2.3076,map:"https://maps.google.com/?q=Avenue+des+Champs+Elysees+Paris"},
     {day:"vie",label:"Viernes 4",order:3,title:"Arco del Triunfo",time:"11:15",lat:48.8738,lng:2.2950,map:"https://maps.google.com/?q=Arc+de+Triomphe+Paris"},
     {day:"vie",label:"Viernes 4",order:4,title:"Torre Eiffel / Trocadéro",time:"14:00",lat:48.8584,lng:2.2945,map:"https://maps.google.com/?q=Torre+Eiffel+Paris"},
     {day:"vie",label:"Viernes 4",order:5,title:"Campo de Marte",time:"15:30",lat:48.8556,lng:2.2986,map:"https://maps.google.com/?q=Champ+de+Mars+Paris"},
     {day:"vie",label:"Viernes 4",order:6,title:"Crucero por el Sena",time:"18:00",lat:48.8600,lng:2.2945,map:"https://maps.google.com/?q=Seine+River+Paris"},
-    {day:"sab",label:"Sábado 5",order:1,title:"Panteón",time:"09:30",lat:48.8462,lng:2.3464,map:"https://maps.google.com/?q=Pantheon+Paris"},
-    {day:"sab",label:"Sábado 5",order:2,title:"Traslado a Beauvais",time:"11:00",lat:49.4544,lng:2.1128,map:"https://maps.google.com/?q=Aeropuerto+de+Paris+Beauvais"}
+    {day:"sab",label:"Sábado 5",order:1,title:"Hôtel du Mont Blanc (check-out)",time:"08:15",lat:48.8526,lng:2.3462,map:"https://maps.google.com/?q=H%C3%B4tel+du+Mont+Blanc+28+Rue+de+la+Huchette+Paris"},
+    {day:"sab",label:"Sábado 5",order:2,title:"Panteón (por fuera, opcional)",time:"08:30",lat:48.8462,lng:2.3464,map:"https://maps.google.com/?q=Pantheon+Paris"},
+    {day:"sab",label:"Sábado 5",order:3,title:"Bus a Beauvais",time:"10:15",lat:49.4544,lng:2.1128,map:"https://maps.google.com/?q=Aeropuerto+de+Paris+Beauvais"}
   ],
   cph:[
     {day:"sab",label:"Sábado 5",order:1,title:"Llegada de Marina, Irene y Juan Carlos",time:"14:25",lat:55.6180,lng:12.6476,map:"https://maps.google.com/?q=Copenhagen+Airport"},
@@ -1751,14 +1762,24 @@ function renderMap(){
 
 /* ============ SINCRONIZACIÓN (Firebase, opcional) ============ */
 let dbReady=false;
+let syncError=null, syncErrorKind=null;
 function updateSyncPill(){
   const pill=document.getElementById("syncPill");
   const localCard=document.getElementById("localModeCard");
+  const errCard=document.getElementById("syncErrorCard");
+  const errDetail=document.getElementById("syncErrorDetail");
   const sub=document.getElementById("collabSubtitle");
+  if(errCard) errCard.classList.add("hidden");
   if(!FIREBASE_CONFIGURED){
     if(pill){ pill.className="pill warn"; pill.textContent="📵 Sin sincronizar (modo local)"; }
     if(localCard) localCard.classList.remove("hidden");
     if(sub) sub.textContent="Cada móvil tiene su propia sesión (Firebase no configurado)";
+  } else if(syncError){
+    if(pill){ pill.className="pill warn"; pill.textContent="⚠️ Error de sincronización"; }
+    if(localCard) localCard.classList.add("hidden");
+    if(errCard) errCard.classList.remove("hidden");
+    if(errDetail) errDetail.textContent="Código: "+(syncError.code||syncError.message||"desconocido");
+    if(sub) sub.textContent="Ahora mismo los cambios solo se guardan en este móvil";
   } else if(dbReady){
     if(pill){ pill.className="pill ok"; pill.textContent="☁️ Sincronizado con los 5"; }
     if(localCard) localCard.classList.add("hidden");
@@ -1767,40 +1788,56 @@ function updateSyncPill(){
     if(pill){ pill.className="pill warn"; pill.textContent="☁️ Conectando…"; }
   }
 }
+function syncFail(err,kind){
+  console.error("Firebase:",err);
+  const first=!syncError;
+  syncError=err||{code:"desconocido"};
+  syncErrorKind=kind||"read";
+  updateSyncPill();
+  if(first) toast("⚠️ Firebase no acepta los datos: no se está sincronizando");
+}
 async function syncSet(col,doc,data){
   if(!FIREBASE_CONFIGURED || !window.__db) return;
   try{
     const {doc:docRef,setDoc}=window.__fs;
     await setDoc(docRef(window.__db,col,doc),{value:data,updatedAt:Date.now()});
-  }catch(err){ console.error("Error guardando en la nube:",err); }
+    if(syncErrorKind==="write"){ syncError=null; syncErrorKind=null; updateSyncPill(); }
+  }catch(err){ syncFail(err,"write"); }
 }
 function listenCollab(){
   if(!FIREBASE_CONFIGURED || !window.__db) return;
   const {doc:docRef,onSnapshot}=window.__fs;
+  /* "Sincronizado" solo cuando llega una lectura real del servidor */
+  const ok=snap=>{ if(!snap.metadata.fromCache && !dbReady){ dbReady=true; updateSyncPill(); } };
+  const bad=err=>syncFail(err,"read");
   onSnapshot(docRef(window.__db,"checklist","state"),snap=>{
+    ok(snap);
     if(snap.exists()){ checked=snap.data().value||{}; localStorage.setItem("travel_checklist",JSON.stringify(checked)); renderChecklist(); }
-  });
+  },bad);
   onSnapshot(docRef(window.__db,"pending","list"),snap=>{
+    ok(snap);
     if(snap.exists()){ pending=snap.data().value||[]; localStorage.setItem("travel_pending",JSON.stringify(pending)); renderPending(); }
-  });
+  },bad);
   onSnapshot(docRef(window.__db,"additions","list"),snap=>{
+    ok(snap);
     if(snap.exists()){ tripAdditions=snap.data().value||[]; localStorage.setItem("travel_additions",JSON.stringify(tripAdditions)); renderAddedItineraries(); renderChecklist(); renderMap(); renderDayPosters(); }
-  });
+  },bad);
   onSnapshot(docRef(window.__db,"expenses","list"),snap=>{
+    ok(snap);
     if(snap.exists()){ expenses=snap.data().value||[]; localStorage.setItem("travel_expenses",JSON.stringify(expenses)); renderExpenses(); }
-  });
+  },bad);
   onSnapshot(docRef(window.__db,"meta","names"),snap=>{
+    ok(snap);
     if(snap.exists() && snap.data().value){
       travelerNames=snap.data().value;
       localStorage.setItem("travel_names",JSON.stringify(travelerNames));
       fillPayerSelect(); renderParticipantChips(); renderBalances(); renderNamesForm();
     }
-  });
-  dbReady=true;
+  },bad);
   updateSyncPill();
 }
 window.addEventListener("firebase-ready",listenCollab);
-window.addEventListener("firebase-failed",updateSyncPill);
+window.addEventListener("firebase-failed",()=>syncFail({code:"no-se-pudo-cargar-firebase"},"read"));
 
 /* ============ TIEMPO PARÍS + COPENHAGUE ============ */
 const TRIP_DATES=['2026-12-03','2026-12-04','2026-12-05','2026-12-06','2026-12-07','2026-12-08'];
