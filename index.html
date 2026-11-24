@@ -320,14 +320,14 @@ table.balances th{color:var(--muted);font-weight:800;font-size:11px;text-transfo
   </div>
 
   <div id="localModeCard" class="card hidden">
-    <div class="card-title"><span class="card-icon">📵</span><div><h3>Sincronización no configurada</h3><div class="muted">Ahora mismo cada móvil ve solo sus propios datos</div></div></div>
-    <p>Para que los cambios de <strong>Checklist, Gastos y Cambios pendientes</strong> se vean en los 5 móviles a la vez, hay que configurar Firebase (gratis, 5 minutos). Instrucciones en el <code>README.md</code> del proyecto, apartado "Activar sincronización".</p>
+    <div class="card-title"><span class="card-icon">🔒</span><div><h3>Sincronización pausada por seguridad</h3><div class="muted">Ahora mismo cada móvil ve solo sus propios datos</div></div></div>
+    <p>Para sincronizar datos se necesita configurar Firebase y autenticar a los viajeros. La app actual todavía no lo hace; consulta el apartado de seguridad del <code>README.md</code> antes de activar Firestore.</p>
   </div>
 
   <div class="card">
     <div class="card-title"><span class="card-icon">👥</span><div><h3>Viaje colaborativo</h3><div class="muted" id="collabSubtitle">Cada móvil tendrá su propia sesión</div></div></div>
-    <p>Los viajeros podrán proponer cambios, pero <strong>no modificarán el itinerario directamente</strong>. Las propuestas quedarán pendientes hasta que el administrador las acepte o rechace. Los <strong>gastos</strong>, en cambio, los puede añadir cualquiera sin aprobación.</p>
-    <div class="notice">💡 Así, si alguien encuentra un sitio interesante para el viernes a las 16:30, podrá proponerlo y tú decidirás si entra en el itinerario.</div>
+    <p>La interfaz permite proponer cambios y mostrar una cola de revisión, pero esta versión <strong>no autentica a los viajeros ni protege la aprobación con permisos de servidor</strong>. Los botones de aprobar/rechazar no son un control real de administrador.</p>
+    <div class="notice danger">No uses la sincronización con datos reales hasta añadir Firebase Authentication y reglas que limiten el acceso a los cinco viajeros y la aprobación a la persona administradora.</div>
   </div>
 </section>
 
@@ -387,13 +387,14 @@ table.balances th{color:var(--muted);font-weight:800;font-size:11px;text-transfo
     <button type="button" data-go="checklist">✅ Checklist</button>
   </div>
 
-  <div class="day"><div class="day-head"><h3>Sábado 5 · Llegada & encuentro</h3><span class="day-badge">Llegadas escalonadas → 5 juntos</span></div><div class="timeline">
+  <div class="day"><div class="day-head"><h3>Sábado 5 · Llegada y primera tarde</h3><span class="day-badge">Los 5 juntos</span></div><div class="timeline">
     <article><time>14:25</time><div><div class="event-title">🛬 Llegada de Marina, Irene y Juan Carlos</div><p>📍 Copenhagen Airport · SAS SK584 desde Málaga</p><a class="maps" target="_blank" rel="noopener" href="https://maps.google.com/?q=Copenhagen+Airport">📍 Maps</a></div></article>
     <article><time>15:20</time><div><div class="event-title">🛬 Llegada de Adrián y Elia</div><p>📍 Copenhagen Airport · desde París Beauvais</p><a class="maps" target="_blank" rel="noopener" href="https://maps.google.com/?q=Copenhagen+Airport">📍 Maps</a></div></article>
-    <article><time>16:30</time><div><div class="event-title">🤝 Encuentro del grupo</div><p>📍 Copenhagen Central Station · tiempo para recoger equipaje y llegar desde el aeropuerto</p><a class="maps" target="_blank" rel="noopener" href="https://maps.google.com/?q=Copenhagen+Central+Station">📍 Maps</a></div></article>
-    <article><time>17:00–19:30</time><div><div class="event-title">🎄 Tivoli Gardens</div><p>📍 Vesterbrogade 3, Copenhagen · ⏱️ 2 h 30 min · mercadillo navideño y luces, a 10 min a pie de la estación</p><a class="maps" target="_blank" rel="noopener" href="https://maps.google.com/?q=Tivoli+Gardens+Copenhagen">📍 Maps</a></div></article>
-    <article><time>19:30–21:00</time><div><div class="event-title">🍴 Cena todos juntos</div><p>📍 Zona de Vesterbro / centro, Copenhagen · primera cena de los 5</p></div></article>
-  </div><a class="route" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/Copenhagen+Airport/Copenhagen+Central+Station/Tivoli+Gardens,+Copenhagen">🗺️ Ver ruta del sábado</a></div>
+    <article><time>16:30</time><div><div class="event-title">🤝 Encuentro del grupo</div><p>📍 Copenhagen Central Station · después de recoger el equipaje y llegar desde el aeropuerto.</p><a class="maps" target="_blank" rel="noopener" href="https://maps.google.com/?q=Copenhagen+Central+Station">📍 Maps</a></div></article>
+    <article><time>16:45–17:30</time><div><div class="event-title">🌇 Nyhavn → centro histórico</div><p>Paseo por Nyhavn y Kongens Nytorv hacia el centro.</p><a class="maps" target="_blank" rel="noopener" href="https://maps.google.com/?q=Nyhavn+Copenhagen">📍 Maps</a></div></article>
+    <article><time>17:30–19:30</time><div><div class="event-title">🎄 Nytorv + Gammeltorv · cena</div><p>Mercado navideño céntrico; cenar en los puestos si están abiertos.</p><a class="maps" target="_blank" rel="noopener" href="https://maps.google.com/?q=Nytorv+Copenhagen">📍 Maps</a></div></article>
+    <article><time>Después</time><div><div class="event-title">✨ Paseo nocturno por el centro</div><p>Continuar juntos según el cansancio y el horario real de llegada.</p></div></article>
+  </div><a class="route" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/Copenhagen+Central+Station/Nyhavn,+Copenhagen/Kongens+Nytorv,+Copenhagen/Nytorv,+Copenhagen">🗺️ Ver ruta del sábado</a></div>
 
   <div class="day"><div class="day-head"><h3>Domingo 6 · Cultura & realeza</h3><span class="day-badge">Los 5 juntos</span></div><div class="timeline">
     <article><time>08:00</time><div><div class="event-title">Levantarse</div></div></article>
@@ -411,7 +412,7 @@ table.balances th{color:var(--muted);font-weight:800;font-size:11px;text-transfo
     <article><time>09:45–10:30</time><div><div class="event-title">Christianshavn</div><p>📍 Christianshavn, Copenhagen · ⏱️ 45 min · con luz de mañana, mejor para pasear y hacer fotos</p><a class="maps" target="_blank" rel="noopener" href="https://maps.google.com/?q=Christianshavn+Copenhagen">📍 Maps</a></div></article>
     <article><time>10:30–11:15</time><div><div class="event-title">Christiania</div><p>📍 Christianshavn, Copenhagen · ⏱️ 45 min · barrio alternativo autogestionado; no hacer fotos en Pusher Street</p><a class="maps" target="_blank" rel="noopener" href="https://maps.google.com/?q=Freetown+Christiania+Copenhagen">📍 Maps</a></div></article>
     <article><time>11:30–12:00</time><div><div class="event-title">🗼 Rundetårn (opcional)</div><p>📍 Købmagergade 52A, Copenhagen · ⏱️ 20-30 min · ~8€ · rampa en espiral y vistas; si vais con prisa, se puede pasar de largo</p><a class="maps" target="_blank" rel="noopener" href="https://maps.google.com/?q=Rundetaarn+Copenhagen">📍 Maps</a></div></article>
-    <article><time>12:00–13:30</time><div><div class="event-title">Castillo de Rosenborg</div><p>📍 Øster Voldgade 4A, Copenhagen · ⏱️ 1 h 30 min</p><a class="maps" target="_blank" rel="noopener" href="https://maps.google.com/?q=Rosenborg+Castle+Copenhagen">📍 Maps</a></div></article>
+    <article><time>12:00–12:45</time><div><div class="event-title">🌳 Rosenborg por fuera + Kongens Have</div><p>La visita interior al castillo queda opcional; este plan no requiere entrada.</p><a class="maps" target="_blank" rel="noopener" href="https://maps.google.com/?q=Rosenborg+Castle+Copenhagen">📍 Maps</a></div></article>
     <article><time>13:45–15:15</time><div><div class="event-title">Torvehallerne</div><p>📍 Frederiksborggade 21, Copenhagen · ⏱️ 1 h 30 min · mercado cubierto, va bien aunque ya oscurezca</p><a class="maps" target="_blank" rel="noopener" href="https://maps.google.com/?q=Torvehallerne+Copenhagen">📍 Maps</a></div></article>
     <article><time>15:30–16:30</time><div><div class="event-title">Værnedamsvej</div><p>📍 Værnedamsvej, Copenhagen · ⏱️ 1 h · calle comercial con luz propia, bonita también de noche</p><a class="maps" target="_blank" rel="noopener" href="https://maps.google.com/?q=Vaernedamsvej+Frederiksberg">📍 Maps</a></div></article>
   </div><a class="route" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/Christianshavn,+Copenhagen/Freetown+Christiania,+Copenhagen/Rundetaarn,+Copenhagen/Rosenborg+Castle,+Copenhagen/Torvehallerne,+Copenhagen/Værnedamsvej,+Copenhagen">🗺️ Ver ruta completa del lunes</a></div>
@@ -419,8 +420,9 @@ table.balances th{color:var(--muted);font-weight:800;font-size:11px;text-transfo
   <div class="day"><div class="day-head"><h3>Martes 8 · Despedida</h3><span class="day-badge">Los 5 juntos</span></div><div class="timeline">
     <article><time>08:00</time><div><div class="event-title">Levantarse</div></div></article>
     <article><time>08:15–09:00</time><div><div class="event-title">🥐 Desayuno</div></div></article>
-    <article><time>09:30–11:30</time><div><div class="event-title">Lagos Søerne</div><p>📍 Søerne, Copenhagen · ⏱️ 2 h</p><a class="maps" target="_blank" rel="noopener" href="https://maps.google.com/?q=Soerne+Copenhagen">📍 Maps</a></div></article>
-    <article><time>13:25–17:15</time><div><div class="event-title">✈️ Ryanair FR648 · Copenhague → Málaga</div><p>Adrián y Elia · llegada prevista a Málaga 17:15 · ref. F357VM</p></div></article>
+    <article><time>08:30–09:15</time><div><div class="event-title">Paseo breve por Lagos Søerne (opcional)</div><p>📍 Søerne, Copenhagen · ⏱️ 45 min · terminar pronto para ir al aeropuerto</p><a class="maps" target="_blank" rel="noopener" href="https://maps.google.com/?q=Soerne+Copenhagen">📍 Maps</a></div></article>
+    <article><time>09:15</time><div><div class="event-title">🚇 Salida hacia el aeropuerto</div><p>Los cinco viajeros salen juntos con margen para los vuelos de las 13:25 y 13:50.</p><a class="maps" target="_blank" rel="noopener" href="https://maps.google.com/?q=Copenhagen+Airport">📍 Copenhagen Airport</a></div></article>
+    <article><time>13:25–17:15</time><div><div class="event-title">✈️ Ryanair FR648 · Copenhague → Málaga</div><p>Adrián y Elia · llegada prevista a Málaga 17:15</p></div></article>
     <article><time>13:50–17:40</time><div><div class="event-title">✈️ SAS SK587 · Copenhague → Málaga</div><p>Marina, Irene y Juan Carlos · llegada prevista a Málaga 17:40</p></div></article>
   </div><a class="route" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/Soerne,+Copenhagen/Copenhagen+Airport">🗺️ Ver ruta del martes</a></div>
 </section>
@@ -561,7 +563,8 @@ table.balances th{color:var(--muted);font-weight:800;font-size:11px;text-transfo
 <section id="proposals" class="page">
   <button type="button" class="back-btn" data-go="home">← Volver al inicio</button>
   <div class="card" style="margin-top:0"><div class="section-label">Control de cambios</div><h2 class="section-title">🔔 Cambios pendientes</h2>
-    <div class="notice info">Solo las propuestas aceptadas podrán incorporarse al itinerario común. Con la sincronización activada, los otros cuatro móviles ven la propuesta en cuanto se envía.</div>
+    <div class="notice danger"><strong>Permisos pendientes:</strong> esta versión no autentica a los viajeros y los botones de aceptar/rechazar no verifican que quien los pulse sea el administrador. No uses Firebase con datos del viaje hasta añadir autenticación y reglas de acceso.</div>
+    <div class="notice info">Las propuestas aceptadas podrán incorporarse al itinerario común. Mientras no haya permisos reales, considera esta sección una vista de conveniencia, no un control de seguridad.</div>
   </div>
   <div id="proposalList"></div>
 </section>
@@ -569,7 +572,7 @@ table.balances th{color:var(--muted);font-weight:800;font-size:11px;text-transfo
 <section id="flights" class="page">
   <button type="button" class="back-btn" data-go="home">← Volver al inicio</button>
   <div class="card" style="margin-top:0"><div class="section-label">Horarios de vuelo</div><h2 class="section-title">✈️ Vuelos</h2>
-    <div class="notice">Adrián y Elia viajan vía París; Marina, Irene y Juan Carlos vuelan directos Málaga ↔ Copenhague. La vuelta es en dos vuelos distintos, ambos a Málaga.</div>
+    <div class="notice">Adrián y Elia viajan vía París. Marina, Irene y Juan Carlos vuelan desde Málaga a Copenhague; los tres regresos son a Málaga.</div>
     <div class="card" style="box-shadow:none;border:1px solid var(--line)">
       <h3>Vuelo 1 · Sevilla → París Orly</h3><p>Jueves 3 diciembre · Vueling VY8073 · 10:25–13:00 · Adrián + Elia</p>
     </div>
@@ -577,13 +580,13 @@ table.balances th{color:var(--muted);font-weight:800;font-size:11px;text-transfo
       <h3>Vuelo 2 · París Beauvais → Copenhague</h3><p>Sábado 5 diciembre · Ryanair FR7981 · 13:30–15:20 · Adrián + Elia</p>
     </div>
     <div class="card" style="box-shadow:none;border:1px solid var(--line)">
-      <h3>Vuelo · Málaga → Copenhague</h3><p>Sábado 5 diciembre · SAS SK584 · 10:45–14:25 · Marina, Irene y Juan Carlos · ref. YZZBFC</p>
+      <h3>Vuelo 3 · Málaga → Copenhague</h3><p>Sábado 5 diciembre · SAS SK584 · 10:45–14:25 · Marina, Irene y Juan Carlos</p>
     </div>
     <div class="card" style="box-shadow:none;border:1px solid var(--line)">
-      <h3>Vuelta 1 · Copenhague → Málaga</h3><p>Martes 8 diciembre · Ryanair FR648 · 13:25–17:15 · Adrián + Elia · ref. F357VM</p>
+      <h3>Vuelta 1 · Copenhague → Málaga</h3><p>Martes 8 diciembre · Ryanair FR648 · 13:25–17:15 · Adrián + Elia</p>
     </div>
     <div class="card" style="box-shadow:none;border:1px solid var(--line)">
-      <h3>Vuelta 2 · Copenhague → Málaga</h3><p>Martes 8 diciembre · SAS SK587 · 13:50–17:40 · Marina, Irene y Juan Carlos · ref. YZZBFC</p>
+      <h3>Vuelta 2 · Copenhague → Málaga</h3><p>Martes 8 diciembre · SAS SK587 · 13:50–17:40 · Marina, Irene y Juan Carlos</p>
     </div>
     <button type="button" class="back-btn" style="width:100%;justify-content:flex-start;margin-top:6px" data-go="documents">📁 Ver documentación en Drive</button>
   </div>
@@ -642,15 +645,9 @@ table.balances th{color:var(--muted);font-weight:800;font-size:11px;text-transfo
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
 
-<!-- ====== FIREBASE (sincronización entre los 5 móviles) ======
-  1) Ve a https://console.firebase.google.com y crea un proyecto gratis (plan Spark, sin tarjeta).
-  2) En "Compilación" → "Firestore Database" → crea la base de datos (modo producción o prueba).
-  3) En reglas de Firestore, para empezar rápido (podéis restringirlo luego):
-       allow read, write: if true;
-  4) En "Configuración del proyecto" → añade una app Web → copia el objeto firebaseConfig
-     y pégalo aquí abajo, sustituyendo los valores de ejemplo.
-  Mientras no lo configuréis, la app funciona en modo local (cada móvil ve solo lo suyo).
-======================================================================= -->
+<!-- Firebase client configuration. Never enable public read/write rules.
+     This client currently has no Authentication or admin authorization; do not
+     use Firestore with trip data until identity-based access rules are deployed. -->
 <script>
 const firebaseConfig = {
   apiKey: "AIzaSyAZ59UucO09oBIP3pJEHDj94jWKGCH-Pso",
@@ -662,9 +659,11 @@ const firebaseConfig = {
   measurementId: "G-8WVDMQ3DGG"
 };
 const FIREBASE_CONFIGURED = firebaseConfig.apiKey !== "TU_API_KEY";
+// Fail closed: this client has no sign-in flow or server-enforced admin roles yet.
+const FIREBASE_SYNC_ENABLED = false;
 </script>
 <script type="module">
-if (FIREBASE_CONFIGURED) {
+if (FIREBASE_CONFIGURED && FIREBASE_SYNC_ENABLED) {
   import("https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js").then(async ({initializeApp})=>{
     const fs = await import("https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js");
     const app = initializeApp(firebaseConfig);
@@ -741,10 +740,11 @@ const mapStops={
     {day:"sab",label:"Sábado 5",order:3,title:"Bus a Beauvais",time:"10:15",lat:49.4544,lng:2.1128,map:"https://maps.google.com/?q=Aeropuerto+de+Paris+Beauvais"}
   ],
   cph:[
-    {day:"sab",label:"Sábado 5",order:1,title:"Llegada de Marina, Irene y Juan Carlos",time:"14:25",lat:55.6180,lng:12.6476,map:"https://maps.google.com/?q=Copenhagen+Airport"},
+    {day:"sab",label:"Sábado 5",order:1,title:"Llegada de Marina, Irene y Juan Carlos · SAS SK584 desde Málaga",time:"14:25",lat:55.6180,lng:12.6476,map:"https://maps.google.com/?q=Copenhagen+Airport"},
     {day:"sab",label:"Sábado 5",order:2,title:"Llegada de Adrián y Elia",time:"15:20",lat:55.6180,lng:12.6476,map:"https://maps.google.com/?q=Copenhagen+Airport"},
-    {day:"sab",label:"Sábado 5",order:3,title:"Encuentro del grupo",time:"16:30",lat:55.6726,lng:12.5646,map:"https://maps.google.com/?q=Copenhagen+Central+Station"},
-    {day:"sab",label:"Sábado 5",order:4,title:"Tivoli Gardens",time:"17:00",lat:55.6736,lng:12.5681,map:"https://maps.google.com/?q=Tivoli+Gardens+Copenhagen"},
+    {day:"sab",label:"Sábado 5",order:3,title:"Encuentro del grupo · Central Station",time:"16:30",lat:55.6726,lng:12.5646,map:"https://maps.google.com/?q=Copenhagen+Central+Station"},
+    {day:"sab",label:"Sábado 5",order:4,title:"Nyhavn",time:"16:45",lat:55.6796,lng:12.5910,map:"https://maps.google.com/?q=Nyhavn+Copenhagen"},
+    {day:"sab",label:"Sábado 5",order:4,title:"Mercado de Nytorv + Gammeltorv · cena",time:"17:30",lat:55.6767,lng:12.5715,map:"https://maps.google.com/?q=Nytorv+Copenhagen"},
     {day:"dom",label:"Domingo 6",order:1,title:"Kastellet",time:"10:00",lat:55.6910,lng:12.5940,map:"https://maps.google.com/?q=Kastellet+Copenhagen"},
     {day:"dom",label:"Domingo 6",order:2,title:"La Sirenita",time:"11:00",lat:55.6929,lng:12.5993,map:"https://maps.google.com/?q=The+Little+Mermaid+Copenhagen"},
     {day:"dom",label:"Domingo 6",order:3,title:"Amalienborg",time:"11:45",lat:55.6840,lng:12.5930,map:"https://maps.google.com/?q=Amalienborg+Palace+Copenhagen"},
@@ -762,12 +762,35 @@ const mapStops={
 const DEFAULT_NAMES=["Adrián","Elia","Marina","Irene","Juan Carlos"];
 
 /* ============ ESTADO LOCAL (fallback sin conexión / sin Firebase) ============ */
-let checked=JSON.parse(localStorage.getItem("travel_checklist")||"{}");
-let pending=JSON.parse(localStorage.getItem("travel_pending")||"[]");
-let tripAdditions=JSON.parse(localStorage.getItem("travel_additions")||"[]");
-let expenses=JSON.parse(localStorage.getItem("travel_expenses")||"[]");
+function readLocalJSON(key,fallback){
+  try{const value=localStorage.getItem(key);return value===null?fallback:JSON.parse(value);}
+  catch(err){console.warn("Datos locales dañados; se usan valores iniciales:",key,err);return fallback;}
+}
+function normalizeExpenses(value){
+  if(!Array.isArray(value))return [];
+  return value.filter(e=>e&&typeof e.id==="string"&&typeof e.concept==="string"&&typeof e.payer==="string"&&Number.isFinite(Number(e.amount))&&Number(e.amount)>0&&Array.isArray(e.participants)&&e.participants.some(p=>typeof p==="string"))
+    .map(e=>({...e,amount:Number(e.amount),participants:e.participants.filter(p=>typeof p==="string").slice(0,5)}))
+    .filter(e=>e.participants.length>0);
+}
+function normalizePending(value){
+  if(!Array.isArray(value))return [];
+  return value.filter(p=>p&&typeof p.title==="string"&&p.title.trim().length>0)
+    .map(p=>({...p,title:p.title.trim().slice(0,160),loc:typeof p.loc==="string"?p.loc.slice(0,240):"",cityLabel:typeof p.cityLabel==="string"?p.cityLabel.slice(0,80):"",time:typeof p.time==="string"?p.time.slice(0,40):"",source:typeof p.source==="string"?p.source.slice(0,80):"",map:safeExternalUrl(p.map),date:typeof p.date==="string"&&dateToDayKey(p.date)?p.date:"",duration:Number.isFinite(Number(p.duration))?Math.max(0,Math.min(1440,Number(p.duration))):0,lat:Number(p.lat),lng:Number(p.lng)}));
+}
+function normalizeAdditions(value){
+  if(!Array.isArray(value))return [];
+  return value.filter(a=>a&&typeof a.title==="string"&&a.title.trim().length>0&&["paris","cph"].includes(a.city)&&Number.isFinite(Number(a.lat))&&Number(a.lat)>=-90&&Number(a.lat)<=90&&Number.isFinite(Number(a.lng))&&Number(a.lng)>=-180&&Number(a.lng)<=180)
+    .map(a=>({...a,id:typeof a.id==="string"&&/^[\w-]{1,80}$/.test(a.id)?a.id:"",title:a.title.trim().slice(0,160),loc:typeof a.loc==="string"?a.loc.slice(0,240):"",cityLabel:typeof a.cityLabel==="string"?a.cityLabel.slice(0,80):"",map:safeExternalUrl(a.map),date:typeof a.date==="string"&&dateToDayKey(a.date)?a.date:"",time:typeof a.time==="string"?a.time.slice(0,40):"",duration:Number.isFinite(Number(a.duration))?Math.max(0,Math.min(1440,Number(a.duration))):60,price:Number.isFinite(Number(a.price))?Math.max(0,Math.min(10000000,Number(a.price))):0,image:typeof a.image==="string"?safeExternalUrl(a.image):""}));
+}
+let checked=readLocalJSON("travel_checklist",{});
+let pending=normalizePending(readLocalJSON("travel_pending",[]));
+let tripAdditions=normalizeAdditions(readLocalJSON("travel_additions",[]));
+let expenses=readLocalJSON("travel_expenses",[]);
 let selectedSearchPlace=null;
-let travelerNames=JSON.parse(localStorage.getItem("travel_names")||"null")||DEFAULT_NAMES.slice();
+let travelerNames=readLocalJSON("travel_names",DEFAULT_NAMES.slice());
+if(!Array.isArray(travelerNames)||travelerNames.length!==5||travelerNames.some(n=>typeof n!=="string")) travelerNames=DEFAULT_NAMES.slice();
+if(!checked||typeof checked!=="object"||Array.isArray(checked))checked={};
+expenses=normalizeExpenses(expenses);
 let filter="all";
 let mapCity="paris";
 let activeDays=new Set();
@@ -1070,12 +1093,12 @@ function renderFoodResults(){
   const origin=foodMode==='gps'&&foodGpsCoords?foodGpsCoords:{lat:FOOD_CITIES[foodCity].lat,lng:FOOD_CITIES[foodCity].lon};
   if(!foodResults.length){box.innerHTML='<div class="card" style="margin:0"><p class="muted">No he encontrado restaurantes con esos criterios. Prueba otra búsqueda.</p></div>';return;}
   box.innerHTML=foodResults.map((p,i)=>`<article class="food-card">
-    <img id="food-img-${i}" src="${p.image||FOOD_FALLBACK_IMAGES[foodCity]}" alt="${escapeHtml(p.title)}">
+    <img id="food-img-${i}" src="${safeExternalUrl(p.image||FOOD_FALLBACK_IMAGES[foodCity])}" alt="${escapeHtml(p.title)}">
     <div>
       <h3>${escapeHtml(p.title)}</h3>
       <div class="food-meta">🍴 ${escapeHtml(p.cuisine)} · 💶 <strong>${escapeHtml(p.price)}</strong>${p.priceEstimated?' <small>(orientativo)</small>':''}<br>📍 ${escapeHtml(p.loc)}<br><span class="food-distance">📏 ${p.distance<1?Math.round(p.distance*1000)+' m':p.distance.toFixed(1)+' km'}</span></div>
       <p class="food-summary">${escapeHtml(p.summary)}</p>
-      <div class="food-actions"><button type="button" class="choose" data-food-select="${i}">🍽️ Elegir</button><a class="food-map" target="_blank" rel="noopener" href="${p.map}">🗺️ Maps</a></div>
+      <div class="food-actions"><button type="button" class="choose" data-food-select="${i}">🍽️ Elegir</button><a class="food-map" target="_blank" rel="noopener" href="${safeExternalUrl(p.map)}">🗺️ Maps</a></div>
     </div>
   </article>`).join('');
   enrichFoodImages(foodResults);
@@ -1096,7 +1119,7 @@ function selectFoodPlace(index){
   const p=foodResults[index];if(!p)return;selectedFoodPlace=p;
   const dates=p.city==='paris'?[['','Sin fecha todavía'],['2026-12-03','Jueves 3'],['2026-12-04','Viernes 4'],['2026-12-05','Sábado 5']]:[['','Sin fecha todavía'],['2026-12-05','Sábado 5'],['2026-12-06','Domingo 6'],['2026-12-07','Lunes 7'],['2026-12-08','Martes 8']];
   const box=document.getElementById('foodSelected');box.classList.remove('hidden');
-  box.innerHTML=`<h3>🍽️ ${escapeHtml(p.title)}</h3><div class="meta">📍 ${escapeHtml(p.loc)}<br>🍴 ${escapeHtml(p.cuisine)} · 💶 ${escapeHtml(p.price)}${p.priceEstimated?' (orientativo)':''}<br>${escapeHtml(p.summary)}<br><a href="${p.map}" target="_blank" rel="noopener">Abrir ubicación en Google Maps →</a></div>
+  box.innerHTML=`<h3>🍽️ ${escapeHtml(p.title)}</h3><div class="meta">📍 ${escapeHtml(p.loc)}<br>🍴 ${escapeHtml(p.cuisine)} · 💶 ${escapeHtml(p.price)}${p.priceEstimated?' (orientativo)':''}<br>${escapeHtml(p.summary)}<br><a href="${safeExternalUrl(p.map)}" target="_blank" rel="noopener">Abrir ubicación en Google Maps →</a></div>
     <div class="food-plan"><div><label>📅 Día (opcional)</label><select id="foodDate">${dates.map(x=>`<option value="${x[0]}">${x[1]}</option>`).join('')}</select></div><div><label>🕐 Hora (opcional)</label><input type="time" id="foodTime"></div><div><label>⏱️ Duración</label><select id="foodDuration"><option value="45">45 min</option><option value="60" selected>1 h</option><option value="90">1 h 30 min</option><option value="120">2 h</option></select></div><div><label>💶 Precio por persona</label><input type="number" id="foodPrice" min="0" step="0.5" placeholder="Opcional"></div></div>
     <button type="button" class="btn-primary" id="proposeFoodBtn" style="margin-top:12px">⭐ Proponer este restaurante</button>`;
   box.scrollIntoView({behavior:'smooth',block:'nearest'});
@@ -1118,14 +1141,14 @@ function renderChecklist(){
     const key="c"+i; const on=!!checked[key];
     c.insertAdjacentHTML("beforeend",`<label class="check-item ${on?"done":""}">
       <input type="checkbox" data-check="${key}" ${on?"checked":""}>
-      <span>${x[0]}<small>📍 ${x[1]} · <a href="${x[2]}" target="_blank" rel="noopener">Ver ubicación en Maps</a></small></span>
+      <span>${escapeHtml(x[0])}<small>📍 ${escapeHtml(x[1])} · <a href="${safeExternalUrl(x[2])}" target="_blank" rel="noopener">Ver ubicación en Maps</a></small></span>
     </label>`);
   });
   tripAdditions.forEach((a,i)=>{
     const key="add-"+(a.id||i); const on=!!checked[key];
     c.insertAdjacentHTML("beforeend",`<label class="check-item ${on?"done":""}">
       <input type="checkbox" data-check="${key}" ${on?"checked":""}>
-      <span>⭐ ${escapeHtml(a.title)} <small>📍 ${escapeHtml(a.loc||a.cityLabel||'')} · <a href="${a.map}" target="_blank" rel="noopener">Ver ubicación en Maps</a> · <strong>AÑADIDO POSTERIORMENTE</strong></small></span>
+      <span>⭐ ${escapeHtml(a.title)} <small>📍 ${escapeHtml(a.loc||a.cityLabel||'')} · <a href="${safeExternalUrl(a.map)}" target="_blank" rel="noopener">Ver ubicación en Maps</a> · <strong>AÑADIDO POSTERIORMENTE</strong></small></span>
     </label>`);
   });
 }
@@ -1149,9 +1172,9 @@ function renderRecs(){
   }
   filtered.forEach(r=>{
     c.insertAdjacentHTML("beforeend",`<article class="rec">
-      <h3>${r.title}</h3>
-      <div class="meta">📍 ${r.loc}<br>💶 ${r.price} · ⏱️ ${r.time}<br>💡 ${r.why}<br>🗓️ <strong>Momento sugerido:</strong> ${r.suggest}</div>
-      <div class="actions"><button type="button" class="add" data-rec="${r.id}">☑️ Proponer</button><a class="map-link" href="${r.map}" target="_blank" rel="noopener">🗺️ Maps</a></div>
+      <h3>${escapeHtml(r.title)}</h3>
+      <div class="meta">📍 ${escapeHtml(r.loc)}<br>💶 ${escapeHtml(r.price)} · ⏱️ ${escapeHtml(r.time)}<br>💡 ${escapeHtml(r.why)}<br>🗓️ <strong>Momento sugerido:</strong> ${escapeHtml(r.suggest)}</div>
+      <div class="actions"><button type="button" class="add" data-rec="${escapeHtml(r.id)}">☑️ Proponer</button><a class="map-link" href="${safeExternalUrl(r.map)}" target="_blank" rel="noopener">🗺️ Maps</a></div>
     </article>`);
   });
 }
@@ -1178,7 +1201,11 @@ function normalizeSearch(q){
   const k=q.trim().toLowerCase();
   return SEARCH_TRANSLATIONS[k] || q;
 }
-function escapeHtml(v){return String(v||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));}
+function escapeHtml(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));}
+function safeExternalUrl(value){
+  try{const url=new URL(String(value||''),location.href);return url.protocol==='https:'?url.href:'#';}
+  catch{return '#';}
+}
 async function searchCommonsImage(title,city){
   try{
     const q=encodeURIComponent(`${title} ${city}`);
@@ -1229,7 +1256,7 @@ function selectSearchPlace(index){
   selectedSearchPlace=p;
   const dates=p.city==='paris' ? [['','Sin fecha todavía'],['2026-12-03','Jueves 3'],['2026-12-04','Viernes 4'],['2026-12-05','Sábado 5']] : [['','Sin fecha todavía'],['2026-12-05','Sábado 5'],['2026-12-06','Domingo 6'],['2026-12-07','Lunes 7'],['2026-12-08','Martes 8']];
   document.getElementById('selectedPlacePanel').classList.remove('hidden');
-  document.getElementById('selectedPlacePanel').innerHTML=`<div class="selected-place-head"><img src="${p.image||fallbackPlaceImage(p.city)}" alt=""><div><h4>${escapeHtml(p.title)}</h4><div class="meta">📍 ${escapeHtml(p.loc)}<br>🔎 Lugar real encontrado en ${escapeHtml(p.cityLabel)}<br><a href="${p.map}" target="_blank" rel="noopener">Abrir ubicación en Google Maps →</a></div></div></div><div class="place-plan"><div><label>📅 ¿Cuándo quieres ir? (opcional)</label><select id="placeDate">${dates.map(x=>`<option value="${x[0]}">${x[1]}</option>`).join('')}</select></div><div><label>🕐 Hora (opcional)</label><input type="time" id="placeTime"></div><div><label>⏱️ Tiempo de visita</label><select id="placeDuration"><option value="30">30 min</option><option value="45">45 min</option><option value="60" selected>1 h</option><option value="90">1 h 30 min</option><option value="120">2 h</option></select></div><div><label>💶 Precio por persona (opcional)</label><input type="number" id="placePrice" min="0" step="0.5" placeholder="0"></div></div><button type="button" class="btn-primary" id="addOwnPlaceBtn" style="margin-top:12px">⭐ Proponer este sitio</button>`;
+  document.getElementById('selectedPlacePanel').innerHTML=`<div class="selected-place-head"><img src="${safeExternalUrl(p.image||fallbackPlaceImage(p.city))}" alt=""><div><h4>${escapeHtml(p.title)}</h4><div class="meta">📍 ${escapeHtml(p.loc)}<br>🔎 Lugar real encontrado en ${escapeHtml(p.cityLabel)}<br><a href="${safeExternalUrl(p.map)}" target="_blank" rel="noopener">Abrir ubicación en Google Maps →</a></div></div></div><div class="place-plan"><div><label>📅 ¿Cuándo quieres ir? (opcional)</label><select id="placeDate">${dates.map(x=>`<option value="${x[0]}">${x[1]}</option>`).join('')}</select></div><div><label>🕐 Hora (opcional)</label><input type="time" id="placeTime"></div><div><label>⏱️ Tiempo de visita</label><select id="placeDuration"><option value="30">30 min</option><option value="45">45 min</option><option value="60" selected>1 h</option><option value="90">1 h 30 min</option><option value="120">2 h</option></select></div><div><label>💶 Precio por persona (opcional)</label><input type="number" id="placePrice" min="0" step="0.5" placeholder="0"></div></div><button type="button" class="btn-primary" id="addOwnPlaceBtn" style="margin-top:12px">⭐ Proponer este sitio</button>`;
   document.getElementById('selectedPlacePanel').scrollIntoView({behavior:'smooth',block:'nearest'});
 }
 function proposeSelectedPlace(){
@@ -1251,11 +1278,12 @@ function proposeSelectedPlace(){
 }
 
 function dateToDayKey(date){
-  return ({'2026-12-03':'jue','2026-12-04':'vie','2026-12-05':'sab','2026-12-06':'dom','2026-12-07':'lun','2026-12-08':'mar'})[date]||'';
+  const dates={'2026-12-03':'jue','2026-12-04':'vie','2026-12-05':'sab','2026-12-06':'dom','2026-12-07':'lun','2026-12-08':'mar'};
+  return Object.prototype.hasOwnProperty.call(dates,date)?dates[date]:'';
 }
 function saveAdditions(){localStorage.setItem('travel_additions',JSON.stringify(tripAdditions));syncSet('additions','list',tripAdditions);}
-function dayLabel(date){return new Date(date+'T12:00:00').toLocaleDateString('es-ES',{weekday:'long',day:'numeric',month:'long'});}
-function durationLabel(min){return min>=60?`${Math.floor(min/60)} h${min%60?` ${min%60} min`:''}`:`${min} min`;}
+function dayLabel(date){if(!dateToDayKey(date))return 'Fecha pendiente';return new Date(date+'T12:00:00').toLocaleDateString('es-ES',{weekday:'long',day:'numeric',month:'long'});}
+function durationLabel(min){const n=Number(min);if(!Number.isFinite(n)||n<=0)return 'Duración pendiente';const value=Math.min(1440,Math.round(n));return value>=60?`${Math.floor(value/60)} h${value%60?` ${value%60} min`:''}`:`${value} min`;}
 function cityKeyForSection(section){return section==='paris'?'paris':'cph';}
 function timeToMinutes(t){const m=String(t||'').match(/(\d{1,2}):(\d{2})/);return m?(+m[1])*60+(+m[2]):9999;}
 function getDayStops(cityKey,dayKey){
@@ -1391,7 +1419,7 @@ function posterSvg(dayEl,stops,cityKey,routeCoords){
   let y=listTop+34;
   stops.slice(0,8).forEach((s,i)=>{
     const col=colors[i%colors.length];
-    const img=s.image||'';
+    const img=s.image?safeExternalUrl(s.image):'';
     const cat=posterCategory(s);
     const titleLines=posterLines(s.title,25);
     const descLines=posterLines(posterText(s.title),46);
@@ -1583,12 +1611,12 @@ function renderPending(){
 function fillPayerSelect(){
   const sel=document.getElementById("expPayer");
   if(!sel)return;
-  sel.innerHTML=travelerNames.map(n=>`<option value="${n}">${n}</option>`).join("");
+  sel.innerHTML=travelerNames.map(n=>`<option value="${escapeHtml(n)}">${escapeHtml(n)}</option>`).join("");
 }
 function renderParticipantChips(){
   const c=document.getElementById("expParticipants");
   if(!c)return;
-  c.innerHTML=travelerNames.map((n,i)=>`<label class="chip-check"><input type="checkbox" data-part="${i}" checked>${n}</label>`).join("");
+  c.innerHTML=travelerNames.map((n,i)=>`<label class="chip-check"><input type="checkbox" data-part="${i}" checked>${escapeHtml(n)}</label>`).join("");
   c.querySelectorAll("input").forEach(inp=>inp.addEventListener("change",updateSplitPreview));
   updateSplitPreview();
 }
@@ -1610,7 +1638,7 @@ function addExpense(){
   const amount=parseFloat(document.getElementById("expAmount").value);
   const participants=[...document.querySelectorAll("#expParticipants input")]
     .map((inp,i)=>({inp,name:travelerNames[i]})).filter(x=>x.inp.checked).map(x=>x.name);
-  if(!amount || amount<=0){ toast("Introduce una cantidad válida"); return; }
+  if(!Number.isFinite(amount) || amount<=0 || amount>10000000){ toast("Introduce una cantidad válida (máximo 10.000.000 €)"); return; }
   if(!participants.length){ toast("Selecciona al menos un participante"); return; }
   const exp={id:"e"+Date.now(),payer,concept,amount,participants,createdAt:Date.now()};
   expenses.push(exp);
@@ -1638,7 +1666,7 @@ function renderExpenses(){
     list.innerHTML=expenses.slice().reverse().map(e=>{
       const per=(e.amount/e.participants.length).toFixed(2);
       return `<div class="expense-row">
-        <div><span class="who">${e.concept}</span><small>Pagado por ${e.payer} · dividido entre ${e.participants.length} (${e.participants.join(", ")}) · ${per} €/persona</small></div>
+        <div><span class="who">${escapeHtml(e.concept)}</span><small>Pagado por ${escapeHtml(e.payer)} · dividido entre ${e.participants.length} (${e.participants.map(escapeHtml).join(", ")}) · ${per} €/persona</small></div>
         <div style="text-align:right"><span class="amt">${e.amount.toFixed(2)} €</span><br><button type="button" class="del-exp" data-del-exp="${e.id}">Eliminar</button></div>
       </div>`;
     }).join("");
@@ -1667,7 +1695,7 @@ function renderBalances(){
       const saldo=b.paid-b.owed;
       const cls=saldo>=0?"bal-pos":"bal-neg";
       const sign=saldo>=0?"+":"";
-      return `<tr><td>${name}</td><td>${b.paid.toFixed(2)} €</td><td>${b.owed.toFixed(2)} €</td><td class="${cls}">${sign}${saldo.toFixed(2)} €</td></tr>`;
+      return `<tr><td>${escapeHtml(name)}</td><td>${b.paid.toFixed(2)} €</td><td>${b.owed.toFixed(2)} €</td><td class="${cls}">${sign}${saldo.toFixed(2)} €</td></tr>`;
     }).join("");
   }
   const settleBalances={};
@@ -1695,18 +1723,18 @@ function renderSettlement(balances){
     el.innerHTML='<p class="muted">Todo cuadrado, no hay transferencias pendientes.</p>';
     return;
   }
-  el.innerHTML=moves.map(m=>`<div class="settle-row">➡️ <strong>${m.from}</strong> paga a <strong>${m.to}</strong>: ${m.amount.toFixed(2)} €</div>`).join("");
+  el.innerHTML=moves.map(m=>`<div class="settle-row">➡️ <strong>${escapeHtml(m.from)}</strong> paga a <strong>${escapeHtml(m.to)}</strong>: ${m.amount.toFixed(2)} €</div>`).join("");
 }
 
 /* ============ AJUSTES (nombres) ============ */
 function renderNamesForm(){
   const c=document.getElementById("namesForm");
   if(!c)return;
-  c.innerHTML=travelerNames.map((n,i)=>`<div><label>Persona ${i+1}</label><input type="text" data-name-idx="${i}" value="${n}"></div>`).join("");
+  c.innerHTML=travelerNames.map((n,i)=>`<div><label>Persona ${i+1}</label><input type="text" data-name-idx="${i}" value="${escapeHtml(n)}"></div>`).join("");
 }
 function saveNames(){
   const inputs=[...document.querySelectorAll("[data-name-idx]")];
-  travelerNames=inputs.map(i=>i.value.trim()||("Persona "+(+i.dataset.nameIdx+1)));
+  travelerNames=inputs.map(i=>i.value.trim().slice(0,40)||("Persona "+(+i.dataset.nameIdx+1)));
   localStorage.setItem("travel_names",JSON.stringify(travelerNames));
   syncSet("meta","names",travelerNames);
   fillPayerSelect();
@@ -1752,7 +1780,7 @@ function renderMap(){
       iconSize:[26,26], iconAnchor:[13,26]
     });
     const marker=L.marker([s.lat,s.lng],{icon}).addTo(leafletMapObj);
-    marker.bindPopup(`<strong>${s.title}</strong><br>${s.label} · ${s.time}<br><a href="${s.map}" target="_blank" rel="noopener">Abrir en Google Maps →</a>`);
+    marker.bindPopup(`<strong>${escapeHtml(s.title)}</strong><br>${escapeHtml(s.label)} · ${escapeHtml(s.time)}<br><a href="${safeExternalUrl(s.map)}" target="_blank" rel="noopener">Abrir en Google Maps →</a>`);
     leafletMarkers.push(marker);
     bounds.push([s.lat,s.lng]);
   });
@@ -1762,6 +1790,7 @@ function renderMap(){
 
 /* ============ SINCRONIZACIÓN (Firebase, opcional) ============ */
 let dbReady=false;
+const readySyncDocs=new Set();
 let syncError=null, syncErrorKind=null;
 function updateSyncPill(){
   const pill=document.getElementById("syncPill");
@@ -1770,10 +1799,10 @@ function updateSyncPill(){
   const errDetail=document.getElementById("syncErrorDetail");
   const sub=document.getElementById("collabSubtitle");
   if(errCard) errCard.classList.add("hidden");
-  if(!FIREBASE_CONFIGURED){
-    if(pill){ pill.className="pill warn"; pill.textContent="📵 Sin sincronizar (modo local)"; }
+  if(!FIREBASE_SYNC_ENABLED){
+    if(pill){ pill.className="pill warn"; pill.textContent="🔒 Sin sincronizar (modo local)"; }
     if(localCard) localCard.classList.remove("hidden");
-    if(sub) sub.textContent="Cada móvil tiene su propia sesión (Firebase no configurado)";
+    if(sub) sub.textContent="Sincronización desactivada hasta añadir autenticación y permisos";
   } else if(syncError){
     if(pill){ pill.className="pill warn"; pill.textContent="⚠️ Error de sincronización"; }
     if(localCard) localCard.classList.add("hidden");
@@ -1781,9 +1810,9 @@ function updateSyncPill(){
     if(errDetail) errDetail.textContent="Código: "+(syncError.code||syncError.message||"desconocido");
     if(sub) sub.textContent="Ahora mismo los cambios solo se guardan en este móvil";
   } else if(dbReady){
-    if(pill){ pill.className="pill ok"; pill.textContent="☁️ Sincronizado con los 5"; }
+    if(pill){ pill.className="pill ok"; pill.textContent="☁️ Conectado a la nube"; }
     if(localCard) localCard.classList.add("hidden");
-    if(sub) sub.textContent="Los cambios se ven en los 5 móviles al instante";
+    if(sub) sub.textContent="Firestore respondió a las cinco lecturas desde este dispositivo; no comprueba los otros móviles";
   } else {
     if(pill){ pill.className="pill warn"; pill.textContent="☁️ Conectando…"; }
   }
@@ -1793,11 +1822,12 @@ function syncFail(err,kind){
   const first=!syncError;
   syncError=err||{code:"desconocido"};
   syncErrorKind=kind||"read";
+  if(syncErrorKind==="read"){dbReady=false;readySyncDocs.clear();}
   updateSyncPill();
   if(first) toast("⚠️ Firebase no acepta los datos: no se está sincronizando");
 }
 async function syncSet(col,doc,data){
-  if(!FIREBASE_CONFIGURED || !window.__db) return;
+  if(!FIREBASE_SYNC_ENABLED || !window.__db) return;
   try{
     const {doc:docRef,setDoc}=window.__fs;
     await setDoc(docRef(window.__db,col,doc),{value:data,updatedAt:Date.now()});
@@ -1805,31 +1835,37 @@ async function syncSet(col,doc,data){
   }catch(err){ syncFail(err,"write"); }
 }
 function listenCollab(){
-  if(!FIREBASE_CONFIGURED || !window.__db) return;
+  if(!FIREBASE_SYNC_ENABLED || !window.__db) return;
   const {doc:docRef,onSnapshot}=window.__fs;
-  /* "Sincronizado" solo cuando llega una lectura real del servidor */
-  const ok=snap=>{ if(!snap.metadata.fromCache && !dbReady){ dbReady=true; updateSyncPill(); } };
+  /* La conexión solo se confirma tras leer los cinco documentos desde el servidor. */
+  const ok=(key,snap)=>{
+    if(!snap.metadata.fromCache){
+      readySyncDocs.add(key);
+      if(readySyncDocs.size===5&&(!dbReady||syncErrorKind==="read")){dbReady=true;syncError=null;syncErrorKind=null;updateSyncPill();}
+    }
+  };
   const bad=err=>syncFail(err,"read");
   onSnapshot(docRef(window.__db,"checklist","state"),snap=>{
-    ok(snap);
+    ok("checklist/state",snap);
     if(snap.exists()){ checked=snap.data().value||{}; localStorage.setItem("travel_checklist",JSON.stringify(checked)); renderChecklist(); }
   },bad);
   onSnapshot(docRef(window.__db,"pending","list"),snap=>{
-    ok(snap);
-    if(snap.exists()){ pending=snap.data().value||[]; localStorage.setItem("travel_pending",JSON.stringify(pending)); renderPending(); }
+    ok("pending/list",snap);
+    if(snap.exists()){ pending=normalizePending(snap.data().value); localStorage.setItem("travel_pending",JSON.stringify(pending)); renderPending(); }
   },bad);
   onSnapshot(docRef(window.__db,"additions","list"),snap=>{
-    ok(snap);
-    if(snap.exists()){ tripAdditions=snap.data().value||[]; localStorage.setItem("travel_additions",JSON.stringify(tripAdditions)); renderAddedItineraries(); renderChecklist(); renderMap(); renderDayPosters(); }
+    ok("additions/list",snap);
+    if(snap.exists()){ tripAdditions=normalizeAdditions(snap.data().value); localStorage.setItem("travel_additions",JSON.stringify(tripAdditions)); renderAddedItineraries(); renderChecklist(); renderMap(); renderDayPosters(); }
   },bad);
   onSnapshot(docRef(window.__db,"expenses","list"),snap=>{
-    ok(snap);
-    if(snap.exists()){ expenses=snap.data().value||[]; localStorage.setItem("travel_expenses",JSON.stringify(expenses)); renderExpenses(); }
+    ok("expenses/list",snap);
+    if(snap.exists()){ expenses=normalizeExpenses(snap.data().value); localStorage.setItem("travel_expenses",JSON.stringify(expenses)); renderExpenses(); }
   },bad);
   onSnapshot(docRef(window.__db,"meta","names"),snap=>{
-    ok(snap);
-    if(snap.exists() && snap.data().value){
-      travelerNames=snap.data().value;
+    ok("meta/names",snap);
+    const remoteNames=snap.exists()?snap.data().value:null;
+    if(Array.isArray(remoteNames)&&remoteNames.length===5&&remoteNames.every(n=>typeof n==="string"&&n.trim().length<=40)){
+      travelerNames=remoteNames.map(n=>n.trim()||"Viajero");
       localStorage.setItem("travel_names",JSON.stringify(travelerNames));
       fillPayerSelect(); renderParticipantChips(); renderBalances(); renderNamesForm();
     }
