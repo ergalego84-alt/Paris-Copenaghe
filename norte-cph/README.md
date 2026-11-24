@@ -7,7 +7,7 @@ Guía web nueva para el viaje del 3 al 8 de diciembre de 2026. Se publica como u
 - Itinerario por días, vuelos confirmados, mapas esquemáticos para las dos ciudades y enlaces directos a navegación.
 - Lugares destacados y sugerencias de comida, con búsqueda en Maps.
 - Checklist con progreso, registro de gastos y propuestas con votación local.
-- Accesos a las carpetas ya usadas para documentación y fotos.
+- Apartados de documentos y fotos con enlaces privados que cada usuario configura en su propio navegador; no se publican en el repositorio.
 - Exportar/importar el estado local como JSON; compartir enlace/resumen e imprimir.
 - Instalable como web app y con caché para abrir la carcasa offline.
 
