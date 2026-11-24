@@ -1,0 +1,13 @@
+{
+  "name": "Norte — París y Copenhague",
+  "short_name": "Norte 2026",
+  "description": "Guía del viaje a París y Copenhague, diciembre de 2026.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f6f3eb",
+  "theme_color": "#f6f3eb",
+  "lang": "es",
+  "icons": [{"src":"icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}]
+}
+
