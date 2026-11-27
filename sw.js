@@ -1,4 +1,4 @@
-const CACHE_NAME = 'paris-cph-v7';
+const CACHE_NAME = 'paris-cph-v8';
 const APP_SHELL = [
   './',
   './index.html',
@@ -7,7 +7,12 @@ const APP_SHELL = [
   './favicon-32.png',
   './apple-touch-icon.png',
   './icon-192.png',
-  './icon-512.png'
+  './icon-512.png',
+  './transportes-paris-copenhague.pdf',
+  './visita/',
+  './visita/index.html',
+  './visita/manifest.webmanifest',
+  './visita/icon.svg'
 ];
 
 self.addEventListener('install', event => {

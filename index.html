@@ -88,6 +88,10 @@ main{max-width:1050px;margin:-28px auto 0;position:relative;z-index:2;padding:0 
 .tile.food:before{background-image:url("https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=900&auto=format&fit=crop&q=80")}
 .tile.docs{background:linear-gradient(135deg,#eef6ff,#f2f8ff);color:var(--navy)}
 .tile.docs:before{display:none}.tile.docs:after{background:linear-gradient(0deg,rgba(238,246,255,.96),rgba(238,246,255,.4) 75%)}
+.tile.fast,.tile.transport{color:#fff;text-decoration:none}
+.tile.fast{background:linear-gradient(135deg,#176349,#0d4938)}
+.tile.transport{background:linear-gradient(135deg,#143b5a,#0a2b47)}
+.tile.fast:before,.tile.transport:before{display:none}
 .tile.photos:before{background-image:url("https://images.unsplash.com/photo-1452421822248-d4c2b47f0c81?w=900&auto=format&fit=crop&q=80")}
 .tile.map:before{background-image:url("https://images.unsplash.com/photo-1524661135-423995f22d0b?w=900&auto=format&fit=crop&q=80")}
 .tile.money:before{background-image:url("https://images.unsplash.com/photo-1554672408-730436b60b56?w=900&auto=format&fit=crop&q=80")}
@@ -301,6 +305,8 @@ table.balances th{color:var(--muted);font-weight:800;font-size:11px;text-transfo
       <button type="button" class="tile paris" data-go="paris"><span class="big">🇫🇷</span><div class="tile-text"><b>París</b><small>Itinerario · Comer · Ideas · Checklist</small></div></button>
       <button type="button" class="tile cph" data-go="cph"><span class="big">🇩🇰</span><div class="tile-text"><b>Copenhague</b><small>Itinerario · Comer · Ideas · Checklist</small></div></button>
       <button type="button" class="tile docs" data-go="documents"><span class="big">📁</span><div class="tile-text"><b>Documentación</b><small>Vuelos · DNIs · Drive</small></div></button>
+      <a class="tile fast" href="./visita/"><span class="big">📍</span><div class="tile-text"><b>Modo visita</b><small>Paradas rápidas · minifotos · cómo llegar</small></div></a>
+      <a class="tile transport" href="./transportes-paris-copenhague.pdf"><span class="big">🚆</span><div class="tile-text"><b>Transporte</b><small>Rutas claras · billetes · precios · PDF</small></div></a>
     </div>
   </div>
 

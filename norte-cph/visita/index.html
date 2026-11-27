@@ -9,10 +9,10 @@
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
 </style></head>
 <body><main class="wrap"><header class="bar"><div class="brand">EN RUTA<small>PARÍS × COPENHAGUE</small></div><a class="back" href="../">← Guía completa</a></header>
-<section class="head"><div class="eyebrow">03—08 diciembre · 2026</div><h1>Hoy, aquí.</h1><p>La siguiente parada, una foto y el camino. Sin más distracciones.</p><div class="tripline"><b id="cityLabel">PARÍS</b><span>·</span><span id="weatherHint">Vista rápida del día</span></div></section>
+<section class="head"><div class="eyebrow">03—08 diciembre · 2026</div><h1>Hoy, aquí.</h1><p>La siguiente parada, una foto y el camino. Sin más distracciones.</p><div class="tripline"><b id="cityLabel">PARÍS</b><span>·</span><span id="weatherHint">Vista rápida del día</span></div><div style="display:flex;gap:8px;margin-top:12px"><a href="../transportes-paris-copenhague.pdf" style="padding:8px 11px;border:1px solid #e3e8e2;border-radius:22px;background:#fff;color:#176349;font-size:11px;font-weight:750;text-decoration:none">🚆 Transporte · PDF</a><a href="../" style="padding:8px 11px;border:1px solid #e3e8e2;border-radius:22px;background:#fff;color:#176349;font-size:11px;font-weight:750;text-decoration:none">↗ Guía completa</a></div></section>
 <nav class="days" id="days" aria-label="Días del viaje"></nav><section class="summary"><div><strong id="dayHeading">—</strong><div class="bartrack"><i id="progress"></i></div></div><span id="progressText">0 de 0 lugares</span></section>
 <section class="next" id="next"></section><div class="sectiontitle"><h2>Paradas de hoy</h2><span>TOCA “LISTO” AL SALIR</span></div><section class="cards" id="cards"></section>
-<p class="footnote">Las miniaturas se cargan de Wikimedia Commons al entrar en cada día; el horario y la lista se muestran de inmediato. Toca una foto para ver su autor y licencia. Para navegar, abre el punto en Maps.</p><div class="credits">Tu progreso se guarda solo en este dispositivo · <a href="../">Abrir la guía Norte</a></div></main><button class="install" id="installBtn">＋ Añadir al móvil</button><div class="toast" id="toast"></div>
+<p class="footnote">Las miniaturas se cargan de Wikimedia Commons al entrar en cada día; el horario y la lista se muestran de inmediato. Toca una foto para ver su autor y licencia. Para navegar, abre el punto en Maps.</p><div class="credits">Tu progreso se guarda solo en este dispositivo · <a href="../">Volver a la guía completa</a></div></main><button class="install" id="installBtn">＋ Añadir al móvil</button><div class="toast" id="toast"></div>
 <script>
 (()=>{'use strict';
 const $=s=>document.querySelector(s),DAYS=[
@@ -40,4 +40,3 @@ function plain(html){let e=document.createElement('div');e.innerHTML=html;return
 render();if('serviceWorker'in navigator&&location.protocol.startsWith('http'))navigator.serviceWorker.register('./sw.js').catch(()=>{});let installPrompt;window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();installPrompt=e;$('#installBtn').style.display='block'});$('#installBtn').onclick=async()=>{if(installPrompt){installPrompt.prompt();await installPrompt.userChoice;installPrompt=null;$('#installBtn').style.display='none'}else pop('Usa el menú del navegador para añadirla al móvil')};
 })();
 </script></body></html>
-
